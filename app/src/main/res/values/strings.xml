@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Morefy</string>
+    
+<!--Экран настроек-->
+    <string name="support">Support</string>
+    <string name="about">About Us</string>
+    <string name="signout">Sign Out</string>
+
 </resources>
