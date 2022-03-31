@@ -14,6 +14,8 @@ android {
         versionCode 1
         versionName "1.0"
 
+        manifestPlaceholders = [redirectSchemeName: 'ru.itis.morefy', redirectHostName: "auth"]
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,6 +44,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+
+    def spotify_auth_lib = "2.0.1"
+    implementation "com.spotify.android:auth:${spotify_auth_lib}"
 
     def nav_version = "2.4.1"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

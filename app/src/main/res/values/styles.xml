@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MaterialButton.Icon36dp" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="iconSize">36dp</item>
+    </style>
+</resources>
