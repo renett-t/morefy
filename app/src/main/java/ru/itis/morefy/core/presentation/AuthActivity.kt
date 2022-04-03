@@ -9,44 +9,58 @@ import androidx.appcompat.app.AppCompatActivity
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
+import ru.itis.morefy.core.data.tokens.SpotifyTokensRepositoryImpl
+import ru.itis.morefy.core.domain.models.TokenContainer
+import ru.itis.morefy.core.domain.repository.SpotifyTokensRepository
 import ru.itis.morefy.databinding.ActivityLoginBinding
 
-const val AUTH_TOKEN_REQUEST_CODE = 0x10
+const val AUTH_CODE_REQUEST_CODE = 0x10
 const val REDIRECT_URI = "ru.itis.morefy://login"
 const val CLIENT_ID = "fc313a64d9604eeb907c8b14ab14afb6"
 
 class AuthActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
-    var accessToken: String? = null
+    private var code: String? = null
+    var tokenContainer: TokenContainer? = null
+
+    lateinit var spotifyTokensRepository: SpotifyTokensRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         supportActionBar?.hide()
 
+        initializeServices()
+
         binding = ActivityLoginBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
 
         binding.btnAuth.setOnClickListener {
-            requestLogin()
+            requestCodeToAuthenticate()
         }
     }
 
-    private fun requestLogin() {
-        val request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN)
-        AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request)
+    // todo: change to DI injection
+    private fun initializeServices() {
+        spotifyTokensRepository = SpotifyTokensRepositoryImpl()
+    }
+
+    private fun requestCodeToAuthenticate() {
+        val request = getAuthenticationRequest(AuthorizationResponse.Type.CODE)
+        AuthorizationClient.openLoginActivity(this, AUTH_CODE_REQUEST_CODE, request)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
+        if (requestCode == AUTH_CODE_REQUEST_CODE) {
             val response = AuthorizationClient.getResponse(resultCode, data)
             when (response.type) {
-                AuthorizationResponse.Type.TOKEN -> {
-                    Log.i("TOKEN-RESULT","code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}")
-                    accessToken = response.accessToken
+                AuthorizationResponse.Type.CODE -> {
+                    Log.e("TOKEN-RESULT","code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}")
+                    code = response.code
+                    getAccessAndRefreshTokens()
                     // todo: save token to db, redirect to main activity
                 }
                 AuthorizationResponse.Type.ERROR -> {
@@ -78,4 +92,15 @@ class AuthActivity : AppCompatActivity() {
 
         return builder.build()
     }
+
+    private fun getAccessAndRefreshTokens() {
+        Log.d("REFRESH TOKENS", "ABOUT TO MAKE REQUEST")
+
+        code?.let {
+            tokenContainer = spotifyTokensRepository.getTokensByCode(it, REDIRECT_URI)
+        }
+
+        Log.d("REFRESH TOKENS", "ПОЛУЧЕНО")
+    }
+
 }
