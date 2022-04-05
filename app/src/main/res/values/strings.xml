@@ -3,4 +3,5 @@
     <string name="greeting">Привет!</string>
     <string name="auth_message">Войдите в свой аккаунт Spotify, чтобы начать исследовать музыку</string>
     <string name="spotify_auth_button">Войти в Spotify</string>
+    <string name="shared_prefs_auth">ru.itis.morefy.SHARED_PREFS_FILE</string>
 </resources>

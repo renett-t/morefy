@@ -9,14 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
+import ru.itis.morefy.core.data.tokens.local.AuthorizationRepositoryImpl
 import ru.itis.morefy.core.data.tokens.SpotifyTokensRepositoryImpl
+import ru.itis.morefy.core.data.tokens.net.response.TokenResponseMapper
 import ru.itis.morefy.core.domain.models.TokenContainer
+import ru.itis.morefy.core.domain.repository.AuthorizationRepository
 import ru.itis.morefy.core.domain.repository.SpotifyTokensRepository
 import ru.itis.morefy.databinding.ActivityLoginBinding
 
 const val AUTH_CODE_REQUEST_CODE = 0x10
-const val REDIRECT_URI = "ru.itis.morefy://login"
-const val CLIENT_ID = "fc313a64d9604eeb907c8b14ab14afb6"
 
 class AuthActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
@@ -24,6 +25,7 @@ class AuthActivity : AppCompatActivity() {
     var tokenContainer: TokenContainer? = null
 
     lateinit var spotifyTokensRepository: SpotifyTokensRepository
+    lateinit var authorizationRepository: AuthorizationRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +43,10 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
-    // todo: change to DI injection
+    // todo: change to DI injection, maybe спрятать это за одним сервисом, который будет получать, сохранять и обновлять токены
     private fun initializeServices() {
-        spotifyTokensRepository = SpotifyTokensRepositoryImpl()
+        spotifyTokensRepository = SpotifyTokensRepositoryImpl(applicationContext, TokenResponseMapper())
+        authorizationRepository = AuthorizationRepositoryImpl(applicationContext)
     }
 
     private fun requestCodeToAuthenticate() {
@@ -78,8 +81,8 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun getAuthenticationRequest(type: AuthorizationResponse.Type): AuthorizationRequest {
-        val builder = AuthorizationRequest.Builder(CLIENT_ID, type,
-            Uri.parse(REDIRECT_URI).toString()
+        val builder = AuthorizationRequest.Builder(authorizationRepository.getClientId(), type,
+            Uri.parse(spotifyTokensRepository.getRedirectUri()).toString()
         )
 
         builder.setScopes(arrayOf("user-read-playback-state" , "user-read-recently-played",
@@ -97,7 +100,8 @@ class AuthActivity : AppCompatActivity() {
         Log.d("REFRESH TOKENS", "ABOUT TO MAKE REQUEST")
 
         code?.let {
-            tokenContainer = spotifyTokensRepository.getTokensByCode(it, REDIRECT_URI)
+            tokenContainer = spotifyTokensRepository.getTokensByCode(it)
+            tokenContainer?.let { it1 -> authorizationRepository.saveTokens(it1) }
         }
 
         Log.d("REFRESH TOKENS", "ПОЛУЧЕНО")
