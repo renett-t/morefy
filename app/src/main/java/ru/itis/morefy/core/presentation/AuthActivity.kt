@@ -6,47 +6,79 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
+import ru.itis.morefy.R
 import ru.itis.morefy.core.data.tokens.local.AuthorizationRepositoryImpl
-import ru.itis.morefy.core.data.tokens.SpotifyTokensRepositoryImpl
-import ru.itis.morefy.core.data.tokens.net.response.TokenResponseMapper
-import ru.itis.morefy.core.domain.models.TokenContainer
+import ru.itis.morefy.core.data.tokens.net.SpotifyTokensRepositoryImpl
+import ru.itis.morefy.core.data.tokens.net.response.SpotifyTokenResponseMapper
 import ru.itis.morefy.core.domain.repository.AuthorizationRepository
 import ru.itis.morefy.core.domain.repository.SpotifyTokensRepository
+import ru.itis.morefy.core.presentation.viewmodels.TokensViewModel
+import ru.itis.morefy.core.presentation.viewmodels.ViewModelFactory
 import ru.itis.morefy.databinding.ActivityLoginBinding
 
-const val AUTH_CODE_REQUEST_CODE = 0x10
+private const val AUTH_CODE_REQUEST_CODE = 0x10
 
 class AuthActivity : AppCompatActivity() {
-    lateinit var binding: ActivityLoginBinding
-    private var code: String? = null
-    var tokenContainer: TokenContainer? = null
+    private lateinit var binding: ActivityLoginBinding
 
-    lateinit var spotifyTokensRepository: SpotifyTokensRepository
-    lateinit var authorizationRepository: AuthorizationRepository
+    private lateinit var authorizationRepository: AuthorizationRepository
+    private lateinit var spotifyTokensRepository: SpotifyTokensRepository
+    private lateinit var viewModel: TokensViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         supportActionBar?.hide()
 
-        initializeServices()
-
         binding = ActivityLoginBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
 
+        initializeServices()
+        initializeObservers()
+    }
+
+    // todo: change to DI injection
+    private fun initializeServices() {
+        spotifyTokensRepository = SpotifyTokensRepositoryImpl(applicationContext, SpotifyTokenResponseMapper())
+        authorizationRepository = AuthorizationRepositoryImpl(applicationContext)
+
+        val factory = ViewModelFactory(spotifyTokensRepository)
+        viewModel = ViewModelProvider(this, factory)[TokensViewModel::class.java]
+    }
+
+    private fun initializeObservers() {
         binding.btnAuth.setOnClickListener {
             requestCodeToAuthenticate()
         }
+
+        viewModel.tokenContainer.observe(this) {
+            it?.fold(
+                onSuccess = { tokenContainer ->
+                    Log.e("REFRESH TOKENS ПОЛУЧЕНЫ", "SAVING TOKEN YAY = $tokenContainer")
+                        authorizationRepository.saveTokens(tokenContainer)
+
+                    val token = authorizationRepository.getTokens()
+                    Log.e("SAVED IN PREFS", token.toString())
+                    redirectToMainActivity()
+                },
+                onFailure = {
+                    showMessage(getString(R.string.error_getting_tocken_message))
+                }
+            )
+        }
     }
 
-    // todo: change to DI injection, maybe спрятать это за одним сервисом, который будет получать, сохранять и обновлять токены
-    private fun initializeServices() {
-        spotifyTokensRepository = SpotifyTokensRepositoryImpl(applicationContext, TokenResponseMapper())
-        authorizationRepository = AuthorizationRepositoryImpl(applicationContext)
+    private fun redirectToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.putExtra("token", "successful")
+        startActivity(intent)
     }
 
     private fun requestCodeToAuthenticate() {
@@ -61,20 +93,16 @@ class AuthActivity : AppCompatActivity() {
             val response = AuthorizationClient.getResponse(resultCode, data)
             when (response.type) {
                 AuthorizationResponse.Type.CODE -> {
-                    Log.e("TOKEN-RESULT","code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}")
-                    code = response.code
-                    getAccessAndRefreshTokens()
-                    // todo: save token to db, redirect to main activity
+                    Log.e("SPOTIFY TOKEN SDK LIB RESULT","code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}")
+                    getAccessAndRefreshTokens(response.code)
                 }
                 AuthorizationResponse.Type.ERROR -> {
                     // todo: error handling
-                    Log.e("TOKEN-ERROR","code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}")
-                    Log.e("TOKEN-ERROR", "error=${response.error}, state=${response.state}")
+                    Log.e("SPOTIFY TOKEN SDK LIB ERROR","code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}")
+                    Log.e("SPOTIFY TOKEN SDK LIB ERROR", "error=${response.error}, state=${response.state}")
                 }
                 else -> {
-                    // todo: repeat request maybe?
-                    Log.e("AUTH-WRONG", "${response.type}")
-                    Log.e("AUTH-WRONG","code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}")
+
                 }
             }
         }
@@ -96,15 +124,15 @@ class AuthActivity : AppCompatActivity() {
         return builder.build()
     }
 
-    private fun getAccessAndRefreshTokens() {
-        Log.d("REFRESH TOKENS", "ABOUT TO MAKE REQUEST")
-
-        code?.let {
-            tokenContainer = spotifyTokensRepository.getTokensByCode(it)
-            tokenContainer?.let { it1 -> authorizationRepository.saveTokens(it1) }
-        }
-
-        Log.d("REFRESH TOKENS", "ПОЛУЧЕНО")
+    private fun getAccessAndRefreshTokens(code: String) {
+        viewModel.requestTokensByCode(code)
     }
 
+    private fun showMessage(message: String) {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            message,
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
 }

@@ -5,7 +5,7 @@ import ru.itis.morefy.core.domain.models.TokenContainer
 import ru.itis.morefy.core.domain.repository.AuthorizationRepository
 
 /**
- * Реализация интерфейса на основе Shared Preferences
+ * Реализация интерфейса AuthorizationRepository на основе Shared Preferences
  */
 class AuthorizationRepositoryImpl constructor(
     context: Context
@@ -28,7 +28,16 @@ class AuthorizationRepositoryImpl constructor(
         return sharedPrefsClient.getTokens()
     }
 
+    override fun isTokenSaved(): Boolean {
+        return sharedPrefsClient.isTokenSaved()
+    }
+
     override fun emptyRepository() {
         sharedPrefsClient.deleteAll()
+    }
+
+    override fun checkCredentials() {
+        if (!sharedPrefsClient.isCredentialsSaved())
+            sharedPrefsClient.saveCredentials()
     }
 }

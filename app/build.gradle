@@ -89,6 +89,7 @@ dependencies {
 
     def moshi = "1.13.0"
     implementation "com.squareup.moshi:moshi:${moshi}"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:${moshi}"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

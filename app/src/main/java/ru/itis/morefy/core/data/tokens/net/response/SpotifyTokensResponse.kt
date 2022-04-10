@@ -1,9 +1,12 @@
 package ru.itis.morefy.core.data.tokens.net.response
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class SpotifyTokensResponse (
-    var accessToken: String,
-    val tokenType: String,
+    var access_token: String,
+    val token_type: String,
+    val expires_in: Int,
+    val refresh_token: String,
     val scope: String,
-    val expiresIn: Int,
-    val refreshToken: String,
 )

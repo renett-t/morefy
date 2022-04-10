@@ -17,14 +17,18 @@ const val REFRESH_TOKEN = "REFRESH_TOKEN_KEY"
 class SharedPreferencesClient(
     context: Context
 ) {
-    init {
-        val CLIENT_SECRET = "*** *****"
-        saveApplicationCredentials(CLIENT_ID, CLIENT_SECRET)
-    }
-
     private val sharedPreferences: SharedPreferences
     init {
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.shared_prefs_auth), Context.MODE_PRIVATE)
+    }
+
+    private var isSaved = false
+
+    fun isCredentialsSaved() : Boolean = isSaved
+    fun saveCredentials() {
+        val CLIENT_SECRET = "***********"
+        saveApplicationCredentials(CLIENT_ID, CLIENT_SECRET)
+        isSaved = true
     }
 
     fun saveTokens(tokenContainer: TokenContainer) {
@@ -39,16 +43,30 @@ class SharedPreferencesClient(
     }
 
     fun saveNewToken(tokenContainer: TokenContainer) {
-        TODO()
+        saveTokens(tokenContainer)
     }
 
     fun getTokens() : TokenContainer {
-        TODO()
+        val accessToken = sharedPreferences.getString(ACCESS_TOKEN, null)
+        val tokenType = sharedPreferences.getString(TOKEN_TYPE, null)
+        val scope = sharedPreferences.getString(SCOPE, null)
+        val expiresIn = sharedPreferences.getInt(EXPIRES_IN, 3600)
+        val refreshToken = sharedPreferences.getString(REFRESH_TOKEN, null)
+        if (accessToken != null && tokenType != null && scope != null && expiresIn != null && refreshToken != null)
+            return TokenContainer(
+                accessToken, tokenType, scope, expiresIn, refreshToken
+            )
+        else
+            throw AuthDataException("No tokens saved")
     }
 
     fun deleteAll() {
-
+        with(sharedPreferences.edit()) {
+            clear()
+            apply()
+        }
     }
+
     fun getApplicationCredentials(): String {
         val result = sharedPreferences.getString(APP_CREDS, null)
         return result ?: throw AuthDataException("Problem with retrieving auth data")
@@ -59,13 +77,17 @@ class SharedPreferencesClient(
     }
 
     private fun saveApplicationCredentials(id: String, secret: String) {
-        val byteArrayClientId = id.toByteArray()
-        val byteArrayClientSecret = secret.toByteArray()
-        val result = "${Base64.encodeToString(byteArrayClientId, Base64.NO_WRAP)}:${Base64.encodeToString(byteArrayClientSecret, Base64.NO_WRAP)}"
+        val byteArray = "${id}:${secret}".toByteArray()
+        val result = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+
         with(sharedPreferences.edit()) {
             putString(APP_CREDS, result)
             apply()
         }
     }
 
+    fun isTokenSaved(): Boolean {
+        val token = sharedPreferences.getString(ACCESS_TOKEN, null)
+        return token != null
+    }
 }

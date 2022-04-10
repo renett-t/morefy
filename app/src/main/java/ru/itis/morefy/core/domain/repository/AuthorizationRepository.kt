@@ -7,13 +7,15 @@ import ru.itis.morefy.core.domain.models.TokenContainer
  */
 interface AuthorizationRepository {
     /**
-     * Returns the Base64-encrypted string {CLIENT_ID}:{CLIENT_SECRET}
+     * Returns the Base64-encrypted string '{CLIENT_ID}:{CLIENT_SECRET}'
      */
     fun getApplicationCredentials() : String
     fun getClientId() : String
+    fun checkCredentials()
 
     fun saveTokens(tokenContainer: TokenContainer)
     fun getTokens(): TokenContainer
+    fun isTokenSaved(): Boolean
 
     /**
      * Removes all tokens data saved locally

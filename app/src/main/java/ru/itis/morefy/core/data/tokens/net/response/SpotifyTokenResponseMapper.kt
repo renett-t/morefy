@@ -2,14 +2,14 @@ package ru.itis.morefy.core.data.tokens.net.response
 
 import ru.itis.morefy.core.domain.models.TokenContainer
 
-class TokenResponseMapper {
+class SpotifyTokenResponseMapper {
     fun map(response: SpotifyTokensResponse): TokenContainer {
         return TokenContainer(
-            response.accessToken,
-            response.tokenType,
+            response.access_token,
+            response.token_type,
             response.scope,
-            response.expiresIn,
-            response.refreshToken)
+            response.expires_in,
+            response.refresh_token)
     }
 }
 
