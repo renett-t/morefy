@@ -1,4 +1,4 @@
-package ru.itis.morefy.core.domain.models
+package ru.itis.morefy.core.domain.models.datamodels
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

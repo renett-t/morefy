@@ -1,7 +1,7 @@
 package ru.itis.morefy.core.data.database.dao
 
 import androidx.room.*
-import ru.itis.morefy.core.domain.models.TableUser
+import ru.itis.morefy.core.domain.models.datamodels.TableUser
 
 @Dao
 interface UserDao {
