@@ -25,4 +25,6 @@
 
 <!--    BottomNavBarBackground-->
     <color name="dark_green">#002107</color>
+    <color name="toolbar">#9C27B0</color>
+
 </resources>
