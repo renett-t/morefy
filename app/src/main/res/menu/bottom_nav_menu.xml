@@ -19,6 +19,7 @@
         android:id="@+id/statisticsFragment"
         android:icon="@drawable/ic_outline_test"
         android:title="@string/statistics"/>
+
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_outline_test"
