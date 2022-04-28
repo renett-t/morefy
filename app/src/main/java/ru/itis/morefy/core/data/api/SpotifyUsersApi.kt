@@ -1,70 +1,93 @@
 package ru.itis.morefy.core.data.api
 
 import retrofit2.http.*
+import ru.itis.morefy.core.data.request.IdsDto
+import ru.itis.morefy.core.data.request.IsPublicDto
+import ru.itis.morefy.core.data.response.common.CheckFollowingResponse
 import ru.itis.morefy.core.data.response.user.*
 
 interface SpotifyUsersApi {
     // users - https://developer.spotify.com/documentation/web-api/reference/#/operations/get-current-users-profile
 
     @GET("me")
-    fun getUserProfile() : UserProfileResponse
+    fun getUserProfile(): CurrentUserProfileResponse
 
     @GET("users/{user_id}")
-    fun getUserProfileByUserId(@Path("user_id") userId: String) : CurrentUserProfileResponse
+    fun getUserProfileByUserId(@Path("user_id") userId: String): UserProfileResponse
 
     @GET("me/top/artists")
-    fun getUserTopArtists(@Query("time_range") timeRange: String) : UserTopArtistsResponse
+    fun getUserTopArtists(@Query("time_range") timeRange: String): UserTopArtistsResponse
 
     @GET("me/top/artists")
-    fun getUserTopArtists(@Query("time_range") timeRange: String, @Query("limit") limit: Int, @Query("offset") offset: Int) : UserTopArtistsResponse
+    fun getUserTopArtists(
+        @Query("time_range") timeRange: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): UserTopArtistsResponse
 
     @GET("me/top/tracks")
-    fun getUserTopTracks(@Query("time_range") timeRange: String) : UserTopTracksResponse
+    fun getUserTopTracks(@Query("time_range") timeRange: String): UserTopTracksResponse
 
     @GET("me/top/tracks")
-    fun getUserTopTracks(@Query("time_range") timeRange: String, @Query("limit") limit: Int, @Query("offset") offset: Int) : UserTopTracksResponse
+    fun getUserTopTracks(
+        @Query("time_range") timeRange: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): UserTopTracksResponse
 
     @PUT("playlists/{playlist_id}/followers")
     fun followPlaylist(@Path("playlist_id") playlistId: String)
 
     @PUT("playlists/{playlist_id}/followers")
-    fun followPlaylist(@Path("playlist_id") playlistId: String, @Body isPublic: Boolean)
+    fun followPlaylist(@Path("playlist_id") playlistId: String, @Body isPublic: IsPublicDto)
 
     @DELETE("playlists/{playlist_id}/followers")
     fun unfollowPlaylist(@Path("playlist_id") playlistId: String)
 
     @GET("me/following?type=artist")
-    fun getUserFollowedArtists() : UserFollowedArtistsResponse
+    fun getUserFollowedArtists(): UserFollowedArtistsResponse
 
     @GET("me/following?type=artist")
-    fun getUserFollowedArtists(@Query("limit") limit: Int) : UserFollowedArtistsResponse
+    fun getUserFollowedArtists(@Query("limit") limit: Int): UserFollowedArtistsResponse
 
     @GET("me/following?type=artist")
-    fun getUserFollowedArtists(@Query("after") afterArtistId: String) : UserFollowedArtistsResponse
+    fun getUserFollowedArtists(@Query("after") afterArtistId: String): UserFollowedArtistsResponse
 
     @GET("me/following?type=artist")
-    fun getUserFollowedArtists(@Query("after") afterArtistId: String, @Query("limit") limit: Int) : UserFollowedArtistsResponse
+    fun getUserFollowedArtists(
+        @Query("after") afterArtistId: String,
+        @Query("limit") limit: Int
+    ): UserFollowedArtistsResponse
 
     @PUT("me/following?type=artist")
-    fun followArtist(@Query("ids") idsQuery: String, @Body ids: Array<String>) // todo: check serialization format
+    fun followArtist(
+        @Body ids: IdsDto
+    )
 
     @PUT("me/following?type=user")
-    fun followUser(@Query("ids") idsQuery: String, @Body ids: Array<String>) // todo: check serialization format
+    fun followUser(
+        @Body ids: IdsDto
+    )
 
     @DELETE("me/following?type=artist")
-    fun unfollowArtist(@Query("ids") idsQuery: String, @Body ids: Array<String>) // todo: check serialization format
+    fun unfollowArtist(
+        @Body ids: IdsDto
+    )
 
     @DELETE("me/following?type=user")
-    fun unfollowUser(@Query("ids") idsQuery: String, @Body ids: Array<String>) // todo: check serialization format
+    fun unfollowUser(
+        @Body ids: IdsDto
+    )
 
     @GET("me/following/contains?type=artist")
-    fun checkIfUserFollowsArtist(@Query("ids") ids: String) : CheckFollowingResponse
+    fun checkIfUserFollowsArtist(@Query("ids") ids: String): CheckFollowingResponse
 
     @GET("me/following/contains?type=user")
-    fun checkIfUserFollowsUser(@Query("ids") ids: String) : CheckFollowingResponse
+    fun checkIfUserFollowsUser(@Query("ids") ids: String): CheckFollowingResponse
 
     @GET("playlists/{playlist_id}/followers/contains ")
-    fun checkIfUsersFollowsPlaylist(@Path("playlist_id") playlistId: String, @Query("ids") userIds: String) : CheckFollowingResponse
-
-
+    fun checkIfUsersFollowsPlaylist(
+        @Path("playlist_id") playlistId: String,
+        @Query("ids") userIds: String
+    ): CheckFollowingResponse
 }

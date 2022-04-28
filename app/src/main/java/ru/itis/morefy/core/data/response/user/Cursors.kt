@@ -1,5 +1,5 @@
 package ru.itis.morefy.core.data.response.user
 
-class CheckFollowingResponse {
-
-}
+data class Cursors(
+    val after: String
+)

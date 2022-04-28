@@ -1,10 +1,10 @@
 package ru.itis.morefy.core.data.request
 
-data class DeletePlaylistTracksDto (
-    private val tracks: List<TracksRequestDto>,
-    private val snapshot_id: String,
-)
+import com.google.gson.annotations.SerializedName
 
-data class TracksRequestDto (
-    private val uri: String,
+data class DeletePlaylistTracksDto (
+    @SerializedName("uris")
+    val uris: List<String>,
+    @SerializedName("snapshot_id")
+    private val snapshot_id: String,
 )

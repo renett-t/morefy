@@ -1,5 +1,7 @@
 package ru.itis.morefy.core.data.response.track
 
-class TracksResponse {
+import ru.itis.morefy.core.data.response.common.Track
 
-}
+data class TracksResponse(
+    val tracks: List<Track>
+)

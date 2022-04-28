@@ -1,5 +1,5 @@
 package ru.itis.morefy.core.data.response.recommendations
 
-class GenreSeedsResponse {
-
-}
+data class GenreSeedsResponse(
+    val genres: List<String>
+)

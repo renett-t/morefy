@@ -1,0 +1,30 @@
+package ru.itis.morefy.core.data.response.track.audio
+
+data class Track(
+    val analysis_channels: Int,
+    val analysis_sample_rate: Int,
+    val code_version: Double,
+    val codestring: String,
+    val duration: Double,
+    val echoprint_version: Double,
+    val echoprintstring: String,
+    val end_of_fade_in: Double,
+    val key: Int,
+    val key_confidence: Double,
+    val loudness: Double,
+    val mode: Int,
+    val mode_confidence: Double,
+    val num_samples: Int,
+    val offset_seconds: Int,
+    val rhythm_version: Double,
+    val rhythmstring: String,
+    val sample_md5: String,
+    val start_of_fade_out: Double,
+    val synch_version: Double,
+    val synchstring: String,
+    val tempo: Double,
+    val tempo_confidence: Double,
+    val time_signature: Int,
+    val time_signature_confidence: Double,
+    val window_seconds: Int
+)

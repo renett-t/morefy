@@ -1,5 +1,5 @@
 package ru.itis.morefy.core.data.response.user
 
-class UserFollowedArtistsResponse {
-
-}
+data class UserFollowedArtistsResponse(
+    val artists: Artists
+)
