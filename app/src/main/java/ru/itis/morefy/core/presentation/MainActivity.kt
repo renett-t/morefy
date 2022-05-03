@@ -18,11 +18,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        findBottomNavigation()
+        setSupportActionBar(findViewById(R.id.toolbar))
+    }
+
+    fun findBottomNavigation() {
         controller = findController(R.id.container)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav.setupWithNavController(controller)
-
-        setSupportActionBar(findViewById(R.id.toolbar))
     }
 
     override fun onBackPressed() {
