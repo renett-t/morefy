@@ -6,7 +6,7 @@ import android.util.Base64
 import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.models.TokenContainer
 
-private const val CLIENT_ID = "fc313a64d9604eeb907c8b14ab14afb6"
+private const val CLIENT_ID = "31f5b8989f5e4b1abc2a0b45e06cd72f"
 
 const val APP_CREDS = "APP_CREDS_KEY"
 const val ACCESS_TOKEN = "ACCESS_TOKEN_KEY"
