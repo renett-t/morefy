@@ -2,6 +2,7 @@ package ru.itis.morefy.core
 
 import android.app.Application
 import ru.itis.morefy.core.di.AppComponent
+import ru.itis.morefy.core.di.DaggerAppComponent
 
 class MorefyApp : Application() {
     lateinit var appComponent: AppComponent
