@@ -3,14 +3,14 @@ package ru.itis.morefy.core.data.tokens.local
 import android.content.Context
 import ru.itis.morefy.core.domain.models.TokenContainer
 import ru.itis.morefy.core.domain.repository.AuthorizationRepository
+import javax.inject.Inject
 
 /**
  * Реализация интерфейса AuthorizationRepository на основе Shared Preferences
  */
-class AuthorizationRepositoryImpl constructor(
-    context: Context
-) : AuthorizationRepository  {
-    private var sharedPrefsClient: SharedPreferencesClient = SharedPreferencesClient(context)
+class AuthorizationRepositoryImpl @Inject constructor(
+    private val sharedPrefsClient: SharedPreferencesClient
+) : AuthorizationRepository {
 
     override fun getApplicationCredentials(): String {
         return sharedPrefsClient.getApplicationCredentials()

@@ -8,8 +8,9 @@ import kotlinx.coroutines.withContext
 import ru.itis.morefy.core.data.tokens.local.AuthDataException
 import ru.itis.morefy.core.domain.models.TokenContainer
 import ru.itis.morefy.core.domain.repository.SpotifyTokensRepository
+import javax.inject.Inject
 
-class TokensViewModel(
+class TokensViewModel @Inject constructor(
     private val spotifyTokensRepository: SpotifyTokensRepository,
 ) : ViewModel() {
 

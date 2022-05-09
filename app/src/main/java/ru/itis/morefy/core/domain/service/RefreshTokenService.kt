@@ -2,8 +2,9 @@ package ru.itis.morefy.core.domain.service
 
 import ru.itis.morefy.core.domain.models.TokenContainer
 import ru.itis.morefy.core.domain.repository.AuthorizationRepository
+import javax.inject.Inject
 
-class RefreshTokenService(
+class RefreshTokenService @Inject constructor(
     private val authorizationRepository: AuthorizationRepository,
 ) {
 

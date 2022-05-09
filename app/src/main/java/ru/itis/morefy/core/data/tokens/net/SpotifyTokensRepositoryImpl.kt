@@ -1,33 +1,31 @@
 package ru.itis.morefy.core.data.tokens.net
 
-import android.content.Context
 import android.util.Log
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
-import ru.itis.morefy.core.data.tokens.local.AuthorizationRepositoryImpl
 import ru.itis.morefy.core.data.tokens.net.response.SpotifyTokensResponse
 import ru.itis.morefy.core.data.tokens.net.response.SpotifyTokenResponseMapper
 import ru.itis.morefy.core.domain.models.TokenContainer
+import ru.itis.morefy.core.domain.repository.AuthorizationRepository
 import ru.itis.morefy.core.domain.repository.SpotifyTokensRepository
 import java.io.IOException
+import javax.inject.Inject
 
 private const val CONTENT_TYPE = "application/x-www-form-urlencoded"
 private const val URL = "https://accounts.spotify.com/api/token"
 private const val REDIRECT_URI = "ru.itis.morefy://login"
 
 // ref: https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
-class SpotifyTokensRepositoryImpl constructor(
-    private val context: Context,
+class SpotifyTokensRepositoryImpl @Inject constructor(
+    private val authorizationRepository: AuthorizationRepository,
     private val tokenResponseMapper: SpotifyTokenResponseMapper
-): SpotifyTokensRepository {
+) : SpotifyTokensRepository {
 
-    private val authorizationRepository = AuthorizationRepositoryImpl(context) // todo: di container injection
     private val okHttpClient = OkHttpClient()
 
-    // todo: test method
     override suspend fun getRefreshedAccessToken(refreshToken: String): String? {
         authorizationRepository.checkCredentials()
 
@@ -44,8 +42,12 @@ class SpotifyTokensRepositoryImpl constructor(
                     }
                 } else null
             } else {
-                Log.e("ERROR REQUESTING REFRESH TOKEN", "code= ${response.code}, body=${response.body?.string()}")
-                throw IOException("Unable to get refresh token")            }
+                Log.e(
+                    "ERROR REQUESTING REFRESH TOKEN",
+                    "code= ${response.code}, body=${response.body?.string()}"
+                )
+                throw IOException("Unable to get refresh token")
+            }
         }
     }
 
@@ -64,8 +66,12 @@ class SpotifyTokensRepositoryImpl constructor(
                     }
                 } else null
             } else {
-                Log.e("ERROR REQUESTING ACCESS TOKEN", "code= ${response.code}, body=${response.body?.string()}")
-                throw IOException("Unable to get credentials")            }
+                Log.e(
+                    "ERROR REQUESTING ACCESS TOKEN",
+                    "code= ${response.code}, body=${response.body?.string()}"
+                )
+                throw IOException("Unable to get credentials")
+            }
         }
     }
 
@@ -73,7 +79,10 @@ class SpotifyTokensRepositoryImpl constructor(
         return Request.Builder()
             .url(URL)
             .post(requestBody)
-            .addHeader("Authorization", "Basic ${authorizationRepository.getApplicationCredentials()}")
+            .addHeader(
+                "Authorization",
+                "Basic ${authorizationRepository.getApplicationCredentials()}"
+            )
             .addHeader("Content-Type", CONTENT_TYPE)
             .build()
     }

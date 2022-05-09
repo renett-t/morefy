@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.util.Base64
 import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.models.TokenContainer
+import javax.inject.Inject
 
 private const val CLIENT_ID = "31f5b8989f5e4b1abc2a0b45e06cd72f"
 
@@ -14,17 +15,22 @@ const val TOKEN_TYPE = "TOKEN_TYPE_KEY"
 const val SCOPE = "SCOPE_KEY"
 const val EXPIRES_IN = "EXPIRES_IN_KEY"
 const val REFRESH_TOKEN = "REFRESH_TOKEN_KEY"
-class SharedPreferencesClient(
-    context: Context
+
+class SharedPreferencesClient @Inject constructor(
+    private val context: Context
 ) {
     private val sharedPreferences: SharedPreferences
+
     init {
-        sharedPreferences = context.getSharedPreferences(context.getString(R.string.shared_prefs_auth), Context.MODE_PRIVATE)
+        sharedPreferences = context.getSharedPreferences(
+            context.getString(R.string.shared_prefs_auth),
+            Context.MODE_PRIVATE
+        )
     }
 
     private var isSaved = false
 
-    fun isCredentialsSaved() : Boolean = isSaved
+    fun isCredentialsSaved(): Boolean = isSaved
     fun saveCredentials() {
         val CLIENT_SECRET = "***********"
         saveApplicationCredentials(CLIENT_ID, CLIENT_SECRET)
@@ -46,7 +52,7 @@ class SharedPreferencesClient(
         saveTokens(tokenContainer)
     }
 
-    fun getTokens() : TokenContainer {
+    fun getTokens(): TokenContainer {
         val accessToken = sharedPreferences.getString(ACCESS_TOKEN, null)
         val tokenType = sharedPreferences.getString(TOKEN_TYPE, null)
         val scope = sharedPreferences.getString(SCOPE, null)

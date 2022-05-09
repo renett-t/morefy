@@ -6,29 +6,29 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.spotify.sdk.android.auth.AuthorizationClient
 import com.spotify.sdk.android.auth.AuthorizationRequest
 import com.spotify.sdk.android.auth.AuthorizationResponse
 import ru.itis.morefy.R
-import ru.itis.morefy.core.data.tokens.local.AuthorizationRepositoryImpl
-import ru.itis.morefy.core.data.tokens.net.SpotifyTokensRepositoryImpl
-import ru.itis.morefy.core.data.tokens.net.response.SpotifyTokenResponseMapper
 import ru.itis.morefy.core.domain.repository.AuthorizationRepository
 import ru.itis.morefy.core.domain.repository.SpotifyTokensRepository
+import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.core.presentation.viewmodels.TokensViewModel
-import ru.itis.morefy.core.presentation.viewmodels.ViewModelFactory
 import ru.itis.morefy.databinding.ActivityLoginBinding
+import javax.inject.Inject
 
 private const val AUTH_CODE_REQUEST_CODE = 0x10
 
 class AuthActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
-    private lateinit var authorizationRepository: AuthorizationRepository
-    private lateinit var spotifyTokensRepository: SpotifyTokensRepository
-    private lateinit var viewModel: TokensViewModel
+    @Inject
+    lateinit var authorizationRepository: AuthorizationRepository
+    @Inject
+    lateinit var spotifyTokensRepository: SpotifyTokensRepository
+    @Inject
+    lateinit var viewModel: TokensViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,17 +39,8 @@ class AuthActivity : AppCompatActivity() {
             setContentView(it.root)
         }
 
-        initializeServices()
+        this.applicationContext.appComponent.inject(this)
         initializeObservers()
-    }
-
-    // todo: change to DI injection
-    private fun initializeServices() {
-        spotifyTokensRepository = SpotifyTokensRepositoryImpl(applicationContext, SpotifyTokenResponseMapper())
-        authorizationRepository = AuthorizationRepositoryImpl(applicationContext)
-
-        val factory = ViewModelFactory(spotifyTokensRepository)
-        viewModel = ViewModelProvider(this, factory)[TokensViewModel::class.java]
     }
 
     private fun initializeObservers() {
