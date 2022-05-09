@@ -1,8 +1,8 @@
 package ru.itis.morefy.core.data.tokens.net.response
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class SpotifyTokensResponse (
     var access_token: String,
     val token_type: String,

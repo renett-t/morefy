@@ -2,8 +2,8 @@ package ru.itis.morefy.core.data.tokens.net
 
 import android.content.Context
 import android.util.Log
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -38,14 +38,8 @@ class SpotifyTokensRepositoryImpl constructor(
                 val body = response.body?.string()
                 Log.e("SUCCESS REFRESH TOKENS", "result: $body")
 
-                val moshi: Moshi = Moshi.Builder()
-                    .build()
-
-                val jsonAdapter: JsonAdapter<SpotifyTokensResponse> =
-                    moshi.adapter(SpotifyTokensResponse::class.java)
-
                 return if (body != null) {
-                    jsonAdapter.fromJson(body)?.let {
+                    Json.decodeFromString<SpotifyTokensResponse>(body).let {
                         tokenResponseMapper.map(it).refreshToken
                     }
                 } else null
@@ -64,14 +58,8 @@ class SpotifyTokensRepositoryImpl constructor(
                 val body = response.body?.string()
                 Log.e("SUCCESS ACCESS TOKENS", "result: $body")
 
-                val moshi: Moshi = Moshi.Builder()
-                    .build()
-
-                val jsonAdapter: JsonAdapter<SpotifyTokensResponse> =
-                    moshi.adapter(SpotifyTokensResponse::class.java)
-
                 return if (body != null) {
-                    jsonAdapter.fromJson(body)?.let {
+                    Json.decodeFromString<SpotifyTokensResponse>(body).let {
                         tokenResponseMapper.map(it)
                     }
                 } else null

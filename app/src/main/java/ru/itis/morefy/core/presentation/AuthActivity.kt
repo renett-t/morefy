@@ -113,13 +113,9 @@ class AuthActivity : AppCompatActivity() {
             Uri.parse(spotifyTokensRepository.getRedirectUri()).toString()
         )
 
-        builder.setScopes(arrayOf("user-read-playback-state" , "user-read-recently-played",
-                "user-read-private", "user-read-email", "user-follow-read", "user-library-modify",
-                "user-library-read", "app-remote-control", "user-top-read", "user-read-recently-played",
-                "playlist-modify-private", "playlist-read-collaborative", "playlist-read-private",
-                "playlist-modify-public"))
+        builder.setScopes(resources.getStringArray(R.array.scopes))
 
-        builder.setShowDialog(true) // todo: is it needed?
+        builder.setShowDialog(true)
 
         return builder.build()
     }
