@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="ru.itis.morefy.core.presentation.fragments.StatisticsFragment"
+        android:name="ru.itis.morefy.statistics.presentation.StatisticsFragment"
         android:label="CardFragment"
         tools:layout="@layout/fragment_statistics">
         <action
