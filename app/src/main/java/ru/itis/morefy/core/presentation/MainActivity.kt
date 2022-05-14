@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
-    fun AppCompatActivity.findController(id: Int): NavController {
+    private fun AppCompatActivity.findController(id: Int): NavController {
         return (supportFragmentManager.findFragmentById(id) as NavHostFragment).navController
     }
 

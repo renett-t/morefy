@@ -2,5 +2,6 @@
 <resources>
     <style name="MaterialButton.Icon36dp" parent="Widget.MaterialComponents.Button.Icon">
         <item name="iconSize">36dp</item>
+        <item name="cornerRadius">20dp</item>
     </style>
 </resources>

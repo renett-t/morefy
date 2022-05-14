@@ -45,6 +45,15 @@
         app:title="@string/list_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_settings"
+            android:layout_gravity="end"
+            android:background="@color/dak_green"
+            android:paddingEnd="20dp"
+            android:contentDescription="@string/tosettingspage" />
+    </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
