@@ -33,11 +33,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             setContentView(it.root)
         }
 
-        findBottomNavigation()
+        findNavigation()
         setSupportActionBar(findViewById(R.id.toolbar))
     }
 
-    private fun findBottomNavigation() {
+    private fun findNavigation() {
         controller = findController(R.id.container)
         binding.bottomNav.setupWithNavController(controller)
 
