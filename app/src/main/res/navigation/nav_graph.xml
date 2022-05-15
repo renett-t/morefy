@@ -24,7 +24,8 @@
             app:destination="@id/statisticsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
