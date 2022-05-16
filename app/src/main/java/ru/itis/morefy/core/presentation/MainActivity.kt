@@ -1,14 +1,15 @@
 package ru.itis.morefy.core.presentation
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.itis.morefy.R
-import ru.itis.morefy.core.domain.service.RefreshTokenService
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import ru.itis.morefy.R
+import ru.itis.morefy.core.domain.service.RefreshTokenService
 import ru.itis.morefy.core.presentation.extensions.appComponent
+import ru.itis.morefy.core.presentation.fragments.SettingsFragment
 import ru.itis.morefy.databinding.ActivityMainBinding
 import javax.inject.Inject
 
@@ -32,13 +33,22 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             setContentView(it.root)
         }
 
-        findBottomNavigation()
+        findNavigation()
         setSupportActionBar(findViewById(R.id.toolbar))
     }
 
-    private fun findBottomNavigation() {
+    private fun findNavigation() {
         controller = findController(R.id.container)
         binding.bottomNav.setupWithNavController(controller)
+
+        with(binding){
+            btnSettings.setOnClickListener{
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, SettingsFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -48,7 +58,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
-    fun AppCompatActivity.findController(id: Int): NavController {
+    private fun AppCompatActivity.findController(id: Int): NavController {
         return (supportFragmentManager.findFragmentById(id) as NavHostFragment).navController
     }
 
