@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/stats_tab_1"
+    app:startDestination="@id/topTracksFragment">
+
+    <fragment
+        android:id="@+id/topTracksFragment"
+        android:name="ru.itis.morefy.statistics.presentation.tabs.TopTracksFragment"
+        android:label="TopTracksFragment">
+        <action
+            android:id="@+id/action_topTracksFragment_to_nav_graph"
+            app:destination="@id/nav_graph" />
+    </fragment>
+
+    <include app:graph="@navigation/nav_graph" />
+</navigation>

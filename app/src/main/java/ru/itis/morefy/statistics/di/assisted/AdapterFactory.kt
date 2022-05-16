@@ -10,7 +10,6 @@ interface AdapterFactory {
 
     fun provideViewPagerAdapter(
         @Assisted("listOfFragments") list: List<Fragment>,
-        @Assisted("fragment") fragment: Fragment
-    ): ViewPagerAdapter
+        @Assisted("fragment") fragment: Fragment): ViewPagerAdapter
 
 }

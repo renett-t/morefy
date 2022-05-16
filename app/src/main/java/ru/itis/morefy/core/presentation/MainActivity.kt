@@ -8,6 +8,7 @@ import ru.itis.morefy.core.domain.service.RefreshTokenService
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.databinding.ActivityMainBinding
 import javax.inject.Inject
