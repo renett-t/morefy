@@ -43,5 +43,7 @@
     <string name="top_tracks">Top Tracks</string>
     <string name="top_artists">Top Artists</string>
     <string name="overall">Overall</string>
+    <string name="tosettingspage">toSettingsPage</string>
+    <string name="first_game">Quiz</string>
 
 </resources>
