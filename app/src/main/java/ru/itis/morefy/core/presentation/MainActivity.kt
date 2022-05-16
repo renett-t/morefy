@@ -2,6 +2,7 @@ package ru.itis.morefy.core.presentation
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (!refreshTokenService.isAuthenticated()) {
             goToLoginActivity()
         }
-
+        Log.e("NAV__________", "before calling super")
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater).also {
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     .commit()
             }
         }
+        Log.e("NAV__________", "set navigation")
     }
 
     override fun onBackPressed() {
