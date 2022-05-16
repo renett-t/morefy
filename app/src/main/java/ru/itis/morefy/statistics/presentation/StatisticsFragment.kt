@@ -2,6 +2,7 @@ package ru.itis.morefy.statistics.presentation
 
 import android.content.Context
 import android.os.Bundle
+<<<<<<< HEAD
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,6 +11,17 @@ import com.google.android.material.tabs.TabLayoutMediator
 import ru.itis.morefy.R
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.databinding.FragmentStatisticsBinding
+=======
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import ru.itis.morefy.R
+import ru.itis.morefy.databinding.FragmentStatisticsBinding
+import ru.itis.morefy.statistics.di.StatisticsComponentViewModel
+>>>>>>> origin/feature/statistics
 import ru.itis.morefy.statistics.di.assisted.AdapterFactory
 import ru.itis.morefy.statistics.presentation.tabs.OverallStatsFragment
 import ru.itis.morefy.statistics.presentation.tabs.TopArtistsFragment
@@ -52,6 +64,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentStatisticsBinding.bind(view)
+
         initTabsAndViewPager()
 
         Log.e("HEUUUUU", "786tyihuoijokopiuoytuyiu")
