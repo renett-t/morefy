@@ -42,7 +42,6 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     @Inject
     lateinit var adapterFactory: AdapterFactory
-    lateinit var viewPagerAdapter: ViewPagerAdapter
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -53,9 +52,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentStatisticsBinding.bind(view)
-        initTabsAndViewPager()
 
-        Log.e("HEUUUUU", "786tyihuoijokopiuoytuyiu")
+        initTabsAndViewPager()
     }
 
     private fun initTabsAndViewPager() {
@@ -64,8 +62,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             TopArtistsFragment(),
             OverallStatsFragment()
         )
-        viewPagerAdapter = adapterFactory.provideViewPagerAdapter(listOfFragments, this)
-        binding.viewPager.adapter = viewPagerAdapter
+        binding.viewPager.adapter = adapterFactory.provideViewPagerAdapter(listOfFragments, this)
 
         binding.tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -78,25 +75,6 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
-
-        // https://stackoverflow.com/questions/52630267/how-to-implement-a-viewpager-with-bottomnavigationview-using-new-navigation-arch
-//        activity?.getNavigationBar()?.setOnItemSelectedListener { item ->
-//            when (item.itemId) {
-//                R.id.stats_tab_1 -> {
-//                    binding.viewPager.setCurrentItem(0, true)
-//                    return@setOnItemSelectedListener true
-//                }
-//                R.id.stats_tab_2 -> {
-//                    binding.viewPager.setCurrentItem(1, true)
-//                    return@setOnItemSelectedListener true
-//                }
-//                R.id.stats_tab_3 -> {
-//                    binding.viewPager.setCurrentItem(2, true)
-//                    return@setOnItemSelectedListener true
-//                }
-//            }
-//            false
-//        }
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = context?.let { listOfFragments[position].getTitle(it) }
