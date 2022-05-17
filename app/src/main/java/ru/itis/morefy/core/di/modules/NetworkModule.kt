@@ -1,5 +1,6 @@
 package ru.itis.morefy.core.di.modules
 
+import android.util.Log
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -12,6 +13,7 @@ import ru.itis.morefy.core.data.api.*
 import ru.itis.morefy.core.di.qualifiers.AuthorizationInterceptor
 import ru.itis.morefy.core.di.qualifiers.ContentTypeInterceptor
 import ru.itis.morefy.core.domain.repository.AuthorizationRepository
+import javax.inject.Singleton
 
 private const val BASE_URL = "https://api.spotify.com/v1/"
 
@@ -19,10 +21,13 @@ private const val BASE_URL = "https://api.spotify.com/v1/"
 class NetworkModule {
 
     @Provides
+    @Singleton
     fun provideHttpClient(@ContentTypeInterceptor interceptor1: Interceptor, @AuthorizationInterceptor interceptor2: Interceptor): OkHttpClient {
+        Log.e("PROVIDING DEPENDENCIES", "OK HTTP CLIENT")
         return OkHttpClient.Builder()
             .addInterceptor(interceptor1)
             .addInterceptor(interceptor2)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .also {
                 if (BuildConfig.DEBUG) {
                     it.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -33,6 +38,7 @@ class NetworkModule {
 
     @Provides
     @ContentTypeInterceptor
+    @Singleton
     fun provideContentTypeHeaderInterceptor(authenticationRepository: AuthorizationRepository): Interceptor {
         return Interceptor { chain ->
             val origin = chain.request()
@@ -46,7 +52,11 @@ class NetworkModule {
 
     @Provides
     @AuthorizationInterceptor
+    @Singleton
     fun provideAuthorizationHeaderInterceptor(authenticationRepository: AuthorizationRepository): Interceptor {
+        Log.e("PROVIDING DEPENDENCIES", "AUTH HEADER INTERCEPTOR")
+        Log.e("TOKEN", authenticationRepository.getTokens().accessToken)
+        // accessToken=BQDIBavAwgFeWsUlRX7BvvVERDUwCsI4sNlTidJnUvqK3doG45UvkJU1s-qjTcV9BLnfszjDs50CzThB9Yi6zTow8NrFTfaJQ2Pxu7cQMTJke62oNWdf2KM6bWWdcjUxeOX_DsRbwXea92agaVA9WBL3RlH37hB2LmzpEgOlqOzYqexDf3xQNsxRvaGJ18f7WVg2QdLW_TymjA4Sl4kiMpTt-WN-_5BJETojXftxtZJONqGxcawE2ccRfNc06D2Zb6G97uqm3OznYaLz0ncH5yMAkuB7wOq9eTR_7wAs, tokenType=Bearer, scope=playlist-read-private playlist-read-collaborative user-follow-read playlist-modify-private user-read-email user-read-private app-remote-control user-library-read user-library-modify playlist-modify-public user-read-playback-state user-read-recently-played user-top-read, expiresIn=3600, refreshToken=AQCgyRHnISJOxIr2LSZWX4RVFt7kwXEwLOJo98im9mk_2og2ZeEt-ctdWpBgdVuAgXelUEyGle7xcwK9w4NLasbMEsQ71pY6jBSp21p__vLOERjLS5cgfNSaEDxXbHe4sLI)
         return Interceptor { chain ->
             val origin = chain.request()
             val newRequest = origin.newBuilder()
@@ -93,6 +103,7 @@ class NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, factory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)

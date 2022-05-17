@@ -89,16 +89,6 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     }
 
     private fun initObserversOnViewModel() {
-        statsViewModel.topTracks.observe(viewLifecycleOwner) {
-            it.fold(
-                onSuccess = { tracks ->
-
-                },
-                onFailure = { ex ->
-                    Log.e("STATS", "Some problem retrieving top tracks. ${ex.message}")
-                }
-            )
-        }
 
         statsViewModel.topArtists.observe(viewLifecycleOwner) {
             it.fold(

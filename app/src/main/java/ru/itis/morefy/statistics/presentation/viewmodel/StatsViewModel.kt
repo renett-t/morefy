@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import ru.itis.morefy.core.domain.exception.CredentialsExpiredException
 import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.domain.models.Track
-import ru.itis.morefy.statistics.domain.usecase.GetUserOverallListeningStatUseCase
+import ru.itis.morefy.statistics.domain.usecase.GetUserOverallListeningStatsUseCase
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopArtistsUseCase
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopTracksUseCase
 import ru.itis.morefy.statistics.domain.models.OverallListeningStats
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class StatsViewModel @Inject constructor(
     private val getUserTopTracksUseCase: GetUserTopTracksUseCase,
     private val getUserTopArtistsUseCase: GetUserTopArtistsUseCase,
-    private val getUserOverallListeningStatUseCase: GetUserOverallListeningStatUseCase,
+    private val getUserOverallListeningStatsUseCase: GetUserOverallListeningStatsUseCase,
 ) : ViewModel() {
 
     private var _topTracks: MutableLiveData<Result<List<Track>>> = MutableLiveData()
@@ -65,7 +65,7 @@ class StatsViewModel @Inject constructor(
     fun getOverallListeningStats(timeRange: String) {
         viewModelScope.launch {
             try {
-                val stats = getUserOverallListeningStatUseCase(timeRange)
+                val stats = getUserOverallListeningStatsUseCase(timeRange)
                 _overallStats.value = Result.success(stats)
             } catch (ex: CredentialsExpiredException) {
 //                _overallStats.value = Result.failure(ex)

@@ -6,8 +6,8 @@ import ru.itis.morefy.core.domain.models.Track
 import ru.itis.morefy.core.domain.models.features.AverageTracksFeatures
 
 data class OverallListeningStats(
-    val topTracks: List<Track>,
-    val topArtists: List<Artist>,
-    val topGenres: List<Genre>,
-    val averageTracksFeatures: AverageTracksFeatures
+    val topTracks: List<Track>?,
+    val topArtists: List<Artist>?,
+    val topGenres: List<Genre>?,
+    val averageTracksFeatures: AverageTracksFeatures?
 )

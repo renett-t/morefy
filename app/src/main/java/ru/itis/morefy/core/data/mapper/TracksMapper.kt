@@ -1,5 +1,6 @@
 package ru.itis.morefy.core.data.mapper
 
+import android.util.Log
 import ru.itis.morefy.core.data.response.user.UserTopTracksResponse
 import ru.itis.morefy.core.domain.models.Album
 import ru.itis.morefy.core.domain.models.Artist
@@ -11,6 +12,7 @@ class TracksMapper @Inject constructor(
 ) {
 
     fun mapFrom(response: UserTopTracksResponse): List<Track> {
+        Log.e("TOP TRACKS", "GOT RESULT. MAPPING")
         val list = ArrayList<Track>()
 
         for (item in response.items) {

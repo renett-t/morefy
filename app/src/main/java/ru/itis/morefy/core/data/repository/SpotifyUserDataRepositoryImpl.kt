@@ -15,9 +15,7 @@ import ru.itis.morefy.core.domain.repository.UserDataRepository
 import javax.inject.Inject
 
 class SpotifyUserDataRepositoryImpl @Inject constructor(
-    private val mapper: SpotifyEntitiesMapper,
     private val usersApi: SpotifyUsersApi,
-    private val playlistsApi: SpotifyPlaylistsApi,
     private val tracksMapper: TracksMapper,
     private val artistsMapper: ArtistsMapper
 ) : UserDataRepository {
@@ -25,6 +23,7 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     override suspend fun getCurrentUserTopTracks(timeRange: String, amount: Int): List<Track> {
         try {
             // if amount > 50 =) => need to create multiple requests
+            Log.e("TOP TRACKS REPO", "SENDING REQUEST")
             val tracksResponse = usersApi.getUserTopTracks(timeRange, amount, 0)
             return tracksMapper.mapFrom(tracksResponse)
         } catch (e: HttpException) {
@@ -55,5 +54,4 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     override suspend fun getCurrentUserProfile(): User {
         TODO("Not yet implemented")
     }
-
 }

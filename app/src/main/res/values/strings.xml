@@ -46,4 +46,8 @@
     <string name="tosettingspage">toSettingsPage</string>
     <string name="first_game">Quiz</string>
 
+    <string name="time_range_long">long_term</string>
+    <string name="time_range_medium">medium_term</string>
+    <string name="time_range_short">short_term</string>
+
 </resources>
