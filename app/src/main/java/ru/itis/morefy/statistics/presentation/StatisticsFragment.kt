@@ -8,13 +8,15 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.itis.morefy.R
+import ru.itis.morefy.core.domain.exception.CredentialsExpiredException
 import ru.itis.morefy.core.presentation.extensions.appComponent
+import ru.itis.morefy.core.presentation.extensions.requestNewCredentialsForUser
 import ru.itis.morefy.databinding.FragmentStatisticsBinding
 import ru.itis.morefy.statistics.di.assisted.AdapterFactory
-import ru.itis.morefy.statistics.presentation.adapter.ViewPagerAdapter
 import ru.itis.morefy.statistics.presentation.tabs.OverallStatsFragment
 import ru.itis.morefy.statistics.presentation.tabs.TopArtistsFragment
 import ru.itis.morefy.statistics.presentation.tabs.TopTracksFragment
+import ru.itis.morefy.statistics.presentation.viewmodel.StatsViewModel
 import javax.inject.Inject
 
 private fun Fragment.getTitle(context: Context): String {
@@ -43,6 +45,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     @Inject
     lateinit var adapterFactory: AdapterFactory
 
+    @Inject
+    lateinit var statsViewModel: StatsViewModel
+
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
         super.onAttach(context)
@@ -54,6 +59,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         binding = FragmentStatisticsBinding.bind(view)
 
         initTabsAndViewPager()
+        initChangeTimeRange()
+        initObserversOnViewModel()
     }
 
     private fun initTabsAndViewPager() {
@@ -79,6 +86,51 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = context?.let { listOfFragments[position].getTitle(it) }
         }.attach()
+    }
+
+    private fun initObserversOnViewModel() {
+        statsViewModel.topTracks.observe(viewLifecycleOwner) {
+            it.fold(
+                onSuccess = { tracks ->
+
+                },
+                onFailure = { ex ->
+                    Log.e("STATS", "Some problem retrieving top tracks. ${ex.message}")
+                }
+            )
+        }
+
+        statsViewModel.topArtists.observe(viewLifecycleOwner) {
+            it.fold(
+                onSuccess = { artists ->
+
+                },
+                onFailure = { ex ->
+                    Log.e("STATS", "Some problem retrieving top artists. ${ex.message}")
+                }
+            )
+        }
+
+        statsViewModel.overallStats.observe(viewLifecycleOwner) {
+            it.fold(
+                onSuccess = { stats ->
+
+                },
+                onFailure = { ex ->
+                    Log.e("STATS", "Some problem retrieving top artists. ${ex.message}")
+                }
+            )
+        }
+
+        statsViewModel.error.observe(viewLifecycleOwner) {
+            if (it is CredentialsExpiredException)
+                activity?.requestNewCredentialsForUser()
+            // todo: выяснить какой фрагмент сейчас во view pager и запустить заново метод view model'ьки
+        }
+    }
+
+    private fun initChangeTimeRange() {
+        // todo
     }
 }
 
