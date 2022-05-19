@@ -18,7 +18,7 @@ class RefreshTokenService @Inject constructor(
         return authorizationRepository.getTokens()
     }
 
-    suspend fun updateTokens() {
+    fun updateTokens() {
         val current = getTokens()
         val refreshedToken = spotifyTokensRepository.getRefreshedAccessToken(current.refreshToken)
         if (refreshedToken != null) {

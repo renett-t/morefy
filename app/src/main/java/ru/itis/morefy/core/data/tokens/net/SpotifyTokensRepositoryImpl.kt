@@ -27,7 +27,7 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
 
     private val okHttpClient = OkHttpClient()
 
-    override suspend fun getRefreshedAccessToken(refreshToken: String): String? {
+    override fun getRefreshedAccessToken(refreshToken: String): String? {
         authorizationRepository.checkCredentials()
 
         val request = generateRequestToSpotify(getPostBodyForRefreshToken(refreshToken))
@@ -35,7 +35,6 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
         okHttpClient.newCall(request).execute().use { response ->
             if (response.isSuccessful) {
                 val body = response.body?.string()
-                Log.e("SUCCESS REFRESH TOKENS", "result: $body")
 
                 return if (body != null) {
                     Json.decodeFromString<RefreshedAccessTokenResponse>(body).access_token
@@ -57,7 +56,6 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
         okHttpClient.newCall(request).execute().use { response ->
             if (response.isSuccessful) {
                 val body = response.body?.string()
-                Log.e("SUCCESS ACCESS TOKENS", "result: $body")
 
                 return if (body != null) {
                     Json.decodeFromString<SpotifyTokensResponse>(body).let {

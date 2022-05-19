@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import ru.itis.morefy.core.di.modules.NetworkModule
+import ru.itis.morefy.core.di.modules.net.NetworkModule
 import ru.itis.morefy.core.di.modules.RepositoryModule
 import ru.itis.morefy.core.di.modules.viewmodel.ViewModelModule
 
