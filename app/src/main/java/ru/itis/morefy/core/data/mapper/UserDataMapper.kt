@@ -9,6 +9,10 @@ class UserDataMapper @Inject constructor() {
 
     fun mapFrom(resp: CurrentUserProfileResponse): User {
         Log.e("USER DATA MAP", "MAPPING RESULT")
+        var image:String? = null
+        if (resp.images.isNotEmpty()) {
+            image = resp.images.last().url
+        }
         return User(
             resp.id,
             resp.display_name,
@@ -16,7 +20,7 @@ class UserDataMapper @Inject constructor() {
             resp.uri,
             resp.country,
             resp.email,
-            resp.images.last().url,
+            image,
             resp.product
         )
     }

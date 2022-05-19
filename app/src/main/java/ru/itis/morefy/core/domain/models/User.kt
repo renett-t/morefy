@@ -9,7 +9,7 @@ data class User(
 
     val country: String,
     val email: String,
-    val imageUrl: String,
+    val imageUrl: String?,
     val subscription: String,
 ) {
 

@@ -27,7 +27,6 @@ class NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor1)
             .addInterceptor(interceptor2)
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .also {
                 if (BuildConfig.DEBUG) {
                     it.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))

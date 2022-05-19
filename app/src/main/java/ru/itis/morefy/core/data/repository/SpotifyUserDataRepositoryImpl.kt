@@ -13,6 +13,7 @@ import ru.itis.morefy.core.domain.models.Playlist
 import ru.itis.morefy.core.domain.models.Track
 import ru.itis.morefy.core.domain.models.User
 import ru.itis.morefy.core.domain.repository.UserDataRepository
+import ru.itis.morefy.core.domain.service.RefreshTokenService
 import javax.inject.Inject
 
 class SpotifyUserDataRepositoryImpl @Inject constructor(
@@ -20,6 +21,7 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     private val tracksMapper: TracksMapper,
     private val artistsMapper: ArtistsMapper,
     private val userMapper: UserDataMapper,
+    private val refreshTokenService: RefreshTokenService
 ) : UserDataRepository {
 
     override suspend fun getCurrentUserTopTracks(timeRange: String, amount: Int): List<Track> {
@@ -54,12 +56,16 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCurrentUserProfile(): User {
-        try {
+        return try {
             val userResponse = usersApi.getUserProfile()
-            return userMapper.mapFrom(userResponse)
+            userMapper.mapFrom(userResponse)
         } catch (e: HttpException) {
-            Log.e("USER DATA REPO IMPL", e.message())
-            throw e
+            if (e.code() == 401) {
+                refreshTokenService.updateTokens()
+                getCurrentUserProfile()
+            } else {
+                throw e
+            }
         }
     }
 }
