@@ -3,7 +3,6 @@ package ru.itis.morefy.statistics.domain.usecase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.itis.morefy.core.domain.exception.CredentialsExpiredException
 import ru.itis.morefy.core.domain.models.Track
 import ru.itis.morefy.core.domain.repository.UserDataRepository
 import javax.inject.Inject
@@ -17,8 +16,6 @@ class GetUserTopTracksUseCase @Inject constructor(
             withContext(dispatcher) {
                 userDataRepository.getCurrentUserTopTracks(timeRange, amount)
             }
-        } catch (ex: CredentialsExpiredException) {
-            throw ex // =)
         } catch (ex: Exception) {
             throw ex
         }

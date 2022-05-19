@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.itis.morefy.core.domain.exception.CredentialsExpiredException
 import ru.itis.morefy.core.domain.models.User
 import ru.itis.morefy.core.domain.usecase.GetUserProfileUseCase
 import javax.inject.Inject
@@ -21,12 +20,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _userData.value = Result.success(getUserProfileUseCase())
-            } catch (ex: CredentialsExpiredException) {
-                Log.e("VIEW MODEL", "CREDENTIALS EX")
-                _userData.value = Result.failure(ex)
             } catch (ex: Exception) {
-                Log.e("VIEW MODEL", "OTHER EX")
-                ex.printStackTrace()
                 ex.message?.let {
                     Log.e("VIEW MODEL", it)
                 }

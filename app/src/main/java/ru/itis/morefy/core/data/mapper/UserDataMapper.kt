@@ -8,7 +8,6 @@ import javax.inject.Inject
 class UserDataMapper @Inject constructor() {
 
     fun mapFrom(resp: CurrentUserProfileResponse): User {
-        Log.e("USER DATA MAP", "MAPPING RESULT")
         var image:String? = null
         if (resp.images.isNotEmpty()) {
             image = resp.images.last().url

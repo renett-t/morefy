@@ -2,10 +2,8 @@ package ru.itis.morefy.core.data.repository
 
 import android.util.Log
 import retrofit2.HttpException
-import ru.itis.morefy.core.data.api.SpotifyPlaylistsApi
 import ru.itis.morefy.core.data.api.SpotifyUsersApi
 import ru.itis.morefy.core.data.mapper.ArtistsMapper
-import ru.itis.morefy.core.data.mapper.SpotifyEntitiesMapper
 import ru.itis.morefy.core.data.mapper.TracksMapper
 import ru.itis.morefy.core.data.mapper.UserDataMapper
 import ru.itis.morefy.core.domain.models.Artist
@@ -13,7 +11,6 @@ import ru.itis.morefy.core.domain.models.Playlist
 import ru.itis.morefy.core.domain.models.Track
 import ru.itis.morefy.core.domain.models.User
 import ru.itis.morefy.core.domain.repository.UserDataRepository
-import ru.itis.morefy.core.domain.service.RefreshTokenService
 import javax.inject.Inject
 
 class SpotifyUserDataRepositoryImpl @Inject constructor(
@@ -21,7 +18,6 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     private val tracksMapper: TracksMapper,
     private val artistsMapper: ArtistsMapper,
     private val userMapper: UserDataMapper,
-    private val refreshTokenService: RefreshTokenService
 ) : UserDataRepository {
 
     override suspend fun getCurrentUserTopTracks(timeRange: String, amount: Int): List<Track> {
@@ -60,12 +56,7 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
             val userResponse = usersApi.getUserProfile()
             userMapper.mapFrom(userResponse)
         } catch (e: HttpException) {
-            if (e.code() == 401) {
-                refreshTokenService.updateTokens()
-                getCurrentUserProfile()
-            } else {
-                throw e
-            }
+            throw e
         }
     }
 }
