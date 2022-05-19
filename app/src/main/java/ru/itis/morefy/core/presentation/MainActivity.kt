@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (!refreshTokenService.isAuthenticated()) {
             goToLoginActivity()
         }
-        Log.e("NAV__________", "before calling super")
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater).also {
@@ -50,7 +49,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     .commit()
             }
         }
-        Log.e("NAV__________", "set navigation")
     }
 
     override fun onBackPressed() {

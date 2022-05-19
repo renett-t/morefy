@@ -1,4 +1,4 @@
-package ru.itis.morefy.core.presentation.viewmodels
+package ru.itis.morefy.core.di.modules.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
