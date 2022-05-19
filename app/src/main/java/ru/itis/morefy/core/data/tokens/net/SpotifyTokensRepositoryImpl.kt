@@ -6,6 +6,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import ru.itis.morefy.core.data.tokens.net.response.RefreshedAccessTokenResponse
 import ru.itis.morefy.core.data.tokens.net.response.SpotifyTokensResponse
 import ru.itis.morefy.core.data.tokens.net.response.SpotifyTokenResponseMapper
 import ru.itis.morefy.core.domain.models.TokenContainer
@@ -26,7 +27,7 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
 
     private val okHttpClient = OkHttpClient()
 
-    override suspend fun getRefreshedAccessToken(refreshToken: String): String? {
+    override fun getRefreshedAccessToken(refreshToken: String): String? {
         authorizationRepository.checkCredentials()
 
         val request = generateRequestToSpotify(getPostBodyForRefreshToken(refreshToken))
@@ -34,12 +35,9 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
         okHttpClient.newCall(request).execute().use { response ->
             if (response.isSuccessful) {
                 val body = response.body?.string()
-                Log.e("SUCCESS REFRESH TOKENS", "result: $body")
 
                 return if (body != null) {
-                    Json.decodeFromString<SpotifyTokensResponse>(body).let {
-                        tokenResponseMapper.map(it).refreshToken
-                    }
+                    Json.decodeFromString<RefreshedAccessTokenResponse>(body).access_token
                 } else null
             } else {
                 Log.e(
@@ -58,7 +56,6 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
         okHttpClient.newCall(request).execute().use { response ->
             if (response.isSuccessful) {
                 val body = response.body?.string()
-                Log.e("SUCCESS ACCESS TOKENS", "result: $body")
 
                 return if (body != null) {
                     Json.decodeFromString<SpotifyTokensResponse>(body).let {

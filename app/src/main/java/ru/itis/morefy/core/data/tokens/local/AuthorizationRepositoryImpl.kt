@@ -6,7 +6,8 @@ import ru.itis.morefy.core.domain.repository.AuthorizationRepository
 import javax.inject.Inject
 
 /**
- * Реализация интерфейса AuthorizationRepository на основе Shared Preferences
+ * AuthorizationRepository interface realization based on Shared Preferences
+ * todo: async calls???
  */
 class AuthorizationRepositoryImpl @Inject constructor(
     private val sharedPrefsClient: SharedPreferencesClient
