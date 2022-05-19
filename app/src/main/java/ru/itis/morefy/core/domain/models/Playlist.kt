@@ -13,7 +13,7 @@ data class Playlist (
     private val isCollaborative: Boolean,
     private val isBoolean: Boolean,
     private val followerCount: Int,
-    private val owners: List<SpotifyUser>,
+    private val owners: List<User>,
     private val tracks: List<Track>,
 
     private val statistics: AverageTracksFeatures?,

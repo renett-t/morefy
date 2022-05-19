@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.itis.morefy.core.presentation.viewmodels.TokensViewModel
+import ru.itis.morefy.statistics.presentation.viewmodel.StatsViewModel
 
 @Module
 interface ViewModelModule {
@@ -12,4 +13,8 @@ interface ViewModelModule {
     @Binds
     @[IntoMap ViewModelKey(TokensViewModel::class)]
     fun provideTokensViewModel(vm: TokensViewModel): ViewModel
+
+    @Binds
+    @[IntoMap ViewModelKey(StatsViewModel::class)]
+    fun provideStatsViewModel(vm: StatsViewModel): ViewModel
 }

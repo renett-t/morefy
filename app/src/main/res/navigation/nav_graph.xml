@@ -22,11 +22,15 @@
         <action
             android:id="@+id/action_homeFragment_to_statisticsFragment"
             app:destination="@id/statisticsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
         android:name="ru.itis.morefy.core.presentation.fragments.GameFragment"
-        android:label="ListFragment"
+        android:label="GameFragment"
         tools:layout="@layout/fragment_game">
         <action
             android:id="@+id/action_gameFragment_to_homeFragment"
@@ -35,13 +39,16 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="ru.itis.morefy.core.presentation.fragments.SearchFragment"
-        android:label="CardFragment"
+        android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="ru.itis.morefy.core.presentation.fragments.StatisticsFragment"
-        android:label="CardFragment"
+        android:name="ru.itis.morefy.statistics.presentation.StatisticsFragment"
+        android:label="StatisticsFragment"
         tools:layout="@layout/fragment_statistics">
         <action
             android:id="@+id/action_statisticsFragment_to_homeFragment"
@@ -50,10 +57,19 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="ru.itis.morefy.core.presentation.fragments.ProfileFragment"
-        android:label="CardFragment"
+        android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment android:id="@+id/settingsFragment"
+        android:name="ru.itis.morefy.core.presentation.fragments.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
