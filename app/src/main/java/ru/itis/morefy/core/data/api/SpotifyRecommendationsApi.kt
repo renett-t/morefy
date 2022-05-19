@@ -12,7 +12,7 @@ interface SpotifyRecommendationsApi {
     // recommendations - https://developer.spotify.com/documentation/web-api/reference/#/operations/get-recommendations
 
     @GET("recommendations")
-    fun getRecommendations(
+    suspend fun getRecommendations(
         @Query("seed_artists") artists: String,
         @Query("seed_genres") genres: String,
         @Query("seed_tracks") tracks: String,
@@ -20,7 +20,7 @@ interface SpotifyRecommendationsApi {
     ): RecommendationsResponse
 
     @GET("recommendations")
-    fun getRecommendationsLimited(
+    suspend fun getRecommendationsLimited(
         @Query("seed_artists") artists: String,
         @Query("seed_genres") genres: String,
         @Query("seed_tracks") tracks: String,
@@ -29,7 +29,7 @@ interface SpotifyRecommendationsApi {
     ): RecommendationsResponse
 
     @GET("recommendations")
-    fun getRecommendations(
+    suspend fun getRecommendations(
         @Query("seed_artists") artists: String,
         @Query("seed_genres") genres: String,
         @Query("seed_tracks") tracks: String,
@@ -39,37 +39,37 @@ interface SpotifyRecommendationsApi {
     ): RecommendationsResponse
 
     @GET("recommendations/available-genre-seeds")
-    fun getAvailableGenreSeeds(): GenreSeedsResponse
+    suspend fun getAvailableGenreSeeds(): GenreSeedsResponse
 
     @GET("browse/categories")
-    fun getCategoriesGlobal(): CategoriesResponse
+    suspend fun getCategoriesGlobal(): CategoriesResponse
 
     @GET("browse/categories")
-    fun getCategoriesGlobalLocalised(
+    suspend fun getCategoriesGlobalLocalised(
         @Query("locale") locale: String,
     ): CategoriesResponse
 
     @GET("browse/categories")
-    fun getCategoriesGlobalLimited(
+    suspend fun getCategoriesGlobalLimited(
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
     ): CategoriesResponse
 
     @GET("browse/categories")
-    fun getCategoriesGlobalLimitedLocalised(
+    suspend fun getCategoriesGlobalLimitedLocalised(
         @Query("limit") limit: Int,
         @Query("locale") locale: String,
         @Query("offset") offset: Int,
     ): CategoriesResponse
 
     @GET("browse/categories")
-    fun getCategoriesForCountry(
+    suspend fun getCategoriesForCountry(
         @Query("country") country: String,
         @Query("locale") locale: String,
     ): CategoriesResponse
 
     @GET("browse/categories")
-    fun getCategoriesForCountryLimited(
+    suspend fun getCategoriesForCountryLimited(
         @Query("country") country: String,
         @Query("locale") locale: String,
         @Query("limit") limit: Int,
