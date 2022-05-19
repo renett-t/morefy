@@ -7,7 +7,7 @@ import ru.itis.morefy.core.domain.models.TokenContainer
  * https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
  */
 interface SpotifyTokensRepository {
-    suspend fun getRefreshedAccessToken(refreshToken: String): String?
+    fun getRefreshedAccessToken(refreshToken: String): String?
     suspend fun getTokensByCode(code: String): TokenContainer?
     fun getRedirectUri(): String
 }
