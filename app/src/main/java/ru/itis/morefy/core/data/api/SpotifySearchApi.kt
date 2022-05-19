@@ -13,14 +13,14 @@ interface SpotifySearchApi {
     // search - https://developer.spotify.com/documentation/web-api/reference/#/operations/search
 
     @GET("search")
-    fun searchByQuery(
+    suspend fun searchByQuery(
         @Query("q") q: String,
         @Query("type") types: String,
         @Query("market") market: String
     ): SearchQueryResponse
 
     @GET("search")
-    fun searchByQueryLimited(
+    suspend fun searchByQueryLimited(
         @Query("q") q: String,
         @Query("type") types: String,
         @Query("market") market: String,
@@ -29,7 +29,7 @@ interface SpotifySearchApi {
     ): SearchQueryResponse
 
     @GET("search?type=track")
-    fun searchTracksByQuery(
+    suspend fun searchTracksByQuery(
         @Query("q") q: String,
         @Query("market") market: String,
         @Query("limit") limit: Int,
@@ -37,7 +37,7 @@ interface SpotifySearchApi {
     ): SearchTracksResponse
 
     @GET("search?type=artist")
-    fun searchArtistsByQuery(
+    suspend fun searchArtistsByQuery(
         @Query("q") q: String,
         @Query("market") market: String,
         @Query("limit") limit: Int,
@@ -45,7 +45,7 @@ interface SpotifySearchApi {
     ): SearchArtistsResponse
 
     @GET("search?type=album")
-    fun searchAlbumsByQuery(
+    suspend fun searchAlbumsByQuery(
         @Query("q") q: String,
         @Query("market") market: String,
         @Query("limit") limit: Int,
@@ -53,7 +53,7 @@ interface SpotifySearchApi {
     ): SearchAlbumsResponse
 
     @GET("search?type=playlist")
-    fun searchPlaylistsByQuery(
+    suspend fun searchPlaylistsByQuery(
         @Query("q") q: String,
         @Query("market") market: String,
         @Query("limit") limit: Int,
