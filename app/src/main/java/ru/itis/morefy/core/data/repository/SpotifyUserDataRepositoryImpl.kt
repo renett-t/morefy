@@ -7,6 +7,7 @@ import ru.itis.morefy.core.data.api.SpotifyUsersApi
 import ru.itis.morefy.core.data.mapper.ArtistsMapper
 import ru.itis.morefy.core.data.mapper.SpotifyEntitiesMapper
 import ru.itis.morefy.core.data.mapper.TracksMapper
+import ru.itis.morefy.core.data.mapper.UserDataMapper
 import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.domain.models.Playlist
 import ru.itis.morefy.core.domain.models.Track
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class SpotifyUserDataRepositoryImpl @Inject constructor(
     private val usersApi: SpotifyUsersApi,
     private val tracksMapper: TracksMapper,
-    private val artistsMapper: ArtistsMapper
+    private val artistsMapper: ArtistsMapper,
+    private val userMapper: UserDataMapper,
 ) : UserDataRepository {
 
     override suspend fun getCurrentUserTopTracks(timeRange: String, amount: Int): List<Track> {
@@ -52,6 +54,12 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCurrentUserProfile(): User {
-        TODO("Not yet implemented")
+        try {
+            val userResponse = usersApi.getUserProfile()
+            return userMapper.mapFrom(userResponse)
+        } catch (e: HttpException) {
+            Log.e("USER DATA REPO IMPL", e.message())
+            throw e
+        }
     }
 }
