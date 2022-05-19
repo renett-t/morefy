@@ -43,5 +43,4 @@ interface SpotifyArtistsApi {
 
     @GET("artists/{id}/related-artists")
     suspend fun getRelatedArtistsByArtistId(@Path("id") id: Int): RelatedArtistsResponse
-
 }

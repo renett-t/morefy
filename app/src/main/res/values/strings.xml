@@ -1,9 +1,53 @@
 <resources>
     <string name="app_name">Morefy</string>
-    
-<!--Экран настроек-->
+
+    <string name="greeting">Привет!</string>
+    <string name="auth_message">Войдите в свой аккаунт Spotify, чтобы начать исследовать музыку</string>
+    <string name="spotify_auth_button">Войти в Spotify</string>
+    <string name="shared_prefs_auth">ru.itis.morefy.SHARED_PREFS_FILE</string>
+    <string name="error_getting_tocken_message">Данные авторизации не были получены. Попробуйте ещё раз</string>
+    <string-array name="scopes">
+        <item>user-read-playback-state</item>
+        <item>user-read-recently-played</item>
+        <item>user-read-private</item>
+        <item>user-read-email</item>
+        <item>user-follow-read</item>
+        <item>user-library-modify</item>
+        <item>playlist-read-private</item>
+        <item>playlist-read-collaborative</item>
+        <item>playlist-modify-public</item>
+        <item>playlist-modify-private</item>
+        <item>user-read-recently-played</item>
+        <item>user-top-read</item>
+        <item>app-remote-control</item>
+        <item>user-library-read</item>
+    </string-array>
+
+    <!--Экран настроек-->
     <string name="support">Support</string>
     <string name="about">About Us</string>
     <string name="signout">Sign Out</string>
+    <!--NavBar-->
+    <string name="list_name">Morefy</string>
+
+    <string name="home">Home</string>
+    <string name="game">Game</string>
+    <string name="search">Search</string>
+    <string name="statistics">Statistics</string>
+    <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_tracks">Треки</string>
+    <string name="tab_artists">Исполнители</string>
+    <string name="tab_overall">Overall</string>
+    <string name="top_tracks">Top Tracks</string>
+    <string name="top_artists">Top Artists</string>
+    <string name="overall">Overall</string>
+    <string name="tosettingspage">toSettingsPage</string>
+    <string name="first_game">Quiz</string>
+
+    <string name="time_range_long">long_term</string>
+    <string name="time_range_medium">medium_term</string>
+    <string name="time_range_short">short_term</string>
 
 </resources>

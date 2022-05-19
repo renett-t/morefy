@@ -1,14 +1,14 @@
 package ru.itis.morefy.core.domain.models
 
 data class Artist (
-    private val id: String,
+    val id: String,
 
-    private val name: String,
-    private val followerCount: Int,
-    private val genres: List<Genre>,
-    private val imageUrl: String,
+    val name: String,
+    val followerCount: Int,
+    val genres: List<Genre>?,
+    val imageUrl: String?,
 
-    private val popularity: Int,
+    val popularity: Int,
 
-    private val uri: String,
+    val uri: String,
 )

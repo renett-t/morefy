@@ -1,24 +1,24 @@
 package ru.itis.morefy.core.domain.models
 
 import ru.itis.morefy.core.domain.models.features.AverageTracksFeatures
-import java.time.LocalDate
+import java.util.Date
 
 data class Album (
-    private val id: String,
+    val id: String,
 
-    private val type: String,
-    private val tracksCount: Int,
+    val type: String,
+    val tracksCount: Int,
 
-    private val name: String,
-    private val imageUrl: String,
+    val name: String,
+    val imageUrl: String,
 
-    private val artists: List<Artist>,
-    private val tracks: List<Track>,
+    val artists: List<Artist>?,
+    val tracks: List<Track>?,
 
-    private val releaseDate: LocalDate,
-    private val restrictions: String,
+    val releaseDate: Date,
+    val restrictions: String?,
 
-    private val statistics: AverageTracksFeatures?,
+    val statistics: AverageTracksFeatures?,
 
-    private val uri: String,
+    val uri: String,
 )

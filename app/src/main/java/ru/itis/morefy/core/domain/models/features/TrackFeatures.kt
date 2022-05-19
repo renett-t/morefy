@@ -2,6 +2,7 @@ package ru.itis.morefy.core.domain.models.features
 
 data class TrackFeatures (
     private val trackId: String,
+
     private val acousticness: Float,
     private val danceability: Float,
     private val energy: Float,
