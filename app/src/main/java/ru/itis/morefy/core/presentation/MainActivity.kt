@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.spotify.sdk.android.auth.AuthorizationClient
+import com.spotify.sdk.android.auth.AuthorizationResponse
 import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.service.RefreshTokenService
 import ru.itis.morefy.core.presentation.extensions.appComponent
@@ -41,8 +43,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         controller = findController(R.id.container)
         binding.bottomNav.setupWithNavController(controller)
 
-        with(binding){
-            btnSettings.setOnClickListener{
+        with(binding) {
+            btnSettings.setOnClickListener {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, SettingsFragment())
                     .addToBackStack(null)
@@ -64,7 +66,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun goToLoginActivity() {
         val intent = Intent(this, AuthActivity::class.java)
-            .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        finishAffinity()
         startActivity(intent)
     }
 }

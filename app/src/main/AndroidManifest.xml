@@ -15,12 +15,16 @@
 
         <activity
             android:name=".core.presentation.AuthActivity"
+            android:launchMode="singleInstance"
+            android:label="No Authorization"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
                 <data
-                    android:scheme="ru.itis.morefy"
-                    android:host="login"/>
+                    android:host="login"
+                    android:scheme="morefy" />
             </intent-filter>
         </activity>
 
