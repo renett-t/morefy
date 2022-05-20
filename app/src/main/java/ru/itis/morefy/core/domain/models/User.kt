@@ -2,15 +2,15 @@ package ru.itis.morefy.core.domain.models
 
 
 data class User(
-    private val id: String,
-    private val name: String,
-    private val followerCount: Int,
-    private val uri: String,
+    val id: String,
+    val name: String,
+    val followerCount: Int,
+    val uri: String,
 
-    private val country: String,
-    private val email: String,
-    private val imageUrl: String,
-    private val subscription: String,
+    val country: String,
+    val email: String,
+    val imageUrl: String?,
+    val subscription: String,
 ) {
 
     constructor(id: String, name: String, followerCount: Int, uri: String) :

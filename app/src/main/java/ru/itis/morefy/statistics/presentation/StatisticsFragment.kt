@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.itis.morefy.R
-import ru.itis.morefy.core.domain.exception.CredentialsExpiredException
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.core.presentation.extensions.requestNewCredentialsForUser
 import ru.itis.morefy.databinding.FragmentStatisticsBinding
@@ -113,9 +112,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
 
         statsViewModel.error.observe(viewLifecycleOwner) {
-            if (it is CredentialsExpiredException)
-                activity?.requestNewCredentialsForUser()
-            // todo: выяснить какой фрагмент сейчас во view pager и запустить заново метод view model'ьки
+
         }
     }
 
