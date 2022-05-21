@@ -2,6 +2,7 @@ package ru.itis.morefy.core.data.repository
 
 import android.util.Log
 import retrofit2.HttpException
+import ru.itis.morefy.core.data.api.SpotifyPlaylistsApi
 import ru.itis.morefy.core.data.api.SpotifyUsersApi
 import ru.itis.morefy.core.data.mapper.ArtistsMapper
 import ru.itis.morefy.core.data.mapper.TracksMapper
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 class SpotifyUserDataRepositoryImpl @Inject constructor(
     private val usersApi: SpotifyUsersApi,
+    private val playlistsApi: SpotifyPlaylistsApi,
     private val tracksMapper: TracksMapper,
     private val artistsMapper: ArtistsMapper,
     private val userMapper: UserDataMapper,
@@ -43,7 +45,7 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCurrentUserFollowedPlaylists(): List<Playlist> {
+    override suspend fun getCurrentUserPlaylists(): List<Playlist> {
         TODO("Not yet implemented")
     }
 
