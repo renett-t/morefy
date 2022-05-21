@@ -32,7 +32,7 @@ class SharedPreferencesClient @Inject constructor(
 
     fun isCredentialsSaved(): Boolean = isSaved
     fun saveCredentials() {
-        val CLIENT_SECRET = "*********"
+        val CLIENT_SECRET = "**********"
         saveApplicationCredentials(CLIENT_ID, CLIENT_SECRET)
         isSaved = true
     }
