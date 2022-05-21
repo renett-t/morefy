@@ -26,7 +26,7 @@
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dak_green"
+        android:background="@color/dark_green"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         app:labelVisibilityMode="selected"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:background="@color/dak_green"
+        android:background="@color/dark_green"
         app:title="@string/list_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_settings"
             android:layout_gravity="end"
-            android:background="@color/dak_green"
+            android:background="@color/dark_green"
             android:paddingEnd="20dp"
             android:contentDescription="@string/tosettingspage" />
     </androidx.appcompat.widget.Toolbar>
