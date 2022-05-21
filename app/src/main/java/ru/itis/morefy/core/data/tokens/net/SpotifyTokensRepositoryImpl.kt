@@ -42,8 +42,8 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
                 } else null
             } else {
                 Log.e(
-                    "ERROR REQUESTING REFRESH TOKEN",
-                    "code= ${response.code}, body=${response.body?.string()}"
+                    "TOKEN REQUEST",
+                    "ERROR REQUESTING REFRESH TOKEN. Code= ${response.code}, Body=${response.body?.string()}"
                 )
                 throw IOException("Unable to get refresh token")
             }
@@ -65,8 +65,8 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
                 } else null
             } else {
                 Log.e(
-                    "ERROR REQUESTING ACCESS TOKEN",
-                    "code= ${response.code}, body=${response.body?.string()}"
+                    "TOKEN REQUEST",
+                    "ERROR REQUESTING ACCESS TOKEN. Code= ${response.code}, Body=${response.body?.string()}"
                 )
                 throw IOException("Unable to get credentials")
             }

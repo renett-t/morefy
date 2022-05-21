@@ -54,12 +54,10 @@ class AuthActivity : AppCompatActivity() {
         viewModel.tokenContainer.observe(this) {
             it?.fold(
                 onSuccess = { tokenContainer ->
-                    Log.e("REFRESH TOKENS ПОЛУЧЕНЫ", "SAVING TOKEN YAY = $tokenContainer")
+                    Log.d("AUTH ACTIVITY", "Tokens successfully granted, saving them.")
                     authorizationRepository.saveTokens(tokenContainer)
                     isFinishedAuthentication = true
 
-                    val token = authorizationRepository.getTokens()
-                    Log.e("SAVED IN PREFS", token.toString())
                     redirectToMainActivity()
                 },
                 onFailure = {
@@ -98,18 +96,13 @@ class AuthActivity : AppCompatActivity() {
     private fun processGivenResponse(response: AuthorizationResponse?) {
         when (response?.type) {
             AuthorizationResponse.Type.CODE -> {
-                Log.e(
-                    "SPOTIFY TOKEN SDK LIB RESULT",
-                    "code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}"
+                Log.i(
+                    "AUTH ACTIVITY: CODE RESULT",
+                    "Got code. ExpiresIn=${response.expiresIn}, state=${response.state}"
                 )
                 getAccessAndRefreshTokens(response.code)
             }
             AuthorizationResponse.Type.ERROR -> {
-                // todo: error handling
-                Log.e(
-                    "SPOTIFY TOKEN SDK LIB ERROR",
-                    "code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}"
-                )
                 Log.e(
                     "SPOTIFY TOKEN SDK LIB ERROR",
                     "error=${response.error}, state=${response.state}"
@@ -124,7 +117,7 @@ class AuthActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        Log.e("AUTH ACTIVITY", "GOT RESULT IN INTENT FROM BROWSER")
+        Log.d("AUTH ACTIVITY", "GOT RESULT IN INTENT FROM BROWSER")
         val uri = intent?.data
         uri?.let {
             processGivenResponse(AuthorizationResponse.fromUri(it))
@@ -146,9 +139,8 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (!isFinishedAuthentication) {
-            Log.e("AUTH ACTIVITY", "back pressed, but auth not finished")
-            Log.e("AUTH ACTIVITY", "closing the app")
-            // todo: close app
+            Log.d("AUTH ACTIVITY", "back pressed, but auth not finished")
+            Log.d("AUTH ACTIVITY", "closing the app")
             finishAffinity()
         } else {
             super.onBackPressed()
