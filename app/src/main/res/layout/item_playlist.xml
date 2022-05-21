@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dak_green"
     android:padding="10dp">
 
     <ImageView
@@ -11,6 +12,7 @@
         android:layout_height="40dp"
         android:src="@drawable/track"
         android:layout_marginStart="12dp"
+        android:background="@color/dak_green"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +25,8 @@
         android:layout_height="wrap_content"
         android:text="Playlist Title"
         android:layout_marginStart="12dp"
-
+        android:textColor="@color/white"
+        android:background="@color/dak_green"
         app:layout_constraintTop_toTopOf="@id/iv_playlist_cover"
         app:layout_constraintBottom_toBottomOf="@id/iv_playlist_cover"
         app:layout_constraintStart_toEndOf="@id/iv_playlist_cover"
