@@ -26,4 +26,8 @@ class RefreshTokenService @Inject constructor(
             authorizationRepository.saveTokens(current)
         }
     }
+
+    fun clearData() {
+        authorizationRepository.emptyRepository()
+    }
 }

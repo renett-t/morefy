@@ -51,4 +51,9 @@
     <string name="time_range_short">short_term</string>
     <string name="get_access_message">Получаем доступ, ещё пару секунд..</string>
 
+    <string name="logout_message">Хотите выйти из аккаунта?</string>
+    <string name="logout">Выйти</string>
+    <string name="cancel">Отмена</string>
+    <string name="logout_title">Выход из аккаунта</string>
+
 </resources>
