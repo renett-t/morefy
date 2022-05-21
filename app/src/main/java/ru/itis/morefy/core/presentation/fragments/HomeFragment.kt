@@ -10,11 +10,12 @@ import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.models.User
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.core.presentation.viewmodels.ProfileViewModel
+import ru.itis.morefy.databinding.FragmentHomeBinding
 import ru.itis.morefy.databinding.FragmentProfileBinding
 import javax.inject.Inject
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    private lateinit var binding: FragmentProfileBinding
+    private lateinit var binding: FragmentHomeBinding
 
     @Inject
     lateinit var viewModel: ProfileViewModel
@@ -27,7 +28,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentProfileBinding.bind(view)
+        binding = FragmentHomeBinding.bind(view)
 
         initRecyclerView()
         initObservers()

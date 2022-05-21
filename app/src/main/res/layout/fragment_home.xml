@@ -39,22 +39,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_profile_picture"
         app:layout_constraintTop_toTopOf="@+id/iv_profile_picture"
-        app:layout_constraintVertical_bias="0.33" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <TextView
         android:id="@+id/tv_user_name"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:background="@color/dak_green"
         android:text="\@renett_t"
         android:textColor="@color/white"
-        android:textSize="36dp"
+        android:textSize="16dp"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/iv_profile_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/iv_profile_picture"
         app:layout_constraintTop_toTopOf="@+id/iv_profile_picture"
-        app:layout_constraintVertical_bias="0.66" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline30"
