@@ -49,5 +49,6 @@
     <string name="time_range_long">long_term</string>
     <string name="time_range_medium">medium_term</string>
     <string name="time_range_short">short_term</string>
+    <string name="get_access_message">Получаем доступ, ещё пару секунд..</string>
 
 </resources>
