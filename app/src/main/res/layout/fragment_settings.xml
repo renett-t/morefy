@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +9,7 @@
     tools:context=".core.presentation.fragments.SettingsFragment">
 
     <Button
-        android:id="@+id/bt_support"
+        android:id="@+id/btn_support"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
@@ -22,41 +21,37 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/support" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/bt_aboutus"
+        android:id="@+id/btn_aboutus"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/roundedbutton"
+        android:text="@string/about"
         android:textColor="@color/black"
         android:textSize="15sp"
-        android:text="@string/about"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_support"
-        tools:text="@string/about" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_support" />
 
 
     <Button
-        android:id="@+id/bt_signout"
+        android:id="@+id/btn_signout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/roundedbutton"
+        android:text="@string/signout"
         android:textColor="@color/red"
         android:textSize="15sp"
-        android:text="@string/signout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_aboutus"
-        tools:text="@string/signout" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_aboutus" />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout >
+</androidx.constraintlayout.widget.ConstraintLayout>

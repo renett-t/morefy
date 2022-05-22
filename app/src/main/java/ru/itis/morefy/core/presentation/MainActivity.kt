@@ -2,13 +2,11 @@ package ru.itis.morefy.core.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.replace
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.spotify.sdk.android.auth.AuthorizationClient
-import com.spotify.sdk.android.auth.AuthorizationResponse
 import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.service.RefreshTokenService
 import ru.itis.morefy.core.presentation.extensions.appComponent
@@ -16,7 +14,7 @@ import ru.itis.morefy.core.presentation.fragments.SettingsFragment
 import ru.itis.morefy.databinding.ActivityMainBinding
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var refreshTokenService: RefreshTokenService
 
@@ -46,7 +44,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         with(binding) {
             btnSettings.setOnClickListener {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, SettingsFragment())
+                    .replace<SettingsFragment>(R.id.container)
                     .addToBackStack(null)
                     .commit()
             }
