@@ -1,7 +1,6 @@
 package ru.itis.morefy.core.presentation
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
@@ -25,10 +24,14 @@ class AuthActivity : AppCompatActivity() {
 
     @Inject
     lateinit var authorizationRepository: AuthorizationRepository
+
     @Inject
     lateinit var spotifyTokensRepository: SpotifyTokensRepository
+
     @Inject
     lateinit var viewModel: TokensViewModel
+
+    private var isFinishedAuthentication = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,11 +54,10 @@ class AuthActivity : AppCompatActivity() {
         viewModel.tokenContainer.observe(this) {
             it?.fold(
                 onSuccess = { tokenContainer ->
-                    Log.e("REFRESH TOKENS ПОЛУЧЕНЫ", "SAVING TOKEN YAY = $tokenContainer")
-                        authorizationRepository.saveTokens(tokenContainer)
+                    Log.d("AUTH ACTIVITY", "Tokens successfully granted, saving them.")
+                    authorizationRepository.saveTokens(tokenContainer)
+                    isFinishedAuthentication = true
 
-                    val token = authorizationRepository.getTokens()
-                    Log.e("SAVED IN PREFS", token.toString())
                     redirectToMainActivity()
                 },
                 onFailure = {
@@ -67,8 +69,9 @@ class AuthActivity : AppCompatActivity() {
 
     private fun redirectToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra("token", "successful")
+        finishAffinity()
         startActivity(intent)
     }
 
@@ -77,42 +80,71 @@ class AuthActivity : AppCompatActivity() {
         AuthorizationClient.openLoginActivity(this, AUTH_CODE_REQUEST_CODE, request)
     }
 
+    private fun getAccessAndRefreshTokens(code: String) {
+        showMessage(getString(R.string.get_access_message))
+        viewModel.requestTokensByCode(code)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == AUTH_CODE_REQUEST_CODE) {
-            val response = AuthorizationClient.getResponse(resultCode, data)
-            when (response.type) {
-                AuthorizationResponse.Type.CODE -> {
-                    Log.e("SPOTIFY TOKEN SDK LIB RESULT","code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}")
-                    getAccessAndRefreshTokens(response.code)
-                }
-                AuthorizationResponse.Type.ERROR -> {
-                    // todo: error handling
-                    Log.e("SPOTIFY TOKEN SDK LIB ERROR","code=${response.code}, state=${response.state} \ntoken=${response.accessToken}, expiresIn=${response.expiresIn}")
-                    Log.e("SPOTIFY TOKEN SDK LIB ERROR", "error=${response.error}, state=${response.state}")
-                }
-                else -> {
+            processGivenResponse(AuthorizationClient.getResponse(resultCode, data))
+        }
+    }
 
-                }
+    private fun processGivenResponse(response: AuthorizationResponse?) {
+        when (response?.type) {
+            AuthorizationResponse.Type.CODE -> {
+                Log.i(
+                    "AUTH ACTIVITY: CODE RESULT",
+                    "Got code. ExpiresIn=${response.expiresIn}, state=${response.state}"
+                )
+                getAccessAndRefreshTokens(response.code)
+            }
+            AuthorizationResponse.Type.ERROR -> {
+                Log.e(
+                    "SPOTIFY TOKEN SDK LIB ERROR",
+                    "error=${response.error}, state=${response.state}"
+                )
+            }
+            else -> {
+
             }
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        Log.d("AUTH ACTIVITY", "GOT RESULT IN INTENT FROM BROWSER")
+        val uri = intent?.data
+        uri?.let {
+            processGivenResponse(AuthorizationResponse.fromUri(it))
+        }
+    }
+
     private fun getAuthenticationRequest(type: AuthorizationResponse.Type): AuthorizationRequest {
-        val builder = AuthorizationRequest.Builder(authorizationRepository.getClientId(), type,
-            Uri.parse(spotifyTokensRepository.getRedirectUri()).toString()
+        val builder = AuthorizationRequest.Builder(
+            authorizationRepository.getClientId(), type,
+            spotifyTokensRepository.getRedirectUri().toString()
         )
 
-        builder.setScopes(resources.getStringArray(R.array.scopes))
-
-        builder.setShowDialog(true)
+        builder
+            .setScopes(resources.getStringArray(R.array.scopes))
+            .setShowDialog(true)
 
         return builder.build()
     }
 
-    private fun getAccessAndRefreshTokens(code: String) {
-        viewModel.requestTokensByCode(code)
+    override fun onBackPressed() {
+        if (!isFinishedAuthentication) {
+            Log.d("AUTH ACTIVITY", "back pressed, but auth not finished")
+            Log.d("AUTH ACTIVITY", "closing the app")
+            finishAffinity()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun showMessage(message: String) {

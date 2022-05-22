@@ -3,7 +3,7 @@
     <style name="Theme.Morefy" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/light_green</item>
-        <item name="colorPrimaryVariant">@color/another_green</item>
+        <item name="colorPrimaryVariant">@color/dark_green</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -12,8 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
-        <item name="android:background">@color/dak_green</item>
+        <item name="android:background">@color/dark_green</item>
     </style>
 
 

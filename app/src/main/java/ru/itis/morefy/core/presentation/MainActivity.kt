@@ -2,8 +2,8 @@ package ru.itis.morefy.core.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.replace
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -14,7 +14,7 @@ import ru.itis.morefy.core.presentation.fragments.SettingsFragment
 import ru.itis.morefy.databinding.ActivityMainBinding
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var refreshTokenService: RefreshTokenService
 
@@ -41,10 +41,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         controller = findController(R.id.container)
         binding.bottomNav.setupWithNavController(controller)
 
-        with(binding){
-            btnSettings.setOnClickListener{
+        with(binding) {
+            btnSettings.setOnClickListener {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, SettingsFragment())
+                    .replace<SettingsFragment>(R.id.container)
                     .addToBackStack(null)
                     .commit()
             }
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun goToLoginActivity() {
         val intent = Intent(this, AuthActivity::class.java)
-            .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        finishAffinity()
         startActivity(intent)
     }
 }
