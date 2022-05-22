@@ -1,5 +1,6 @@
 package ru.itis.morefy.core.data.tokens.net
 
+import android.net.Uri
 import android.util.Log
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 private const val CONTENT_TYPE = "application/x-www-form-urlencoded"
 private const val URL = "https://accounts.spotify.com/api/token"
-private const val REDIRECT_URI = "ru.itis.morefy://login"
+private const val REDIRECT_URI = "morefy://login"
 
 // ref: https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
 class SpotifyTokensRepositoryImpl @Inject constructor(
@@ -41,8 +42,8 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
                 } else null
             } else {
                 Log.e(
-                    "ERROR REQUESTING REFRESH TOKEN",
-                    "code= ${response.code}, body=${response.body?.string()}"
+                    "TOKEN REQUEST",
+                    "ERROR REQUESTING REFRESH TOKEN. Code= ${response.code}, Body=${response.body?.string()}"
                 )
                 throw IOException("Unable to get refresh token")
             }
@@ -64,8 +65,8 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
                 } else null
             } else {
                 Log.e(
-                    "ERROR REQUESTING ACCESS TOKEN",
-                    "code= ${response.code}, body=${response.body?.string()}"
+                    "TOKEN REQUEST",
+                    "ERROR REQUESTING ACCESS TOKEN. Code= ${response.code}, Body=${response.body?.string()}"
                 )
                 throw IOException("Unable to get credentials")
             }
@@ -84,8 +85,8 @@ class SpotifyTokensRepositoryImpl @Inject constructor(
             .build()
     }
 
-    override fun getRedirectUri(): String {
-        return REDIRECT_URI
+    override fun getRedirectUri(): Uri {
+        return Uri.parse(REDIRECT_URI)
     }
 
     private fun getPostBodyForRefreshToken(refreshToken: String): RequestBody {

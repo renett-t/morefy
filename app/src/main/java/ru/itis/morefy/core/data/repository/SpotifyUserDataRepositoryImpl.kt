@@ -2,7 +2,6 @@ package ru.itis.morefy.core.data.repository
 
 import android.util.Log
 import retrofit2.HttpException
-import ru.itis.morefy.core.data.api.SpotifyPlaylistsApi
 import ru.itis.morefy.core.data.api.SpotifyUsersApi
 import ru.itis.morefy.core.data.mapper.ArtistsMapper
 import ru.itis.morefy.core.data.mapper.TracksMapper

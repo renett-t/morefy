@@ -1,5 +1,6 @@
 package ru.itis.morefy.core.domain.repository
 
+import android.net.Uri
 import ru.itis.morefy.core.domain.models.TokenContainer
 
 /**
@@ -9,5 +10,5 @@ import ru.itis.morefy.core.domain.models.TokenContainer
 interface SpotifyTokensRepository {
     fun getRefreshedAccessToken(refreshToken: String): String?
     suspend fun getTokensByCode(code: String): TokenContainer?
-    fun getRedirectUri(): String
+    fun getRedirectUri(): Uri
 }
