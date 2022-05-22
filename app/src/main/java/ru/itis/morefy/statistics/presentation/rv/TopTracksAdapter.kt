@@ -13,17 +13,17 @@ class TopTracksAdapter @AssistedInject constructor(
     private val onItemClickedAction: (String) -> Unit,
     @Assisted("glide")
     private val glide: RequestManager,
-) : ListAdapter<Track, TopTrackHolder>(DiffUtilItemCallback()) {
+) : ListAdapter<Track, TopTrackHolder>(DiffUtilTrackItemCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-        = TopTrackHolder.create(parent, glide, onItemClickedAction)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        TopTrackHolder.create(parent, glide, onItemClickedAction)
 
     override fun onBindViewHolder(holder: TopTrackHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position), position + 1)
     }
 }
 
-class DiffUtilItemCallback : DiffUtil.ItemCallback<Track>() {
+class DiffUtilTrackItemCallback : DiffUtil.ItemCallback<Track>() {
     override fun areItemsTheSame(oldItem: Track, newItem: Track) = oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: Track, newItem: Track) = oldItem == newItem

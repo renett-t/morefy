@@ -2,14 +2,12 @@ package ru.itis.morefy.statistics.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.itis.morefy.R
 import ru.itis.morefy.core.presentation.extensions.appComponent
-import ru.itis.morefy.core.presentation.extensions.requestNewCredentialsForUser
 import ru.itis.morefy.databinding.FragmentStatisticsBinding
 import ru.itis.morefy.statistics.di.assisted.AdapterFactory
 import ru.itis.morefy.statistics.presentation.tabs.OverallStatsFragment
@@ -88,36 +86,13 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     }
 
     private fun initObserversOnViewModel() {
-
-        statsViewModel.topArtists.observe(viewLifecycleOwner) {
-            it.fold(
-                onSuccess = { artists ->
-
-                },
-                onFailure = { ex ->
-                    Log.e("STATS", "Some problem retrieving top artists. ${ex.message}")
-                }
-            )
-        }
-
-        statsViewModel.overallStats.observe(viewLifecycleOwner) {
-            it.fold(
-                onSuccess = { stats ->
-
-                },
-                onFailure = { ex ->
-                    Log.e("STATS", "Some problem retrieving top artists. ${ex.message}")
-                }
-            )
-        }
-
         statsViewModel.error.observe(viewLifecycleOwner) {
 
         }
     }
 
     private fun initChangeTimeRange() {
-        // todo
+        // todo add button to change time range and pass that variable to fragments
     }
 }
 

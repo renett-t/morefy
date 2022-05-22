@@ -19,8 +19,9 @@ import ru.itis.morefy.statistics.presentation.rv.TopTracksAdapter
 import ru.itis.morefy.statistics.presentation.viewmodel.StatsViewModel
 import javax.inject.Inject
 
-class TopTracksFragment: Fragment(R.layout.fragment_top_tracks)  {
+class TopTracksFragment : Fragment(R.layout.fragment_top_tracks) {
     private lateinit var binding: FragmentTopTracksBinding
+
     @Inject
     lateinit var adapterFactory: TopTracksAdapterFactory
     lateinit var tracksAdapter: TopTracksAdapter
@@ -29,7 +30,7 @@ class TopTracksFragment: Fragment(R.layout.fragment_top_tracks)  {
     lateinit var statsViewModel: StatsViewModel
 
     private var timeRange = "long_term"
-    private var amount = 20
+    private var amount = 50
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -43,7 +44,6 @@ class TopTracksFragment: Fragment(R.layout.fragment_top_tracks)  {
         initRecyclerView()
         initObserving()
         getData()
-        Log.e("TOP TRACKS FRAGMENT", "CREATED")
     }
 
     private fun getData() {
@@ -67,12 +67,10 @@ class TopTracksFragment: Fragment(R.layout.fragment_top_tracks)  {
         statsViewModel.topTracks.observe(viewLifecycleOwner) {
             it.fold(
                 onSuccess = { tracks ->
-                    Log.e("TOP TRACKS RESULT", "Ayoooooo got tracks")
                     tracksAdapter.submitList(tracks)
                 },
                 onFailure = { ex ->
-                    Log.e("STATS", "Some problem retrieving top tracks. ${ex.message}")
-                    showMessage("shut up")
+                    Log.e("STATS: TopTracksFragment", "Some problem retrieving top tracks. ${ex.message}")
                 }
             )
         }
