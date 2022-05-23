@@ -2,8 +2,10 @@ package ru.itis.morefy.core.data.repository
 
 import android.util.Log
 import retrofit2.HttpException
+import ru.itis.morefy.core.data.api.SpotifyPlaylistsApi
 import ru.itis.morefy.core.data.api.SpotifyUsersApi
 import ru.itis.morefy.core.data.mapper.ArtistsMapper
+import ru.itis.morefy.core.data.mapper.PlaylistsMapper
 import ru.itis.morefy.core.data.mapper.TracksMapper
 import ru.itis.morefy.core.data.mapper.UserDataMapper
 import ru.itis.morefy.core.domain.models.Artist
@@ -19,6 +21,7 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     private val tracksMapper: TracksMapper,
     private val artistsMapper: ArtistsMapper,
     private val userMapper: UserDataMapper,
+    private val playlistsMapper: PlaylistsMapper
 ) : UserDataRepository {
 
     override suspend fun getCurrentUserTopTracks(timeRange: String, amount: Int): List<Track> {
@@ -28,7 +31,7 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
             val tracksResponse = usersApi.getUserTopTracks(timeRange, amount, 0)
             return tracksMapper.mapFrom(tracksResponse)
         } catch (e: HttpException) {
-            Log.e("USER DATA REPO IMPL", e.message())
+            Log.e("USER DATA REPO EXCEPTION", e.message())
             throw e
         }
     }
@@ -45,11 +48,38 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCurrentUserPlaylists(): List<Playlist> {
-        TODO("Not yet implemented")
+        try {
+            val response = playlistsApi.getCurrentUserPlaylists()
+            // todo: work with big amount of playlists
+            Log.e("PLAYLISTS", "BEFORE MAP. $response")
+            return playlistsMapper.mapFrom(response)
+        } catch (ex: HttpException) {
+            Log.e("USER DATA REPO EXCEPTION", ex.message())
+            throw ex
+        }
     }
 
     override suspend fun getCurrentUserFollowedArtists(): List<Artist> {
-        TODO("Not yet implemented")
+        try {
+            val response = usersApi.getUserFollowedArtists()
+            // todo: work with big amount of followed artists, cursors
+            Log.e("ARTISTS", "BEFORE MAP. $response")
+
+            return artistsMapper.mapFrom(response)
+        } catch (ex: HttpException) {
+            Log.e("USER DATA REPO EXCEPTION", ex.message())
+            throw ex
+        }
+    }
+
+    override suspend fun getCurrentUserFollowedArtistsCount(): Int {
+        try {
+            return usersApi.getUserFollowedArtists(1)
+                .artists.total
+        } catch (ex: HttpException) {
+            Log.e("USER DATA REPO EXCEPTION", ex.message())
+            throw ex
+        }
     }
 
     override suspend fun getCurrentUserProfile(): User {

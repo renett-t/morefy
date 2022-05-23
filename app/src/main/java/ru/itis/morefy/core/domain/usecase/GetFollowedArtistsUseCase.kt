@@ -24,7 +24,7 @@ class GetFollowedArtistsUseCase @Inject constructor(
 
     suspend fun getCount(): Int {
         return withContext(dispatcher) {
-            userDataRepository.getCurrentUserFollowedArtists().size
+            userDataRepository.getCurrentUserFollowedArtistsCount()
         }
     }
 }
