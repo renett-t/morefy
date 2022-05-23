@@ -27,23 +27,58 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
 
     override suspend fun getCurrentUserTopTracks(timeRange: String, amount: Int): List<Track> {
         try {
-            // if amount > 50 =) => need to create multiple requests
-            Log.e("TOP TRACKS REPO", "SENDING REQUEST")
-            val tracksResponse = usersApi.getUserTopTracks(timeRange, amount, 0)
-            return tracksMapper.mapFrom(tracksResponse)
+            if (amount > MAX_LIMIT_AMOUNT) {
+                val response = usersApi.getUserTopTracks(timeRange, MAX_LIMIT_AMOUNT, 0)
+                var amountLeft = amount - MAX_LIMIT_AMOUNT
+                return if (amountLeft > 0) {
+                    val list = tracksMapper.mapFrom(response).toMutableList()
+                    var offset = MAX_LIMIT_AMOUNT
+                    while (amountLeft > 0) {
+                        val amountToRequest = Math.min(MAX_LIMIT_AMOUNT, amountLeft)
+                        val resp = usersApi.getUserTopTracks(timeRange, amountToRequest, offset)
+                        list.addAll(tracksMapper.mapFrom(resp))
+                        offset += amountToRequest
+                        amountLeft -= amountToRequest
+                    }
+                    list
+                } else {
+                    tracksMapper.mapFrom(response)
+                }
+            } else {
+                val response = usersApi.getUserTopTracks(timeRange, amount, 0)
+                return tracksMapper.mapFrom(response)
+            }
         } catch (e: HttpException) {
-            Log.e("USER DATA REPO EXCEPTION", e.message())
+            Log.e("UserDataRepo", "Get Top Tracks Exception: ${e.message()}")
             throw e
         }
     }
 
     override suspend fun getCurrentUserTopArtists(timeRange: String, amount: Int): List<Artist> {
         try {
-            // if amount > 50 =) => need to create multiple requests
-            val artistsResponse = usersApi.getUserTopArtists(timeRange, amount, 0)
-            return artistsMapper.mapFrom(artistsResponse)
+            if (amount > MAX_LIMIT_AMOUNT) {
+                val response = usersApi.getUserTopArtists(timeRange, MAX_LIMIT_AMOUNT, 0)
+                var amountLeft = amount - MAX_LIMIT_AMOUNT
+                return if (amountLeft > 0) {
+                    val list = artistsMapper.mapFrom(response).toMutableList()
+                    var offset = MAX_LIMIT_AMOUNT
+                    while (amountLeft > 0) {
+                        val amountToRequest = Math.min(MAX_LIMIT_AMOUNT, amountLeft)
+                        val resp = usersApi.getUserTopArtists(timeRange, amountToRequest, offset)
+                        list.addAll(artistsMapper.mapFrom(resp))
+                        offset += amountToRequest
+                        amountLeft -= amountToRequest
+                    }
+                    list
+                } else {
+                    artistsMapper.mapFrom(response)
+                }
+            } else {
+                val response = usersApi.getUserTopArtists(timeRange, amount, 0)
+                return artistsMapper.mapFrom(response)
+            }
         } catch (e: HttpException) {
-            Log.e("USER DATA REPO IMPL", e.message())
+            Log.e("UserDataRepo", "Get Top Artists Exception: ${e.message()}")
             throw e
         }
     }
