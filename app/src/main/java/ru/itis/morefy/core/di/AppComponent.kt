@@ -5,6 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import ru.itis.morefy.core.presentation.AuthActivity
 import ru.itis.morefy.core.presentation.MainActivity
+import ru.itis.morefy.core.presentation.fragments.HomeFragment
 import ru.itis.morefy.core.presentation.fragments.ProfileFragment
 import ru.itis.morefy.core.presentation.fragments.SettingsFragment
 import ru.itis.morefy.statistics.presentation.StatisticsFragment
@@ -26,6 +27,7 @@ interface AppComponent {
     fun inject(topTracksFragment: TopTracksFragment)
 
     fun inject(profileFragment: ProfileFragment)
+    fun inject(homeFragment: HomeFragment)
 
     @Component.Builder
     interface Builder {
