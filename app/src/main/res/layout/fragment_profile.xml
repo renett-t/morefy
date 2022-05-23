@@ -22,14 +22,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/user_icon"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize20Percent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
         />
 
     <TextView
         android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\@renett_t"
+        tools:text="\@renett_t"
         android:textSize="36dp"
         android:textStyle="bold"
         android:background="@color/dak_green"
@@ -41,7 +41,7 @@
         />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/guideline30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/dak_green"
-        app:layout_constraintTop_toBottomOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/guideline30"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:background="@color/dak_green"
-        android:text="56"
+        tools:text="42"
         android:textColor="@color/white"
         android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@id/tv_playlists"
@@ -91,7 +91,7 @@
         android:text="playlists"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintBottom_toTopOf="@id/guideline30"
         app:layout_constraintEnd_toEndOf="@+id/tv_playlist_count"
         app:layout_constraintStart_toStartOf="@+id/tv_playlist_count"
         app:layout_constraintTop_toBottomOf="@id/tv_playlist_count" />
@@ -101,7 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/dak_green"
-        android:text="42"
+        tools:text="42"
         android:textColor="@color/white"
         android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@id/tv_subscription"
@@ -117,7 +117,7 @@
         android:text="subscriptions"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintBottom_toTopOf="@id/guideline30"
         app:layout_constraintEnd_toEndOf="@+id/tv_subscription_count"
         app:layout_constraintStart_toStartOf="@+id/tv_subscription_count"
         app:layout_constraintTop_toBottomOf="@id/tv_subscription_count" />
@@ -128,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:background="@color/dak_green"
-        android:text="33"
+        tools:text="42"
         android:textColor="@color/white"
         android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@id/tv_playlists"
@@ -144,7 +144,7 @@
         android:text="subscribers"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintBottom_toTopOf="@id/guideline30"
         app:layout_constraintEnd_toEndOf="@+id/tv_subscriber_count"
         app:layout_constraintStart_toStartOf="@+id/tv_subscriber_count"
         app:layout_constraintTop_toBottomOf="@id/tv_subscriber_count" />
