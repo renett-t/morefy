@@ -9,7 +9,7 @@ data class Playlist (
     val tracksCount: Int,
 
     val name: String,
-    val imageUrl: String,
+    val imageUrl: String?,
     val isCollaborative: Boolean,
     val isPublic: Boolean,
     val followerCount: Int,
@@ -20,7 +20,7 @@ data class Playlist (
 
     val uri: String,
 ) {
-    constructor(id: String, type: String, tracksCount: Int, name: String, imageUrl: String, isCollaborative: Boolean, isPublic: Boolean, owner: User, uri: String) :
+    constructor(id: String, type: String, tracksCount: Int, name: String, imageUrl: String?, isCollaborative: Boolean, isPublic: Boolean, owner: User, uri: String) :
             this(id, type, tracksCount, name, imageUrl, isCollaborative, isPublic, 0, owner, emptyList(), null, uri)
 
 }
