@@ -9,4 +9,5 @@ data class Artists(
     val limit: Int,
     val next: String?,
     val total: Int,
+    val prev: String?
 )

@@ -16,4 +16,8 @@ data class User(
     constructor(id: String, name: String, followerCount: Int, uri: String) :
             this(id, name, followerCount, uri, "", "", "", "") {
     }
+
+    constructor(id: String, name: String, uri: String) :
+            this(id, name, 0, uri, "", "", "", "") {
+    }
 }

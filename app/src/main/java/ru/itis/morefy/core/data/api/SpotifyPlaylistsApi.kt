@@ -70,7 +70,7 @@ interface SpotifyPlaylistsApi {
     suspend fun getCurrentUserPlaylists(): UserPlaylistsResponse
 
     @GET("me/playlists")
-    suspend fun getCurrentUserPlaylistsLimited(
+    suspend fun getCurrentUserPlaylists(
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
     ): UserPlaylistsResponse
@@ -81,7 +81,7 @@ interface SpotifyPlaylistsApi {
     ): UserPlaylistsResponse
 
     @GET("users/{user_id}/playlists")
-    suspend fun getUserPlaylistsLimited(
+    suspend fun getUserPlaylists(
         @Path("user_id") userId: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int

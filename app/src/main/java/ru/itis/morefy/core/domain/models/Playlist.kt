@@ -3,20 +3,24 @@ package ru.itis.morefy.core.domain.models
 import ru.itis.morefy.core.domain.models.features.AverageTracksFeatures
 
 data class Playlist (
-    private val id: String,
+    val id: String,
 
-    private val type: String,
-    private val tracksCount: Int,
+    val type: String,
+    val tracksCount: Int,
 
-    private val name: String,
-    private val imageUrl: String,
-    private val isCollaborative: Boolean,
-    private val isBoolean: Boolean,
-    private val followerCount: Int,
-    private val owners: List<User>,
-    private val tracks: List<Track>,
+    val name: String,
+    val imageUrl: String?,
+    val isCollaborative: Boolean,
+    val isPublic: Boolean,
+    val followerCount: Int,
+    val owner: User,
+    val tracks: List<Track>,
 
-    private val statistics: AverageTracksFeatures?,
+    val statistics: AverageTracksFeatures?,
 
-    private val uri: String,
-)
+    val uri: String,
+) {
+    constructor(id: String, type: String, tracksCount: Int, name: String, imageUrl: String?, isCollaborative: Boolean, isPublic: Boolean, owner: User, uri: String) :
+            this(id, type, tracksCount, name, imageUrl, isCollaborative, isPublic, 0, owner, emptyList(), null, uri)
+
+}
