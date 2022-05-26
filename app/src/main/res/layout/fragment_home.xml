@@ -13,7 +13,6 @@
         android:id="@+id/iv_profile_picture"
         android:layout_width="175dp"
         android:layout_height="175dp"
-        android:layout_marginTop="16dp"
         android:background="@color/white"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/guideline30"
@@ -62,11 +61,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.30" />
+        app:layout_constraintGuide_percent="0.33" />
     <View
         android:id="@+id/devider1"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="@color/green"
         app:layout_constraintTop_toTopOf="@+id/guideline30"
         />
@@ -121,7 +120,7 @@
     <View
         android:id="@+id/devider2"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="@color/green"
         app:layout_constraintTop_toTopOf="@+id/guideline60"
         />
