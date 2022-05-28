@@ -11,24 +11,24 @@ interface SpotifyArtistsApi {
     // artists - https://developer.spotify.com/documentation/web-api/reference/#/operations/get-an-artist
 
     @GET("artists/{id}")
-    suspend fun getArtistById(@Path("id") id: Int): ArtistResponse
+    suspend fun getArtistById(@Path("id") id: String): ArtistResponse
 
     @GET("artists")
-    suspend fun getArtistsByIds(@Query("ids") id: Int): ArtistsResponse
+    suspend fun getArtistsByIds(@Query("ids") id: String): ArtistsResponse
 
     @GET("artists/{id}/albums")
     suspend fun getAlbumsByArtistId(@Query("market") market: String): ArtistAlbumsResponse
 
     @GET("artists/{id}/albums")
     suspend fun getAlbumsByArtistId(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Query("include_groups") includeGroups: String,
         @Query("market") market: String
     ): ArtistAlbumsResponse
 
     @GET("artists/{id}/albums")
     suspend fun getAlbumsByArtistId(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Query("include_groups") includeGroups: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
@@ -37,10 +37,10 @@ interface SpotifyArtistsApi {
 
     @GET("artists/{id}/top-tracks")
     suspend fun getTopTracksByArtistId(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Query("market") market: String
     ): ArtistTopTracksResponse
 
     @GET("artists/{id}/related-artists")
-    suspend fun getRelatedArtistsByArtistId(@Path("id") id: Int): RelatedArtistsResponse
+    suspend fun getRelatedArtistsByArtistId(@Path("id") id: String): RelatedArtistsResponse
 }
