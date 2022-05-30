@@ -3,6 +3,7 @@ package ru.itis.morefy.core.data.repository
 import android.util.Log
 import retrofit2.HttpException
 import ru.itis.morefy.core.data.api.MAX_LIMIT_AMOUNT
+import ru.itis.morefy.core.data.api.SpotifyPlayerApi
 import ru.itis.morefy.core.data.api.SpotifyPlaylistsApi
 import ru.itis.morefy.core.data.api.SpotifyUsersApi
 import ru.itis.morefy.core.data.mapper.ArtistsMapper
@@ -19,10 +20,11 @@ import javax.inject.Inject
 class SpotifyUserDataRepositoryImpl @Inject constructor(
     private val usersApi: SpotifyUsersApi,
     private val playlistsApi: SpotifyPlaylistsApi,
+    private val playerApi: SpotifyPlayerApi,
     private val tracksMapper: TracksMapper,
     private val artistsMapper: ArtistsMapper,
     private val userMapper: UserDataMapper,
-    private val playlistsMapper: PlaylistsMapper
+    private val playlistsMapper: PlaylistsMapper,
 ) : UserDataRepository {
 
     override suspend fun getCurrentUserTopTracks(timeRange: String, amount: Int): List<Track> {
@@ -146,5 +148,15 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
         }
     }
 
-
+    override suspend fun getRecentlyPlayedTracks():List<Track> {
+        try {
+            // if amount > 50 =) => need to create multiple requests
+            Log.e("TOP TRACKS REPO", "SENDING REQUEST")
+            val tracksResponse = playerApi.getRecentlyPlayedTracks(MAX_LIMIT_AMOUNT)
+            return tracksMapper.mapFrom(tracksResponse)
+        } catch (e: HttpException) {
+            Log.e("USER DATA REPO EXCEPTION", e.message())
+            throw e
+        }
+    }
 }

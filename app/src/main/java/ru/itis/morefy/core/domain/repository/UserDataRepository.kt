@@ -14,4 +14,5 @@ interface UserDataRepository {
     suspend fun getCurrentUserProfile(): User
 
     suspend fun getFeaturedPlaylists(): List<Playlist>
+    suspend fun getRecentlyPlayedTracks() : List<Track>
 }
