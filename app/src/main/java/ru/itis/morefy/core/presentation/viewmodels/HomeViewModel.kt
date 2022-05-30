@@ -6,12 +6,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.itis.morefy.core.domain.models.Playlist
 import ru.itis.morefy.core.domain.models.User
+import ru.itis.morefy.core.domain.usecase.GetFeaturedPlaylists
 import ru.itis.morefy.core.domain.usecase.GetUserPlaylistsUseCase
 import ru.itis.morefy.core.domain.usecase.GetUserProfileUseCase
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val getUserProfileUseCase: GetUserProfileUseCase,
                                         private val getUserPlaylistsUseCase: GetUserPlaylistsUseCase,
+                                        private val getFeaturedPlaylists: GetFeaturedPlaylists,
 ) : ViewModel() {
 
     private var _userData: MutableLiveData<Result<User>> = MutableLiveData()

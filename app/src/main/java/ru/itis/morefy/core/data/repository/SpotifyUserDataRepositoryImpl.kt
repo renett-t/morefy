@@ -121,11 +121,11 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     override suspend fun getFeaturedPlaylists(): List<Playlist> {
         try {
             val response = playlistsApi
-                .getFeaturedPlaylists("RU",MAX_LIMIT_AMOUNT, "ru_ru",0)
-            val amount = response.total
+                .getFeaturedPlaylists("RU",MAX_LIMIT_AMOUNT, "ru_ru",0,"2014-10-23T09:00:00")
+            val amount = response.playlists.total
 
             return if (amount > MAX_LIMIT_AMOUNT) {
-                val list = playlistsMapper.mapFrom(response).toMutableList()
+                val list = playlistsMapper.mapFrom(response.playlists).toMutableList()
                 var amountLeft = amount - MAX_LIMIT_AMOUNT
                 var offset = MAX_LIMIT_AMOUNT
                 while (amountLeft > 0) {
@@ -137,7 +137,7 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
                 }
                 list
             } else {
-                playlistsMapper.mapFrom(response)
+                playlistsMapper.mapFrom(response.playlists)
             }
         } catch (ex: HttpException) {
             Log.e("UserDataRepo", "Playlists Exception: ${ex.message()}")
