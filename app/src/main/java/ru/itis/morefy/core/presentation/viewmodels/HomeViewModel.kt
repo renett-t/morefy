@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(private val getUserProfileUseCase: GetUs
     fun getPlaylists() {
         viewModelScope.launch {
             try {
-                _playlists.value = Result.success(getUserPlaylistsUseCase())
+                _playlists.value = Result.success(getFeaturedPlaylists())
             } catch (ex: Exception) {
                 _playlists.value = Result.failure(ex)
             }
