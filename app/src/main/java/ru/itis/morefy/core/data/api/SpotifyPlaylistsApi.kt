@@ -149,7 +149,7 @@ interface SpotifyPlaylistsApi {
 
     @GET("browse/featured-playlists")
     suspend fun getFeaturedPlaylists(
-        @Query("country") country: String,
+//        @Query("country") country: String,
         @Query("limit") limit: Int,
         @Query("locale") locale: String,
         @Query("offset") offset: Int

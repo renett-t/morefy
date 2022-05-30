@@ -121,7 +121,7 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     override suspend fun getFeaturedPlaylists(): List<Playlist> {
         try {
             val response = playlistsApi
-                .getFeaturedPlaylists("JP", MAX_LIMIT_AMOUNT, "ru_RU",0)
+                .getFeaturedPlaylists( MAX_LIMIT_AMOUNT, "ru_RU",0)
             val amount = response.playlists.total
 
             return if (amount > MAX_LIMIT_AMOUNT) {
