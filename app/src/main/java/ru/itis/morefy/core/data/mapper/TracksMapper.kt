@@ -46,7 +46,7 @@ class TracksMapper @Inject constructor(
         return list
     }
     fun mapFrom(response: PlayerResponse): List<Track> {
-        Log.e("TOP TRACKS", "GOT RESULT. MAPPING")
+        Log.e("RECENTLY TRACKS", "GOT RESULT. MAPPING")
         val list = ArrayList<Track>()
 
         for (item in response.items) {

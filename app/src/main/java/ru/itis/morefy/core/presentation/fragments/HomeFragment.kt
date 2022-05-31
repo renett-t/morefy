@@ -33,8 +33,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var viewModel: HomeViewModel
 
-     lateinit var track : Track
-
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
         super.onAttach(context)
@@ -103,8 +101,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.tracks.observe(viewLifecycleOwner){
             it.fold(
                 onSuccess = {tracks ->
-                    track = tracks.elementAt(0)
-                    updateTrack(track)
+                    updateTrack(tracks.elementAt(0))
                 },
                 onFailure = {
                     Log.e("ERROR HOME FRAGMENT", "UNABLE TO GET DATA FROM VIEW - TRACKS")
