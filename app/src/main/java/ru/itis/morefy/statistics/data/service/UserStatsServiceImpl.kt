@@ -1,5 +1,6 @@
 package ru.itis.morefy.statistics.data.service
 
+import android.util.Log
 import ru.itis.morefy.core.data.api.MAX_LIMIT_AMOUNT
 import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.domain.models.Genre
@@ -17,12 +18,12 @@ class UserStatsServiceImpl @Inject constructor(
     private val getArtistUseCase: GetArtistUseCase,
     private val getUserTopTracksUseCase: GetUserTopTracksUseCase,
     private val getUserOverallListeningStatsUseCase: GetUserOverallListeningStatsUseCase,
-): UserStatsService {
+) : UserStatsService {
 
     override suspend fun getCurrentUserTopGenresByTopArtists(timeRange: String): Map<Genre, Int> {
         val artists = getUserTopArtistsUseCase(timeRange, MAX_LIMIT_AMOUNT)
         val genresMap: MutableMap<Genre, Int> = HashMap()
-        val totalCount = 0
+        var totalCount = 0
 
         for (artist: Artist in artists) {
             var currentGenres: List<Genre> = ArrayList()
@@ -37,11 +38,20 @@ class UserStatsServiceImpl @Inject constructor(
             }
 
             for (genre: Genre in currentGenres) {
+                totalCount++
                 if (genresMap.containsKey(genre))
-                    genresMap.replace(genre, ++genresMap.get(genre))
+                    genresMap.replace(genre, genresMap[genre]?.plus(1) ?: 1)
+                else
+                    genresMap[genre] = 1
             }
 
         }
+
+        genresMap.mapValues { entry ->
+            entry.value / totalCount
+        }
+
+        return genresMap
     }
 
     override fun getUserOverallListeningStatsUseCase(timeRange: String): OverallListeningStats {

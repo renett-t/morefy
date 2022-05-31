@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import ru.itis.morefy.R
+import ru.itis.morefy.core.domain.models.Genre
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.databinding.FragmentOverallStatsBinding
 import ru.itis.morefy.statistics.di.assisted.TopGenreAdapterFactory
@@ -40,10 +41,12 @@ class OverallStatsFragment : Fragment(R.layout.fragment_overall_stats) {
     }
 
     private fun initObservers() {
-        viewModel.topGenres.observe(viewLifecycleOwner) {
-            it.fold(
+        viewModel.topGenres.observe(viewLifecycleOwner) { result ->
+            result.fold(
                 onSuccess = { map ->
-                    genreAdapter.submitList(map.entries.toList())
+                    genreAdapter.submitList(
+                        sortValues(map.entries.toList())
+                    )
                 },
                 onFailure = {
                     Log.e("STATS: TopGenresFragment", "Some problem retrieving top genres. ${it.message}")
@@ -52,8 +55,12 @@ class OverallStatsFragment : Fragment(R.layout.fragment_overall_stats) {
         }
     }
 
+    private fun sortValues(list: List<Map.Entry<Genre, Int>>): List<Map.Entry<Genre, Int>> {
+        return list.sortedByDescending { it.value }
+    }
+
     private fun startDownloadingData() {
-        viewModel.getTopGenres()
+        viewModel.getTopGenres(timeRange = "long_term") // todo: btn to change timeRange
     }
 
     private fun initRecyclers() {
@@ -64,7 +71,7 @@ class OverallStatsFragment : Fragment(R.layout.fragment_overall_stats) {
             rvTopGenres.apply {
                 adapter = genreAdapter
                 addItemDecoration(
-                    DividerItemDecoration(requireContext(), RecyclerView.SCROLL_AXIS_VERTICAL)
+                    DividerItemDecoration(requireContext(), RecyclerView.HORIZONTAL)
                 )
             }
         }

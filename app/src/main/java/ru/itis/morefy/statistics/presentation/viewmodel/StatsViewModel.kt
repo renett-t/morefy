@@ -58,10 +58,10 @@ class StatsViewModel @Inject constructor(
         }
     }
 
-    fun getTopGenres() {
+    fun getTopGenres(timeRange: String) {
         viewModelScope.launch {
             try {
-                val map = userStatsService.getCurrentUserTopGenresByTopArtists()
+                val map = userStatsService.getCurrentUserTopGenresByTopArtists(timeRange)
                 _topGenres.value = Result.success(map)
             } catch (ex: Exception) {
                 _topGenres.value = Result.failure(ex)
