@@ -17,7 +17,7 @@ import ru.itis.morefy.statistics.presentation.viewmodel.StatsViewModel
 import javax.inject.Inject
 
 private fun Fragment.getTitle(context: Context): String {
-    return when(this) {
+    return when (this) {
         is TopTracksFragment -> context.getString(R.string.top_tracks)
         is TopArtistsFragment -> context.getString(R.string.top_artists)
         else -> context.getString(R.string.overall)
@@ -35,7 +35,7 @@ fun Fragment.newInstance(): Fragment {
     return fragment
 }
 
-class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
+class StatisticsFragment: Fragment(R.layout.fragment_statistics) {
 
     private lateinit var binding: FragmentStatisticsBinding
 
@@ -68,7 +68,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         )
         binding.viewPager.adapter = adapterFactory.provideViewPagerAdapter(listOfFragments, this)
 
-        binding.tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.icon?.alpha = 250
             }

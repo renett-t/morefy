@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp">
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/genre_chip"
+        android:backgroundTint="@color/gentle_white"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Гиперпоп"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="51%"
+        android:textStyle="bold"
+        android:backgroundTint="@color/gentle_white"
+        android:textColor="@color/dark_green"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="24dp"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-4dp"
+        android:progress="51"
+        app:layout_constraintTop_toBottomOf="@id/genre_chip"
+        app:layout_constraintStart_toStartOf="@id/genre_chip"
+        app:layout_constraintEnd_toEndOf="@id/genre_chip"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
