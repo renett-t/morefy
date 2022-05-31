@@ -1,5 +1,6 @@
 package ru.itis.morefy.core.data.mapper
 
+import ru.itis.morefy.core.data.response.artist.ArtistsResponse
 import ru.itis.morefy.core.data.response.common.ArtistResponse
 import ru.itis.morefy.core.data.response.user.UserFollowedArtistsResponse
 import ru.itis.morefy.core.data.response.user.UserTopArtistsResponse
@@ -36,5 +37,25 @@ class ArtistsMapper @Inject constructor() {
             item.followers.total, genres,
             item.images.last().url, item.popularity, item.uri
         )
+    }
+
+    fun mapFrom(response: ArtistResponse): Artist {
+        val genres = ArrayList<Genre>()
+        for (g: String in response.genres) {
+            genres.add(Genre(g))
+        }
+        return Artist(
+            response.id, response.name, response.followers.total,
+            genres, response.images.last().url, response.popularity,
+            response.uri
+        )
+    }
+
+    fun mapFrom(response: ArtistsResponse): List<Artist> {
+        val list = ArrayList<Artist>()
+        for (item in response.artists) {
+            list.add(mapFrom(item))
+        }
+        return list
     }
 }

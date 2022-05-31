@@ -6,17 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.itis.morefy.core.domain.models.Artist
+import ru.itis.morefy.core.domain.models.Genre
 import ru.itis.morefy.core.domain.models.Track
 import ru.itis.morefy.statistics.domain.usecase.GetUserOverallListeningStatsUseCase
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopArtistsUseCase
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopTracksUseCase
 import ru.itis.morefy.statistics.domain.models.OverallListeningStats
+import ru.itis.morefy.statistics.domain.service.UserStatsService
 import javax.inject.Inject
 
 class StatsViewModel @Inject constructor(
     private val getUserTopTracksUseCase: GetUserTopTracksUseCase,
     private val getUserTopArtistsUseCase: GetUserTopArtistsUseCase,
-    private val getUserOverallListeningStatsUseCase: GetUserOverallListeningStatsUseCase,
+    private val userStatsService: UserStatsService
 ) : ViewModel() {
 
     private var _topTracks: MutableLiveData<Result<List<Track>>> = MutableLiveData()
@@ -28,6 +30,9 @@ class StatsViewModel @Inject constructor(
     private var _overallStats: MutableLiveData<Result<OverallListeningStats>> = MutableLiveData()
     val overallStats: LiveData<Result<OverallListeningStats>> = _overallStats
 
+    private var _topGenres: MutableLiveData<Result<Map<Genre, Int>>> = MutableLiveData()
+    val topGenres: LiveData<Result<Map<Genre, Int>>> = _topGenres
+
     private var _error: MutableLiveData<Exception> = MutableLiveData()
     val error: MutableLiveData<Exception> = _error
 
@@ -37,8 +42,7 @@ class StatsViewModel @Inject constructor(
                 val list = getUserTopTracksUseCase(timeRange, amount)
                 _topTracks.value = Result.success(list)
             } catch (ex: Exception) {
-//                _topTracks.value = Result.failure(ex)
-                _error.value = ex
+                _topTracks.value = Result.failure(ex)
             }
         }
     }
@@ -49,8 +53,18 @@ class StatsViewModel @Inject constructor(
                 val list = getUserTopArtistsUseCase(timeRange, amount)
                 _topArtists.value = Result.success(list)
             } catch (ex: Exception) {
-//                _topArtists.value = Result.failure(ex)
-                _error.value = ex
+                _topArtists.value = Result.failure(ex)
+            }
+        }
+    }
+
+    fun getTopGenres(timeRange: String) {
+        viewModelScope.launch {
+            try {
+                val map = userStatsService.getCurrentUserTopGenresByTopArtists(timeRange)
+                _topGenres.value = Result.success(map)
+            } catch (ex: Exception) {
+                _topGenres.value = Result.failure(ex)
             }
         }
     }
@@ -58,11 +72,10 @@ class StatsViewModel @Inject constructor(
     fun getOverallListeningStats(timeRange: String) {
         viewModelScope.launch {
             try {
-                val stats = getUserOverallListeningStatsUseCase(timeRange)
+                val stats = userStatsService.getUserOverallListeningStatsUseCase(timeRange)
                 _overallStats.value = Result.success(stats)
             } catch (ex: Exception) {
-//                _overallStats.value = Result.failure(ex)
-                _error.value = ex
+                _overallStats.value = Result.failure(ex)
             }
         }
     }

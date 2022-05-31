@@ -16,6 +16,6 @@ data class Track (
     val popularity: Int,
     val statistics: TrackFeatures?,
 
-    val previewUrl: String,
+    val previewUrl: String?,
     val uri: String,
 )

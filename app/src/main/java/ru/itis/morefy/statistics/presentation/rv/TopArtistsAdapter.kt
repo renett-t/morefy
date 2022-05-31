@@ -6,25 +6,25 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.RequestManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import ru.itis.morefy.core.domain.models.Track
+import ru.itis.morefy.core.domain.models.Artist
 
-class TopTracksAdapter @AssistedInject constructor(
+class TopArtistAdapter @AssistedInject constructor(
     @Assisted("onItemClickedAction")
     private val onItemClickedAction: (String) -> Unit,
     @Assisted("glide")
     private val glide: RequestManager,
-) : ListAdapter<Track, TopTrackHolder>(DiffUtilTrackItemCallback()) {
+) : ListAdapter<Artist, TopArtistHolder>(DiffUtilArtistItemCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        TopTrackHolder.create(parent, glide, onItemClickedAction)
+        TopArtistHolder.create(parent, glide, onItemClickedAction)
 
-    override fun onBindViewHolder(holder: TopTrackHolder, position: Int) {
+    override fun onBindViewHolder(holder: TopArtistHolder, position: Int) {
         holder.bind(getItem(position), position + 1)
     }
 }
 
-class DiffUtilTrackItemCallback : DiffUtil.ItemCallback<Track>() {
-    override fun areItemsTheSame(oldItem: Track, newItem: Track) = oldItem.id == newItem.id
+class DiffUtilArtistItemCallback : DiffUtil.ItemCallback<Artist>() {
+    override fun areItemsTheSame(oldItem: Artist, newItem: Artist) = oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: Track, newItem: Track) = oldItem == newItem
+    override fun areContentsTheSame(oldItem: Artist, newItem: Artist) = oldItem == newItem
 }
