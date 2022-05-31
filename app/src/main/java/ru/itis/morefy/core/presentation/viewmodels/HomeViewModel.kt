@@ -11,11 +11,12 @@ import ru.itis.morefy.core.domain.usecase.GetFeaturedPlaylists
 import ru.itis.morefy.core.domain.usecase.GetRecentlyPlayedTracksUseCase
 import ru.itis.morefy.core.domain.usecase.GetUserPlaylistsUseCase
 import ru.itis.morefy.core.domain.usecase.GetUserProfileUseCase
+import ru.itis.morefy.statistics.domain.usecase.GetUserTopTracksUseCase
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val getUserProfileUseCase: GetUserProfileUseCase,
                                         private val getFeaturedPlaylists: GetFeaturedPlaylists,
-                                        private val getRecentlyPlayedTracksUseCase: GetRecentlyPlayedTracksUseCase
+                                        private val getRecentlyPlayedTracksUseCase: GetRecentlyPlayedTracksUseCase,
 ) : ViewModel() {
 
     private var _userData: MutableLiveData<Result<User>> = MutableLiveData()

@@ -8,9 +8,9 @@ interface SpotifyPlayerApi {
 
 //https://developer.spotify.com/documentation/web-api/reference/#/operations/get-information-about-the-users-current-playback
 
-    @GET("me/player/recently-playing")
+    @GET("me/player/recently-played")
     suspend fun getRecentlyPlayedTracks(
         @Query("limit") limit: Int,
+        @Query("offset") offset :Int,
         ): PlayerResponse
-
 }

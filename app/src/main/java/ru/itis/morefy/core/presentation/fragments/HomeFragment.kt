@@ -84,7 +84,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     updateView(user)
                 },
                 onFailure = {
-                    Log.e("ERROR INSIDE FRAGMENT", "UNABLE TO GET DATA FROM VIEW")
+                    Log.e("ERROR HOME FRAGMENT", "UNABLE TO GET DATA FROM VIEW")
                 }
             )
         }
@@ -95,7 +95,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     updateRecyclerAndView(playlists)
                 },
                 onFailure = {
-                    Log.e("ERROR PROFILE FRAGMENT", "UNABLE TO GET DATA FROM VIEW - PLAYLISTS")
+                    Log.e("ERROR HOME FRAGMENT", "UNABLE TO GET DATA FROM VIEW - PLAYLISTS")
                 }
             )
         }
@@ -107,7 +107,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     updateTrack(track)
                 },
                 onFailure = {
-                    Log.e("ERROR PROFILE FRAGMENT", "UNABLE TO GET DATA FROM VIEW - PLAYLISTS")
+                    Log.e("ERROR HOME FRAGMENT", "UNABLE TO GET DATA FROM VIEW - TRACKS")
                 }
             )
         }
