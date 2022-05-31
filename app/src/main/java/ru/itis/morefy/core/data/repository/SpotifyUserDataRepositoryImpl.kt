@@ -3,6 +3,7 @@ package ru.itis.morefy.core.data.repository
 import android.util.Log
 import retrofit2.HttpException
 import ru.itis.morefy.core.data.api.MAX_LIMIT_AMOUNT
+import ru.itis.morefy.core.data.api.SpotifyPlayerApi
 import ru.itis.morefy.core.data.api.SpotifyPlaylistsApi
 import ru.itis.morefy.core.data.api.SpotifyUsersApi
 import ru.itis.morefy.core.data.mapper.ArtistsMapper
@@ -19,10 +20,11 @@ import javax.inject.Inject
 class SpotifyUserDataRepositoryImpl @Inject constructor(
     private val usersApi: SpotifyUsersApi,
     private val playlistsApi: SpotifyPlaylistsApi,
+    private val playerApi: SpotifyPlayerApi,
     private val tracksMapper: TracksMapper,
     private val artistsMapper: ArtistsMapper,
     private val userMapper: UserDataMapper,
-    private val playlistsMapper: PlaylistsMapper
+    private val playlistsMapper: PlaylistsMapper,
 ) : UserDataRepository {
 
     override suspend fun getCurrentUserTopTracks(timeRange: String, amount: Int): List<Track> {
@@ -115,6 +117,47 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
         } catch (e: HttpException) {
             Log.e("UserDataRepo", "Current User Profile Exception: ${e.message()}")
             throw e
+        }
+    }
+
+    override suspend fun getFeaturedPlaylists(): List<Playlist> {
+        try {
+            val response = playlistsApi
+                .getFeaturedPlaylists( MAX_LIMIT_AMOUNT, "ru_RU",0)
+            val amount = response.playlists.total
+
+            return if (amount > MAX_LIMIT_AMOUNT) {
+                val list = playlistsMapper.mapFrom(response.playlists).toMutableList()
+                var amountLeft = amount - MAX_LIMIT_AMOUNT
+                var offset = MAX_LIMIT_AMOUNT
+                while (amountLeft > 0) {
+                    val amountToRequest = Math.min(MAX_LIMIT_AMOUNT, amountLeft)
+                    val resp = playlistsApi.getCurrentUserPlaylists(amountToRequest, offset)
+                    offset += amountToRequest
+                    list.addAll(playlistsMapper.mapFrom(resp))
+                    amountLeft -= amountToRequest
+                }
+                list
+            } else {
+                playlistsMapper.mapFrom(response.playlists)
+            }
+        } catch (ex: HttpException) {
+            ex.printStackTrace()
+            Log.e("UserDataRepo", "Playlists Exception: ${ex.message()}")
+            throw ex
+        }
+    }
+
+    override suspend fun getRecentlyPlayedTracks():List<Track> {
+        try {
+            // if amount > 50 =) => need to create multiple requests
+            Log.e("USER DATA REPO", "SENDING REQUEST")
+            val tracksResponse = playerApi.getRecentlyPlayedTracks(1,0)
+            return tracksMapper.mapFrom(tracksResponse)
+        } catch (ex: HttpException) {
+            ex.printStackTrace()
+            Log.e("UserDataRepo", "Track Exception: ${ex.message()}")
+            throw ex
         }
     }
 }
