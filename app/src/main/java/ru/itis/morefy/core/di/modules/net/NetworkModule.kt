@@ -105,6 +105,11 @@ class NetworkModule {
     }
 
     @Provides
+    fun providePlayerApi(retrofit: Retrofit):SpotifyPlayerApi{
+        return retrofit.create(SpotifyPlayerApi::class.java)
+    }
+
+    @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, factory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
@@ -118,4 +123,5 @@ class NetworkModule {
     fun provideConverterFactory(): GsonConverterFactory {
         return GsonConverterFactory.create()
     }
+
 }

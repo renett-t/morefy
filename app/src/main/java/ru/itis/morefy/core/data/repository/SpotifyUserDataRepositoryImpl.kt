@@ -151,11 +151,11 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
     override suspend fun getRecentlyPlayedTracks():List<Track> {
         try {
             // if amount > 50 =) => need to create multiple requests
-            Log.e("TOP TRACKS REPO", "SENDING REQUEST")
+            Log.e("USER DATA REPO", "SENDING REQUEST")
             val tracksResponse = playerApi.getRecentlyPlayedTracks(MAX_LIMIT_AMOUNT)
             return tracksMapper.mapFrom(tracksResponse)
         } catch (e: HttpException) {
-            Log.e("USER DATA REPO EXCEPTION", e.message())
+            Log.e("USER DATA REPO EXCEPTION TRACK", e.message())
             throw e
         }
     }
