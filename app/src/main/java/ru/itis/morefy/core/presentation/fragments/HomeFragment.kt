@@ -124,9 +124,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun updateTrack(tracks: Track){
         with(binding){
-            Glide.with(requireContext()).load(tracks.previewUrl).into(ivSongImg)
+            Glide.with(requireContext()).load(tracks.album.imageUrl).into(ivSongImg)
             tvSongName.text = tracks.name
-            tvSongAuthor.text = tracks.name
+            tvSongAuthor.text = tracks.album.name
         }
     }
 }
