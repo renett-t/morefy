@@ -5,8 +5,7 @@ import ru.itis.morefy.core.data.response.common.Track
 data class PlayerResponse(
     val cursors: Cursors,
     val href: String,
-    val items: List<Track>,
+    val items: List<PlayedTrack>,
     val limit: Int,
     val next: String,
-    val total: Int
 )

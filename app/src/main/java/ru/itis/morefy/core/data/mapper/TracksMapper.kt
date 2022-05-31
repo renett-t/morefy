@@ -49,7 +49,9 @@ class TracksMapper @Inject constructor(
         Log.e("RECENTLY TRACKS", "GOT RESULT. MAPPING")
         val list = ArrayList<Track>()
 
-        for (item in response.items) {
+        for (playedTrack in response.items) {
+            Log.e("items!", "content = ${playedTrack.toString()}")
+            val item = playedTrack.track
             val album = Album(
                 item.album.id, item.album.album_type,
                 item.album.total_tracks, item.album.name,
