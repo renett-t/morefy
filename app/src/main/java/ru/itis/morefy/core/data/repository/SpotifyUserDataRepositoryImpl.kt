@@ -195,4 +195,14 @@ class SpotifyUserDataRepositoryImpl @Inject constructor(
             throw ex
         }
     }
+
+    override suspend fun getUserProfileByUserId(userId:String): User{
+        return try {
+            val userResponse = usersApi.getUserProfileByUserId(userId)
+            userMapper.mapFrom(userResponse)
+        } catch (e: HttpException) {
+            Log.e("UserDataRepo", " User Profile By Id Exception: ${e.message()}")
+            throw e
+        }
+    }
 }
