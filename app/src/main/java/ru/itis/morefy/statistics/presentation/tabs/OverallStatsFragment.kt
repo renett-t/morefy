@@ -60,7 +60,7 @@ class OverallStatsFragment : Fragment(R.layout.fragment_overall_stats) {
     }
 
     private fun startDownloadingData() {
-        viewModel.getTopGenres(timeRange = "long_term") // todo: btn to change timeRange
+        viewModel.getUserTopGenres(timeRange = viewModel.getTimeRange())
     }
 
     private fun initRecyclers() {

@@ -27,9 +27,6 @@ class TopArtistsFragment : Fragment(R.layout.fragment_top_artists) {
     @Inject
     lateinit var statsViewModel: StatsViewModel
 
-    private var timeRange = "long_term"
-    private var amount = 50
-
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
         super.onAttach(context)
@@ -45,7 +42,10 @@ class TopArtistsFragment : Fragment(R.layout.fragment_top_artists) {
     }
 
     private fun getData() {
-        statsViewModel.getUserTopArtists(timeRange, amount)
+        statsViewModel.getUserTopArtists(
+            statsViewModel.getTimeRange(),
+            statsViewModel.getAmountToRequest()
+        )
     }
 
     private fun initRecyclerView() {

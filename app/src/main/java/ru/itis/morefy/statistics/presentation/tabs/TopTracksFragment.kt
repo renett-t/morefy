@@ -29,8 +29,6 @@ class TopTracksFragment : Fragment(R.layout.fragment_top_tracks) {
     @Inject
     lateinit var statsViewModel: StatsViewModel
 
-    private var timeRange = "long_term"
-    private var amount = 50
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -47,7 +45,9 @@ class TopTracksFragment : Fragment(R.layout.fragment_top_tracks) {
     }
 
     private fun getData() {
-        statsViewModel.getUserTopTracks(timeRange, amount)
+        statsViewModel.getUserTopTracks(
+            statsViewModel.getTimeRange(), statsViewModel.getAmountToRequest()
+        )
     }
 
     private fun initRecyclerView() {
