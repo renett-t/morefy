@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.models.User
 import ru.itis.morefy.core.presentation.extensions.appComponent
-import ru.itis.morefy.core.presentation.extensions.showMessage
 import ru.itis.morefy.core.presentation.viewmodels.AboutUsViewModel
 import ru.itis.morefy.databinding.FragmentAboutUsBinding
 import javax.inject.Inject
@@ -34,25 +33,25 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         binding = FragmentAboutUsBinding.bind(view)
 
         initObserver()
-        startDownloadingData("n5kkhipf2kh5pq22f4eg80pqt")
-        startDownloadingData("31uukgzsjhqvh25w6hiztzbjtmhe")
+        startDownloadingData(USER_OLEG,USER_REGINA)
 
         navigateToSpotify()
     }
 
-    private fun startDownloadingData(UserId:String) {
-        viewModel.getUserData(UserId)
+    private fun startDownloadingData(UserId1:String,UserId2: String) {
+        viewModel.getUserData1(UserId1)
+        viewModel.getUserData2(UserId2)
     }
 
 
     private fun navigateToSpotify() {
         with(binding){
             ivProfilePictureFirst.setOnClickListener{
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://open.spotify.com/user/n5kkhipf2kh5pq22f4eg80pqt"))
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(OLEG_URI))
                 startActivity(browserIntent)
             }
             ivProfilePictureSecond.setOnClickListener{
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://open.spotify.com/user/31uukgzsjhqvh25w6hiztzbjtmhe"))
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(REGINA_URI))
                 startActivity(browserIntent)
             }
         }
@@ -61,7 +60,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
 
     private fun initObserver() {
 
-        viewModel.userData.observe(viewLifecycleOwner) {
+        viewModel.userData1.observe(viewLifecycleOwner) {
             it.fold(
                 onSuccess = { user ->
                     updateViewFirstUser(user)
@@ -72,7 +71,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
             )
         }
 
-        viewModel.userData.observe(viewLifecycleOwner) {
+        viewModel.userData2.observe(viewLifecycleOwner) {
             it.fold(
                 onSuccess = { user ->
                     updateViewSecondUser(user)
@@ -100,4 +99,10 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         }
     }
 
+    companion object{
+        val USER_OLEG = "n5kkhipf2kh5pq22f4eg80pqt"
+        val OLEG_URI = "https://open.spotify.com/user/n5kkhipf2kh5pq22f4eg80pqt"
+        val USER_REGINA = "31uukgzsjhqvh25w6hiztzbjtmhe"
+        val REGINA_URI= "https://open.spotify.com/user/31uukgzsjhqvh25w6hiztzbjtmhe"
+    }
 }

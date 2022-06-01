@@ -11,15 +11,18 @@ import javax.inject.Inject
 class AboutUsViewModel @Inject constructor(private val getUserProfileByUserId: GetUserProfileByUserId
 ) : ViewModel() {
 
-    private var _userData: MutableLiveData<Result<User>> = MutableLiveData()
-    val userData: MutableLiveData<Result<User>> = _userData
+    private var _userData1: MutableLiveData<Result<User>> = MutableLiveData()
+    val userData1: MutableLiveData<Result<User>> = _userData1
 
-    fun getUserData(userId: String) {
+    private var _userData2: MutableLiveData<Result<User>> = MutableLiveData()
+    val userData2: MutableLiveData<Result<User>> = _userData2
+
+    fun getUserData1(userId: String) {
         viewModelScope.launch {
             try {
-                _userData.value = Result.success(getUserProfileByUserId(userId))
+                _userData1.value = Result.success(getUserProfileByUserId(userId))
             } catch (ex: Exception) {
-                _userData.value = Result.failure(ex)
+                _userData1.value = Result.failure(ex)
             }
         }
     }
@@ -27,9 +30,9 @@ class AboutUsViewModel @Inject constructor(private val getUserProfileByUserId: G
     fun getUserData2(userId: String) {
         viewModelScope.launch {
             try {
-                _userData.value = Result.success(getUserProfileByUserId(userId))
+                _userData2.value = Result.success(getUserProfileByUserId(userId))
             } catch (ex: Exception) {
-                _userData.value = Result.failure(ex)
+                _userData2.value = Result.failure(ex)
             }
         }
     }
