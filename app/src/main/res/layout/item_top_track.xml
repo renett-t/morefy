@@ -71,6 +71,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/defaultMargin"/>
+        android:layout_marginEnd="@dimen/defaultMargin"
+        android:contentDescription="@string/explicit_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

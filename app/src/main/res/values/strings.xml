@@ -61,4 +61,12 @@
     <string name="logout_title">Выход из аккаунта</string>
     <string name="time_range_change_button">Изменить время, за которое собрать статистику</string>
 
+    <string name="album_cover_image">Album Cover Image</string>
+    <string name="artist_image_cover">Artist Image Cover</string>
+    <string name="header_from_album">Из альбома:</string>
+    <string name="header_artist_title">Исполнитель:</string>
+    <string name="listen_in_spotify">Открыть в Spotify</string>
+    <string name="explicit_image">Explicit Image</string>
+    <string name="header_details">Детали:</string>
+
 </resources>
