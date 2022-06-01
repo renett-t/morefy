@@ -3,11 +3,15 @@ package ru.itis.morefy.statistics.presentation
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.itis.morefy.R
+import ru.itis.morefy.core.data.api.MAX_LIMIT_AMOUNT
 import ru.itis.morefy.core.presentation.extensions.appComponent
+import ru.itis.morefy.core.presentation.extensions.showMessage
 import ru.itis.morefy.databinding.FragmentStatisticsBinding
 import ru.itis.morefy.statistics.di.assisted.AdapterFactory
 import ru.itis.morefy.statistics.presentation.tabs.OverallStatsFragment
@@ -45,8 +49,11 @@ class StatisticsFragment: Fragment(R.layout.fragment_statistics) {
     @Inject
     lateinit var statsViewModel: StatsViewModel
 
+    private var isFabClicked = false
+
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
+        initViewModelParams()
         super.onAttach(context)
     }
 
@@ -58,6 +65,11 @@ class StatisticsFragment: Fragment(R.layout.fragment_statistics) {
         initTabsAndViewPager()
         initChangeTimeRange()
         initObserversOnViewModel()
+    }
+
+    private fun initViewModelParams() {
+        statsViewModel.setTimeRange(getString(R.string.time_range_short))
+        statsViewModel.setAmountToRequest(MAX_LIMIT_AMOUNT)
     }
 
     private fun initTabsAndViewPager() {
@@ -92,7 +104,100 @@ class StatisticsFragment: Fragment(R.layout.fragment_statistics) {
     }
 
     private fun initChangeTimeRange() {
-        // todo add button to change time range and pass that variable to fragments
+        with(binding) {
+            fabChangeTimeRange.setOnClickListener {
+                changeVisibilityOfFabs(isFabClicked)
+                setAnimationsOnFabs(isFabClicked)
+                setClickableFabs(!isFabClicked)
+                isFabClicked = !isFabClicked
+            }
+            fabChangeTimeRange.setOnLongClickListener {
+                showMessage(getString(R.string.time_range_change_button))
+                true
+            }
+
+            fabOneMonth.setOnClickListener{
+                statsViewModel.setTimeRange(getString(R.string.time_range_short))
+                startReloadingData()
+            }
+            fabOneMonth.setOnLongClickListener {
+                showMessage(getString(R.string.time_range_short_explained))
+                true
+            }
+
+            fabSixMonths.setOnClickListener{
+                statsViewModel.setTimeRange(getString(R.string.time_range_medium))
+                startReloadingData()
+            }
+            fabSixMonths.setOnLongClickListener {
+                showMessage(getString(R.string.time_range_medium_explained))
+                true
+            }
+
+            fabAllTime.setOnClickListener{
+                statsViewModel.setTimeRange(getString(R.string.time_range_long))
+                startReloadingData()
+            }
+            fabAllTime.setOnLongClickListener {
+                showMessage(getString(R.string.time_range_long_explained))
+                true
+            }
+        }
+    }
+
+    private fun setClickableFabs(clickable: Boolean) {
+        with(binding) {
+            fabSixMonths.isEnabled = clickable
+            fabOneMonth.isEnabled = clickable
+            fabAllTime.isEnabled = clickable
+        }
+    }
+
+    private fun changeVisibilityOfFabs(fabClicked: Boolean) {
+        with(binding) {
+            if (fabClicked) {
+                fabSixMonths.visibility = View.VISIBLE
+                fabOneMonth.visibility = View.VISIBLE
+                fabAllTime.visibility = View.VISIBLE
+            } else {
+                fabSixMonths.visibility = View.INVISIBLE
+                fabOneMonth.visibility = View.INVISIBLE
+                fabAllTime.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private val rotateOpen: Animation by lazy {
+        AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_open_anim)
+    }
+    private val rotateClose: Animation by lazy {
+        AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_close_anim)
+    }
+    private val fromBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(requireContext(), R.anim.from_button_anim)
+    }
+    private val toBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(requireContext(), R.anim.to_button_anim)
+    }
+
+    private fun setAnimationsOnFabs(fabClicked: Boolean) {
+        with(binding) {
+            if (fabClicked) {
+                fabChangeTimeRange.startAnimation(rotateClose)
+                fabSixMonths.startAnimation(toBottom)
+                fabOneMonth.startAnimation(toBottom)
+                fabAllTime.startAnimation(toBottom)
+            } else {
+                fabChangeTimeRange.startAnimation(rotateOpen)
+                fabSixMonths.startAnimation(fromBottom)
+                fabOneMonth.startAnimation(fromBottom)
+                fabAllTime.startAnimation(fromBottom)
+            }
+        }
+    }
+
+    private fun startReloadingData() {
+        statsViewModel.reloadData()
     }
 }
 
