@@ -8,6 +8,7 @@ import ru.itis.morefy.core.presentation.MainActivity
 import ru.itis.morefy.core.presentation.fragments.HomeFragment
 import ru.itis.morefy.core.presentation.fragments.ProfileFragment
 import ru.itis.morefy.core.presentation.fragments.SettingsFragment
+import ru.itis.morefy.core.presentation.fragments.details.TrackFragment
 import ru.itis.morefy.statistics.presentation.StatisticsFragment
 import ru.itis.morefy.statistics.presentation.tabs.OverallStatsFragment
 import ru.itis.morefy.statistics.presentation.tabs.TopArtistsFragment
@@ -28,6 +29,7 @@ interface AppComponent {
 
     fun inject(profileFragment: ProfileFragment)
     fun inject(homeFragment: HomeFragment)
+    fun inject(trackFragment: TrackFragment)
 
     @Component.Builder
     interface Builder {

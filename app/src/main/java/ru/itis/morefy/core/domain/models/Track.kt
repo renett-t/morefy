@@ -18,4 +18,12 @@ data class Track (
 
     val previewUrl: String?,
     val uri: String,
-)
+) {
+    constructor(
+        id: String, album: Album,
+        artists: ArrayList<Artist>, durationMs: Int,
+        isExplicit: Boolean, name: String,
+        popularity: Int, previewUrl: String?,
+        uri: String
+    ) : this(id, album, artists, durationMs, isExplicit, name, popularity, null, previewUrl, uri)
+}
