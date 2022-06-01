@@ -147,6 +147,14 @@ interface SpotifyPlaylistsApi {
         @Query("timestamp") timestamp: String
     ): BrowsePlaylistsResponse
 
+    @GET("browse/featured-playlists")
+    suspend fun getFeaturedPlaylists(
+//        @Query("country") country: String,
+        @Query("limit") limit: Int,
+        @Query("locale") locale: String,
+        @Query("offset") offset: Int
+    ): BrowsePlaylistsResponse
+
     @GET("browse/categories/{category_id}/playlists")
     suspend fun getPlaylistsByCategory(
         @Path("category_id") userId: String

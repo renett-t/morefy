@@ -12,4 +12,8 @@ interface UserDataRepository {
     suspend fun getCurrentUserFollowedArtists(): List<Artist>
     suspend fun getCurrentUserFollowedArtistsCount(): Int
     suspend fun getCurrentUserProfile(): User
+
+    suspend fun getFeaturedPlaylists(): List<Playlist>
+    suspend fun getRecentlyPlayedTracks() : List<Track>
 }
+ 
