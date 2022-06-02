@@ -2,6 +2,7 @@ package ru.itis.morefy.core.data.mapper
 
 import ru.itis.morefy.core.data.response.track.TrackAudioFeatures
 import ru.itis.morefy.core.data.response.track.TracksAudioFeatures
+import ru.itis.morefy.core.domain.models.features.MusicalKey
 import ru.itis.morefy.core.domain.models.features.TrackFeatures
 import javax.inject.Inject
 
@@ -14,10 +15,29 @@ class TrackFeaturesMapper @Inject constructor() {
             response.instrumentalness, response.liveness,
             response.loudness, response.speechiness,
             response.valence,
-            response.mode, response.key, // todo: add mapping to string representation
+            response.mode, getMusicalKey(response.key),
             response.tempo, response.time_signature,
             response.analysis_url
         )
+    }
+
+    private fun getMusicalKey(key: Int): MusicalKey {
+        return when(key) {
+            -1 -> MusicalKey.Undefined
+            0 -> MusicalKey.C
+            1 -> MusicalKey.CD
+            2 -> MusicalKey.D
+            3 -> MusicalKey.DE
+            4 -> MusicalKey.E
+            5 -> MusicalKey.F
+            6 -> MusicalKey.FG
+            7 -> MusicalKey.G
+            8 -> MusicalKey.GA
+            9 -> MusicalKey.A
+            10 -> MusicalKey.AB
+            11 -> MusicalKey.B
+            else -> MusicalKey.Undefined
+        }
     }
 
     fun mapFrom(response: TracksAudioFeatures): List<TrackFeatures> {

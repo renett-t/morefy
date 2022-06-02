@@ -13,7 +13,7 @@ data class TrackFeatures (
     val valence: Float,
 
     val mode: Int,
-    val key: Int,
+    val key: MusicalKey,
 
     val tempo: Float,
     val timeSignature: Int,
