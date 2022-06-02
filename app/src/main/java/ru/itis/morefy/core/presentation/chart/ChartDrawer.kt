@@ -23,7 +23,7 @@ class ChartDrawer @Inject constructor(
 ) {
     private var tfLight: Typeface? = null
 
-    fun drawRadarChart(context: Context, chart: RadarChart, data: Map<String, Float>, color: Int = Color.LTGRAY) {
+    fun drawRadarChart(context: Context, chart: RadarChart, title: String, data: Map<String, Float>, color: Int = Color.LTGRAY) {
         val keys = data.keys.toList()
         val values = ArrayList<Float>()
         for (key in keys)
@@ -42,7 +42,7 @@ class ChartDrawer @Inject constructor(
         chart.webAlpha = 100
 
         addMarkerToChart(context, chart)
-        setData(context, chart, values)
+        setData(title, chart, values)
         addAnimations(chart)
         initX(chart.xAxis, keys, values)
         initY(chart.yAxis, keys.size)
@@ -98,14 +98,14 @@ class ChartDrawer @Inject constructor(
         chart.animateXY(1400, 1400, Easing.EaseInOutQuad)
     }
 
-    private fun setData(context: Context, chart: RadarChart, values: List<Float>) {
+    private fun setData(title: String, chart: RadarChart, values: List<Float>) {
         val entries = ArrayList<RadarEntry>()
 
         for (value in values) {
             entries.add(RadarEntry(value))
         }
 
-        val set1 = RadarDataSet(entries, context.getString(R.string.track_features_analysis))
+        val set1 = RadarDataSet(entries,  title)
         set1.color = Color.rgb(103, 110, 129)           // todo: change color depending on data
         set1.fillColor = Color.rgb(103, 110, 129)
         set1.setDrawFilled(true)
