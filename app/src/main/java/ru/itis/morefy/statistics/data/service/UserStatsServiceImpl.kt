@@ -6,6 +6,7 @@ import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.domain.models.Genre
 import ru.itis.morefy.core.domain.models.features.AverageTracksFeatures
 import ru.itis.morefy.core.domain.models.features.MusicalKey
+import ru.itis.morefy.core.domain.models.features.MusicalMode
 import ru.itis.morefy.core.domain.usecase.GetArtistUseCase
 import ru.itis.morefy.core.domain.usecase.GetTrackUseCase
 import ru.itis.morefy.statistics.domain.service.UserStatsService
@@ -61,7 +62,7 @@ class UserStatsServiceImpl @Inject constructor(
         val features = getTrackUseCase.getTracksFeatures(
             topTracks.stream().map { it.id }.collect(Collectors.toList())
         )
-        val modesMap: MutableMap<Int, Int> = HashMap()
+        val modesMap: MutableMap<MusicalMode, Int> = HashMap()
         val keysMap: MutableMap<MusicalKey, Int> = HashMap()
 
         val average = AverageTracksFeatures()

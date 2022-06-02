@@ -12,7 +12,7 @@ data class AverageTracksFeatures(
     var speechiness: Float,
     var valence: Float,
 
-    var mode: Int,
+    var mode: MusicalMode,
     var key: MusicalKey,
 
     var tempo: Float
@@ -20,7 +20,7 @@ data class AverageTracksFeatures(
     constructor() : this(
         null, -1f, -1f,
         -1f, -1f, -1f, -1f,
-        -1f, -1f, -1,
-        MusicalKey.Undefined, -1f
+        -1f, -1f, MusicalMode.UNDEFINED,
+        MusicalKey.UNDEFINED, -1f
     )
 }
