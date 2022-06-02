@@ -24,8 +24,6 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 private const val TIME_PERIOD_MS = 24 * 60 * 10000 // 24 hours
-private const val TIME_PERIOD_MS_TEST = 300000 // 5 minutes
-
 class UserStatsServiceImpl @Inject constructor(
     private val getUserTopArtistsUseCase: GetUserTopArtistsUseCase,
     private val getArtistUseCase: GetArtistUseCase,
@@ -70,23 +68,23 @@ class UserStatsServiceImpl @Inject constructor(
     }
 
     override suspend fun getUserOverallListeningStats(timeRange: TimeRange): AverageTracksFeatures {
-        val stats = avgStatsDao.getStatsBeforeTimeStamp(
-            Date().time - TIME_PERIOD_MS_TEST
+        val stats = avgStatsDao.getStatsAfterTimeStampWithRange(
+            Date().time - TIME_PERIOD_MS, timeRange
         )
 
-        Log.d("STATS SERVICE", "Query result: count${stats.size}, values = $stats")
-        Log.d("STATS SERVICE", "Всего сущностей в бд = ${avgStatsDao.getAllStats().size}")
+        Log.d("STATS SERVICE", "Query (getStatsAfterTimeStampWithRange) result: count = ${stats.size}, values = $stats")
+        Log.d("STATS SERVICE", "Total amount of entities in db = ${avgStatsDao.getAllStats().size}")
 
         return if (stats.isNotEmpty()) {
             if (checkIfLastOkay(stats.last(), timeRange)) {
-                Log.d("STATS SERVICE", "Последняя сущность ок, возвращаем её = ${stats.last()}")
+                Log.d("STATS SERVICE", "Last entity is okay, meets requirements, returning ${stats.last()}")
                 getAverageFromDbEntity(stats.last())
             } else {
-                Log.d("STATS SERVICE", "Не прошёл по времени или time range (запросили $timeRange). Время сущности = ${stats.last().createdAt}, timeRange=${stats.last().timeRange}")
+                Log.d("STATS SERVICE", "Entity does not fit requirements: Too old or wrong timeRange (requested for $timeRange). Time Of Entity = ${stats.last().createdAt}, TimeRange = ${stats.last().timeRange}")
                 downloadNewAverageEntity(timeRange)
             }
         } else {
-            Log.d("STATS SERVICE", "Просто загружаем новую сущность")
+            Log.d("STATS SERVICE", "Query has returned empty list, just downloading new entity")
             downloadNewAverageEntity(timeRange)
         }
     }
@@ -143,7 +141,9 @@ class UserStatsServiceImpl @Inject constructor(
     }
 
     private fun checkIfLastOkay(last: AverageStats, timeRange: TimeRange): Boolean {
-        return last.timeRange == timeRange && (last.createdAt.time + TIME_PERIOD_MS_TEST < Date().time)
+        val t1 = last.timeRange.time == timeRange.time
+        val t2 = last.createdAt.time + TIME_PERIOD_MS > Date().time
+        return t1 && t2
     }
 
     private fun getAverageFromDbEntity(item: AverageStats): AverageTracksFeatures {
@@ -183,8 +183,8 @@ class UserStatsServiceImpl @Inject constructor(
                 data.key, data.tempo
             )
 
-            Log.d("STATS SERVICE", "Saving new entity = $entity")
             avgStatsDao.save(entity)
+            Log.d("STATS SERVICE", "Saved new entity = $entity")
         }
     }
 

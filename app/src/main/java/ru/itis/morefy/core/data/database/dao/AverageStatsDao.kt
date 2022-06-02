@@ -1,6 +1,7 @@
 package ru.itis.morefy.core.data.database.dao
 
 import androidx.room.*
+import ru.itis.morefy.core.domain.models.TimeRange
 import ru.itis.morefy.core.domain.models.datamodels.AverageStats
 import java.util.*
 
@@ -29,6 +30,19 @@ abstract class AverageStatsDao {
 
     @Query("SELECT * FROM average_stats WHERE created_at >= :time")
     abstract suspend fun getStatsAfterTimeStamp(time: Long): List<AverageStats>
+
+    @Query("SELECT * FROM average_stats WHERE created_at <= :time AND time_range = :timeRange")
+    abstract suspend fun getStatsBeforeTimeStampWithRange(
+        time: Long,
+        timeRange: TimeRange
+    ): List<AverageStats>
+
+    @Query("SELECT * FROM average_stats WHERE created_at >= :time AND time_range = :timeRange")
+    abstract suspend fun getStatsAfterTimeStampWithRange(
+        time: Long,
+        timeRange: TimeRange
+    ): List<AverageStats>
+
 
     @Delete
     abstract suspend fun deleteAverageStats(vararg entities: AverageStats)
