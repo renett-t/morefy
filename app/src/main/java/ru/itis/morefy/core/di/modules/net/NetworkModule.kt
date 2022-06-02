@@ -32,7 +32,7 @@ class NetworkModule {
             .authenticator(authenticator)
             .also {
                 if (BuildConfig.DEBUG) {
-                    it.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    it.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
                 }
             }
             .build()

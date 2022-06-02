@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import ru.itis.morefy.R
 import ru.itis.morefy.core.presentation.extensions.appComponent
+import ru.itis.morefy.core.presentation.extensions.showMessage
 import ru.itis.morefy.databinding.FragmentTopArtistsBinding
 import ru.itis.morefy.statistics.di.assisted.TopArtistsAdapterFactory
 import ru.itis.morefy.statistics.presentation.rv.TopArtistAdapter
@@ -89,13 +90,5 @@ class TopArtistsFragment : Fragment(R.layout.fragment_top_artists) {
 //            options
 //        )
         showMessage("There should be navigation to artist screen")
-    }
-
-    private fun showMessage(message: String) {
-        Snackbar.make(
-            requireActivity().findViewById(R.id.container),
-            message,
-            Snackbar.LENGTH_SHORT
-        ).show()
     }
 }

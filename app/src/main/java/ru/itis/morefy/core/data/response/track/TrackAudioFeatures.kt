@@ -1,22 +1,22 @@
 package ru.itis.morefy.core.data.response.track
 
 data class TrackAudioFeatures(
-    val acousticness: Double,
+    val acousticness: Float,
     val analysis_url: String,
-    val danceability: Double,
+    val danceability: Float,
     val duration_ms: Int,
-    val energy: Double,
+    val energy: Float,
     val id: String,
-    val instrumentalness: Int,
+    val instrumentalness: Float,
     val key: Int,
-    val liveness: Double,
-    val loudness: Double,
+    val liveness: Float,
+    val loudness: Float,
     val mode: Int,
-    val speechiness: Double,
-    val tempo: Double,
+    val speechiness: Float,
+    val tempo: Float,
     val time_signature: Int,
     val track_href: String,
     val type: String,
     val uri: String,
-    val valence: Double
+    val valence: Float
 )

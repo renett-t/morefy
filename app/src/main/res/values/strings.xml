@@ -61,4 +61,23 @@
     <string name="logout_title">Выход из аккаунта</string>
     <string name="time_range_change_button">Изменить время, за которое собрать статистику</string>
 
+    <string name="album_cover_image">Album Cover Image</string>
+    <string name="artist_image_cover">Artist Image Cover</string>
+    <string name="header_from_album">Из альбома:</string>
+    <string name="header_artist_title">Исполнители:</string>
+    <string name="listen_in_spotify">Открыть в Spotify</string>
+    <string name="explicit_image">Explicit Image</string>
+    <string name="header_details">Детали:</string>
+    <string name="track_tempo">"Tempo: %1$.2f"</string>
+    <string name="track_key">Key: %1$s</string>
+    <string name="acousticness">акустичность</string>
+    <string name="danceability">танцевальность</string>
+    <string name="energy">энергичность</string>
+    <string name="instrumentalness">инструментальность</string>
+    <string name="liveness">лайв</string>
+    <string name="loudness">громкость</string>
+    <string name="speechiness">речь</string>
+    <string name="valence">позитивность</string>
+    <string name="track_features_analysis">Анализ свойств трека</string>
+
 </resources>
