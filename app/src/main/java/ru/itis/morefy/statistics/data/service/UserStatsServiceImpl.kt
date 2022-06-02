@@ -1,9 +1,14 @@
 package ru.itis.morefy.statistics.data.service
 
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.itis.morefy.core.data.api.MAX_LIMIT_AMOUNT
+import ru.itis.morefy.core.data.database.dao.AverageStatsDao
 import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.domain.models.Genre
+import ru.itis.morefy.core.domain.models.TimeRange
+import ru.itis.morefy.core.domain.models.datamodels.AverageStats
 import ru.itis.morefy.core.domain.models.features.AverageTracksFeatures
 import ru.itis.morefy.core.domain.models.features.MusicalKey
 import ru.itis.morefy.core.domain.models.features.MusicalMode
@@ -12,18 +17,25 @@ import ru.itis.morefy.core.domain.usecase.GetTrackUseCase
 import ru.itis.morefy.statistics.domain.service.UserStatsService
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopArtistsUseCase
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopTracksUseCase
+import java.util.*
 import java.util.stream.Collectors
 import javax.inject.Inject
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+
+private const val TIME_PERIOD_MS = 24 * 60 * 10000 // 24 hours
+private const val TIME_PERIOD_MS_TEST = 300000 // 5 minutes
 
 class UserStatsServiceImpl @Inject constructor(
     private val getUserTopArtistsUseCase: GetUserTopArtistsUseCase,
     private val getArtistUseCase: GetArtistUseCase,
     private val getUserTopTracksUseCase: GetUserTopTracksUseCase,
-    private val getTrackUseCase: GetTrackUseCase
+    private val getTrackUseCase: GetTrackUseCase,
+    private val avgStatsDao: AverageStatsDao
 ) : UserStatsService {
 
-    override suspend fun getCurrentUserTopGenresByTopArtists(timeRange: String): Map<Genre, Int> {
-        val artists = getUserTopArtistsUseCase(timeRange, MAX_LIMIT_AMOUNT)
+    override suspend fun getCurrentUserTopGenresByTopArtists(timeRange: TimeRange): Map<Genre, Int> {
+        val artists = getUserTopArtistsUseCase(timeRange.time, MAX_LIMIT_AMOUNT)
         val genresMap: MutableMap<Genre, Int> = HashMap()
         var totalCount = 0
 
@@ -53,12 +65,34 @@ class UserStatsServiceImpl @Inject constructor(
             entry.value / totalCount
         }
 
-        saveTop5GenresToDb(genresMap, timeRange)
+        saveTop5GenresToDb(genresMap, timeRange.time)
         return genresMap
     }
 
-    override suspend fun getUserOverallListeningStats(timeRange: String): AverageTracksFeatures {
-        val topTracks = getUserTopTracksUseCase(timeRange, MAX_LIMIT_AMOUNT)
+    override suspend fun getUserOverallListeningStats(timeRange: TimeRange): AverageTracksFeatures {
+        val stats = avgStatsDao.getStatsBeforeTimeStamp(
+            Date().time - TIME_PERIOD_MS_TEST
+        )
+
+        Log.d("STATS SERVICE", "Query result: count${stats.size}, values = $stats")
+        Log.d("STATS SERVICE", "Всего сущностей в бд = ${avgStatsDao.getAllStats().size}")
+
+        return if (stats.isNotEmpty()) {
+            if (checkIfLastOkay(stats.last(), timeRange)) {
+                Log.d("STATS SERVICE", "Последняя сущность ок, возвращаем её = ${stats.last()}")
+                getAverageFromDbEntity(stats.last())
+            } else {
+                Log.d("STATS SERVICE", "Не прошёл по времени или time range (запросили $timeRange). Время сущности = ${stats.last().createdAt}, timeRange=${stats.last().timeRange}")
+                downloadNewAverageEntity(timeRange)
+            }
+        } else {
+            Log.d("STATS SERVICE", "Просто загружаем новую сущность")
+            downloadNewAverageEntity(timeRange)
+        }
+    }
+
+    private suspend fun downloadNewAverageEntity(timeRange: TimeRange): AverageTracksFeatures {
+        val topTracks = getUserTopTracksUseCase(timeRange.time, MAX_LIMIT_AMOUNT)
         val features = getTrackUseCase.getTracksFeatures(
             topTracks.stream().map { it.id }.collect(Collectors.toList())
         )
@@ -104,8 +138,21 @@ class UserStatsServiceImpl @Inject constructor(
         average.valence = average.valence / count
         average.tempo = average.tempo / count
 
-        saveCalculatedAverage(average, timeRange)
+        saveCalculatedAverage(average, timeRange.time)
         return average
+    }
+
+    private fun checkIfLastOkay(last: AverageStats, timeRange: TimeRange): Boolean {
+        return last.timeRange == timeRange && (last.createdAt.time + TIME_PERIOD_MS_TEST < Date().time)
+    }
+
+    private fun getAverageFromDbEntity(item: AverageStats): AverageTracksFeatures {
+        return AverageTracksFeatures(
+            null, item.acousticness, item.danceability, item.energy,
+            item.instrumentalness, item.liveness, item.loudness,
+            item.speechiness, item.valence,
+            item.mode, item.key, item.tempo
+        )
     }
 
     private fun <T> getTheMostFrequentItem(map: MutableMap<T, Int>): T {
@@ -126,7 +173,27 @@ class UserStatsServiceImpl @Inject constructor(
         // todo save to db
     }
 
-    private fun saveCalculatedAverage(average: AverageTracksFeatures, timeRange: String) {
-        // todo save to db
+    private suspend fun saveCalculatedAverage(data: AverageTracksFeatures, timeRange: String) {
+        withContext(Dispatchers.IO) {
+            val entity = AverageStats(
+                0, Date(), getTimeRange(timeRange),
+                data.acousticness, data.danceability, data.energy,
+                data.instrumentalness, data.liveness, data.loudness,
+                data.speechiness, data.valence, data.mode,
+                data.key, data.tempo
+            )
+
+            Log.d("STATS SERVICE", "Saving new entity = $entity")
+            avgStatsDao.save(entity)
+        }
+    }
+
+    private fun getTimeRange(timeRange: String): TimeRange {
+        return when (timeRange) {
+            "long_term" -> TimeRange.LONG
+            "medium_term" -> TimeRange.MEDIUM
+            "short_term" -> TimeRange.SHORT
+            else -> TimeRange.UNDEFINED
+        }
     }
 }
