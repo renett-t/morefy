@@ -8,38 +8,16 @@
     tools:context=".core.presentation.fragments.SupportFragment">
 
     <EditText
-        android:id="@+id/txtTo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="To"
-        android:layout_margin="30dp"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/txtSub"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtMsg" />
-
-    <EditText
-        android:id="@+id/txtSub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Subject"
-        android:layout_margin="30dp"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btnSend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
         android:id="@+id/txtMsg"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="30dp"
         android:layout_weight="1"
         android:gravity="top"
-        android:text="Message"
-        android:layout_margin="30dp"
+        android:hint="Your message must be here"
         android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnSend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
