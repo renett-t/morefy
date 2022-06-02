@@ -5,7 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import com.bumptech.glide.RequestManager
 import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.models.Track
 import ru.itis.morefy.core.domain.models.features.TrackFeatures
+import ru.itis.morefy.core.presentation.MainActivity
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.core.presentation.viewmodels.TrackViewModel
 import ru.itis.morefy.databinding.FragmentTrackBinding
@@ -34,28 +37,45 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
         super.onAttach(context)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        createNewActionBar()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    private fun createNewActionBar() {
+//        val inflater = LayoutInflater.from(context)
+//        val toolbar = inflater.inflate(R.layout.toolbar_when_collapsing, null)
+//            .findViewById<Toolbar>(R.id.toolbar_when_collapsing)
+//        (activity as MainActivity?)?.apply {
+//            supportActionBar?.hide()
+//            setSupportActionBar(toolbar)
+//        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTrackBinding.bind(view)
 
-        editToolbar()
         initObservers()
         arguments?.getString(TRACK_ID_KEY)?.let {
             startDownloadingData(it)
         }
     }
 
-    private fun editToolbar() {
-        (activity as AppCompatActivity?)?.apply {
-            supportActionBar?.hide()
-        }
+    override fun onDestroy() {
+        setMainActionBar()
+        super.onDestroy()
     }
 
-    override fun onDestroy() {
-        (activity as AppCompatActivity?)?.apply {
-            supportActionBar?.show()
-        }
-        super.onDestroy()
+    private fun setMainActionBar() {
+//        (activity as AppCompatActivity?)?.apply {
+//            val prevToolbar = findViewById<Toolbar>(R.id.main_toolbar)
+//            setSupportActionBar(findViewById(R.id.main_toolbar))
+//        }
     }
 
     private fun initObservers() {
