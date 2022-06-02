@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dak_green"
     tools:context="statistics.presentation.StatisticsFragment">
 
     <com.google.android.material.tabs.TabLayout
@@ -11,6 +12,7 @@
         app:tabMode="fixed"
         app:tabIndicatorColor="@color/white"
         app:tabIndicatorHeight="3dp"
+        android:background="@color/dark_green"
         app:tabSelectedTextColor="@color/light_green"
         app:tabTextColor="@color/gentle_white"
         app:tabTextAppearance="@style/TabsTextAppearance"
