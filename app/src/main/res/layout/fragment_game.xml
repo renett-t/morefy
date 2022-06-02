@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fontFamily="@font/inter_medium"
-    android:background="@color/another_green"
+    android:background="@color/dak_green"
     tools:context=".core.presentation.fragments.GameFragment">
 
     <Button
-        android:id="@+id/bt_support"
+        android:id="@+id/bt_quiz"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
