@@ -46,7 +46,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
 
             btnSupport.setOnClickListener {
-
+                parentFragmentManager.beginTransaction()
+                    .replace<SupportFragment>(R.id.container)
+                    .addToBackStack(null)
+                    .commit()
             }
         }
     }
