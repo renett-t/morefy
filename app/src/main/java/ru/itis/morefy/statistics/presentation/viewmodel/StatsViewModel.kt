@@ -10,6 +10,7 @@ import ru.itis.morefy.core.data.api.MAX_LIMIT_AMOUNT
 import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.domain.models.Genre
 import ru.itis.morefy.core.domain.models.Track
+import ru.itis.morefy.core.domain.models.features.AverageTracksFeatures
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopArtistsUseCase
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopTracksUseCase
 import ru.itis.morefy.statistics.domain.models.OverallListeningStats
@@ -33,8 +34,8 @@ class StatsViewModel @Inject constructor(
     private var _topArtists: MutableLiveData<Result<List<Artist>>> = MutableLiveData()
     val topArtists: LiveData<Result<List<Artist>>> = _topArtists
 
-    private var _overallStats: MutableLiveData<Result<OverallListeningStats>> = MutableLiveData()
-    val overallStats: LiveData<Result<OverallListeningStats>> = _overallStats
+    private var _overallStats: MutableLiveData<Result<AverageTracksFeatures>> = MutableLiveData()
+    val overallStats: LiveData<Result<AverageTracksFeatures>> = _overallStats
 
     private var _topGenres: MutableLiveData<Result<Map<Genre, Int>>> = MutableLiveData()
     val topGenres: LiveData<Result<Map<Genre, Int>>> = _topGenres
@@ -78,7 +79,7 @@ class StatsViewModel @Inject constructor(
     fun getOverallListeningStats(timeRange: String) {
         viewModelScope.launch {
             try {
-                val stats = userStatsService.getUserOverallListeningStatsUseCase(timeRange)
+                val stats = userStatsService.getUserOverallListeningStats(timeRange)
                 _overallStats.value = Result.success(stats)
             } catch (ex: Exception) {
                 _overallStats.value = Result.failure(ex)
@@ -90,7 +91,7 @@ class StatsViewModel @Inject constructor(
         this.getUserTopTracks(timeRange, amount)
         this.getUserTopArtists(timeRange, amount)
         this.getUserTopGenres(timeRange)
-//        this.getOverallListeningStats(timeRange)
+        this.getOverallListeningStats(timeRange)
     }
 
     fun getTimeRange(): String {

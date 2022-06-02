@@ -79,5 +79,6 @@
     <string name="speechiness">речь</string>
     <string name="valence">позитивность</string>
     <string name="track_features_analysis">Анализ свойств трека</string>
+    <string name="averall_listening_stats">Общая статистика прослушивания</string>
 
 </resources>

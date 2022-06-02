@@ -42,4 +42,14 @@ class GetTrackUseCase @Inject constructor(
             throw ex
         }
     }
+
+    suspend fun getTracksFeatures(ids: List<String>): List<TrackFeatures> {
+        return try {
+            withContext(dispatcher) {
+                tracksRepository.getTracksFeatures(ids)
+            }
+        } catch (ex: Exception) {
+            throw ex
+        }
+    }
 }

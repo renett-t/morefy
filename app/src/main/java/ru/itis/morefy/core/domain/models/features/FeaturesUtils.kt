@@ -35,7 +35,7 @@ class FeaturesUtils {
             map[context.getString(R.string.speechiness)] = features.speechiness
             map[context.getString(R.string.valence)] = features.valence
 
-            return map
+            return normalizeData(map)
         }
 
         private fun normalizeData(map: MutableMap<String, Float>): Map<String, Float> {
