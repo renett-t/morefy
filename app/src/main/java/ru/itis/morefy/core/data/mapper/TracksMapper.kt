@@ -1,7 +1,9 @@
 package ru.itis.morefy.core.data.mapper
 
 import android.util.Log
+import ru.itis.morefy.core.data.response.common.ArtistShorted
 import ru.itis.morefy.core.data.response.player.PlayerResponse
+import ru.itis.morefy.core.data.response.track.TracksResponse
 import ru.itis.morefy.core.data.response.user.UserTopTracksResponse
 import ru.itis.morefy.core.domain.models.Album
 import ru.itis.morefy.core.domain.models.Artist
@@ -14,74 +16,64 @@ class TracksMapper @Inject constructor(
 
     fun mapFrom(response: UserTopTracksResponse): List<Track> {
         val list = ArrayList<Track>()
-        try {
+        return try {
             for (item in response.items) {
-                val album = Album(
-                    item.album.id, item.album.album_type,
-                    item.album.total_tracks, item.album.name,
-                    item.album.images.last().url, null, null,
-                    dateFormatter.getDate(item.album.release_date), null, null,
-                    item.album.uri
-                )
-
-                val artists = ArrayList<Artist>()
-                for (artist in item.artists) {
-                    val newArtist = Artist(
-                        artist.id, artist.name, -1,
-                        null, null, -1, artist.uri
-                    )
-                    artists.add(newArtist)
-                }
-
-                val track = Track(
-                    item.id, album, artists,
-                    item.duration_ms, item.explicit,
-                    item.name, item.popularity, null,
-                    item.preview_url, item.uri
-                )
-
-                list.add(track)
+                list.add(getTrackFromResponse(item))
             }
-            return list
+            list
         } catch (ex: Exception) {
             Log.e("TOP TRACKS MAPPING EXCEPTION", "Happened in TracksMapper, message = ${ex.message}")
-            return listOf()
+            listOf()
         }
     }
+
     fun mapFrom(response: PlayerResponse): List<Track> {
-        Log.e("RECENTLY TRACKS", "GOT RESULT. MAPPING")
         val list = ArrayList<Track>()
 
         for (playedTrack in response.items) {
-            Log.e("items!", "content = ${playedTrack.toString()}")
-            val item = playedTrack.track
-            val album = Album(
-                item.album.id, item.album.album_type,
-                item.album.total_tracks, item.album.name,
-                item.album.images.last().url, null, null,
-                dateFormatter.getDate(item.album.release_date), null, null,
-                item.album.uri
-            )
-
-            val artists = ArrayList<Artist>()
-            for (artist in item.artists) {
-                val newArtist = Artist(
-                    artist.id, artist.name, -1,
-                    null, null, -1, artist.uri
-                )
-                artists.add(newArtist)
-            }
-
-            val track = Track(
-                item.id, album, artists,
-                item.duration_ms, item.explicit,
-                item.name, item.popularity, null,
-                item.preview_url, item.uri
-            )
-
-            list.add(track)
+            list.add(getTrackFromResponse(playedTrack.track))
         }
         return list
     }
 
+    fun mapFrom(response: ru.itis.morefy.core.data.response.common.Track): Track {
+        Log.e("TRACK", "GOT RESULT. MAPPING TRACK!")
+        return getTrackFromResponse(response)
+    }
+
+
+    fun mapFrom(response: TracksResponse): List<Track> {
+        val list = ArrayList<Track>()
+        for (track in response.tracks) {
+            list.add(getTrackFromResponse(track))
+        }
+        return list
+    }
+
+
+    private fun getTrackFromResponse(response: ru.itis.morefy.core.data.response.common.Track): Track {
+        val album = Album(
+            response.album.id, response.album.album_type,
+            response.album.total_tracks, response.album.name,
+            response.album.images.first().url,
+            dateFormatter.getDate(response.album.release_date),
+            response.album.uri
+        )
+
+        val list = ArrayList<Artist>()
+        for (art in response.artists) {
+            list.add(getArtistFromResponse(art))
+        }
+
+        return Track(
+            response.id, album, list,
+            response.duration_ms, response.explicit,
+            response.name, response.popularity,
+            response.preview_url, response.uri
+        )
+    }
+
+    private fun getArtistFromResponse(art: ArtistShorted): Artist {
+        return Artist(art.id, art.name, art.uri)
+    }
 }

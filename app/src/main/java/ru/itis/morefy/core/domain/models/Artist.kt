@@ -1,6 +1,6 @@
 package ru.itis.morefy.core.domain.models
 
-data class Artist (
+data class Artist(
     val id: String,
 
     val name: String,
@@ -11,4 +11,7 @@ data class Artist (
     val popularity: Int,
 
     val uri: String,
-)
+) {
+    constructor(id: String, name: String, uri: String)
+            : this(id, name, -1, null, null, -1, uri)
+}

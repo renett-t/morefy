@@ -6,13 +6,13 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import ru.itis.morefy.R
 import ru.itis.morefy.core.presentation.extensions.appComponent
+import ru.itis.morefy.core.presentation.extensions.findNavigationController
+import ru.itis.morefy.core.presentation.fragments.details.TRACK_ID_KEY
 import ru.itis.morefy.databinding.FragmentTopTracksBinding
 import ru.itis.morefy.statistics.di.assisted.TopTracksAdapterFactory
 import ru.itis.morefy.statistics.presentation.rv.TopTracksAdapter
@@ -77,27 +77,19 @@ class TopTracksFragment : Fragment(R.layout.fragment_top_tracks) {
     }
 
     private fun navigateToTrackScreen(id: String) {
-//        val bundle = Bundle().apply {
-//            putString("TRACK_ID", id) // todo: TRACK_ID to constant of TrackFragment
-//        }
-//
-//        val options = NavOptions.Builder()
-//            .setLaunchSingleTop(true) //todo: add animations
-//            .build()
-//
-//        findNavController(R.id.container).navigate(
-//            R.id.action_topTracksFragment_to_,
-//            bundle,
-//            options
-//        )
-        showMessage("There should be navigation to track screen")
-    }
+        Log.e("TopTracksFragment", "Navigating to top tracks!!!!!!!")
+        val bundle = Bundle().apply {
+            putString(TRACK_ID_KEY, id)
+        }
 
-    private fun showMessage(message: String) {
-        Snackbar.make(
-            requireActivity().findViewById(R.id.container),
-            message,
-            Snackbar.LENGTH_SHORT
-        ).show()
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true) // todo: add animations
+            .build()
+
+        requireActivity().findNavigationController(R.id.container).navigate(
+            R.id.action_statisticsFragment_to_trackFragment,
+            bundle,
+            options
+        )
     }
 }

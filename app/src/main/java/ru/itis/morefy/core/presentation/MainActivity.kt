@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findNavigation()
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.main_toolbar))
     }
 
     private fun findNavigation() {
