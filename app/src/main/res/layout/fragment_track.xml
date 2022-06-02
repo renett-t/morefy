@@ -104,18 +104,20 @@
                 android:textColor="@color/light_green"
                 android:layout_marginStart="@dimen/defaultMargin"
                 app:layout_constraintTop_toTopOf="@id/guideline_track_basic"
-                app:layout_constraintBottom_toTopOf="@id/item_artist"
+                app:layout_constraintBottom_toTopOf="@id/rv_artists"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <include layout="@layout/item_artist"
-                android:id="@+id/item_artist"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_artists"
+                android:layout_height="160dp"
+                tools:itemCount="2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/defaultMargin"
+                android:paddingStart="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_artist"
                 app:layout_constraintTop_toBottomOf="@id/tv_artist_title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/guideline_artist_basic"
-                />
+                app:layout_constraintBottom_toTopOf="@id/guideline_artist_basic" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_artist_basic"

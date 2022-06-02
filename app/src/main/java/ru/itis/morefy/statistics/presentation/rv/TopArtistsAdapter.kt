@@ -7,6 +7,7 @@ import com.bumptech.glide.RequestManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import ru.itis.morefy.core.domain.models.Artist
+import ru.itis.morefy.core.presentation.fragments.details.rv.DiffUtilArtistItemCallback
 
 class TopArtistAdapter @AssistedInject constructor(
     @Assisted("onItemClickedAction")
@@ -21,10 +22,4 @@ class TopArtistAdapter @AssistedInject constructor(
     override fun onBindViewHolder(holder: TopArtistHolder, position: Int) {
         holder.bind(getItem(position), position + 1)
     }
-}
-
-class DiffUtilArtistItemCallback : DiffUtil.ItemCallback<Artist>() {
-    override fun areItemsTheSame(oldItem: Artist, newItem: Artist) = oldItem.id == newItem.id
-
-    override fun areContentsTheSame(oldItem: Artist, newItem: Artist) = oldItem == newItem
 }

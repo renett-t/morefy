@@ -9,18 +9,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import ru.itis.morefy.R
+import ru.itis.morefy.core.di.assisted.ArtistsAdapterFactory
+import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.domain.models.Track
 import ru.itis.morefy.core.domain.models.features.FeaturesUtils
 import ru.itis.morefy.core.domain.models.features.TrackFeatures
 import ru.itis.morefy.core.presentation.chart.ChartDrawer
 import ru.itis.morefy.core.presentation.extensions.appComponent
+import ru.itis.morefy.core.presentation.extensions.showMessage
+import ru.itis.morefy.core.presentation.fragments.details.rv.ArtistsAdapter
 import ru.itis.morefy.core.presentation.viewmodels.TrackViewModel
 import ru.itis.morefy.databinding.FragmentTrackBinding
+import java.util.stream.Collectors
 import javax.inject.Inject
-
 
 const val TRACK_ID_KEY: String = "TRACK_ID_KEY"
 class TrackFragment : Fragment(R.layout.fragment_track) {
@@ -28,9 +34,12 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
 
     @Inject
     lateinit var viewModel: TrackViewModel
-
     @Inject
     lateinit var chartDrawer: ChartDrawer
+    @Inject
+    lateinit var adapterFactory: ArtistsAdapterFactory
+
+    private lateinit var artistsAdapter: ArtistsAdapter
     private lateinit var imageDownloader: RequestManager
 
     override fun onAttach(context: Context) {
@@ -61,6 +70,7 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTrackBinding.bind(view)
 
+        initRecycler(binding.rvArtists)
         initObservers()
         arguments?.getString(TRACK_ID_KEY)?.let {
             startDownloadingData(it)
@@ -79,11 +89,25 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
 //        }
     }
 
+    private fun initRecycler(rvArtists: RecyclerView) {
+        artistsAdapter = adapterFactory.provideArtistsAdapter(
+            Glide.with(requireContext())
+        ) {
+            navigateToArtistScreen(it)
+        }
+
+        rvArtists.apply {
+            adapter = artistsAdapter
+            addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.HORIZONTAL))
+        }
+    }
+
     private fun initObservers() {
         viewModel.track.observe(viewLifecycleOwner) { result ->
             result.fold(
                 onSuccess = {
                     updateView(it)
+                    reDownloadArtists(it.artists)
                 },
                 onFailure = {
                     Log.e("ERROR TRACK FRAGMENT", "UNABLE TO GET TRACK DATA FROM VIEW")
@@ -101,6 +125,17 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
                 }
             )
         }
+
+        viewModel.artists.observe(viewLifecycleOwner) { result ->
+            result.fold(
+                onSuccess = {
+                    artistsAdapter.submitList(it)
+                },
+                onFailure = {
+                    Log.e("ERROR TRACK FRAGMENT", "UNABLE TO GET ARTIST DATA FROM VIEW")
+                }
+            )
+        }
     }
 
     private fun startDownloadingData(id: String) {
@@ -108,6 +143,10 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
         viewModel.getTrackFeaturesInfo(id)
     }
 
+    private fun reDownloadArtists(artists: List<Artist>) {
+        val ids = artists.stream().map { it.id }.collect(Collectors.toList())
+        viewModel.getArtists(ids)
+    }
 
     private fun updateView(track: Track) {
         imageDownloader = Glide.with(requireContext())
@@ -119,16 +158,19 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
             if (track.isExplicit)
                 ivExplicit.visibility = View.VISIBLE
 
-            // todo: change to rv instead of showing one artist
-            imageDownloader.load(track.artists.first().imageUrl)
-                .into(itemArtist.ivArtistCover)
-            itemArtist.tvArtistName.text = track.artists.first().name
+            artistsAdapter.submitList(track.artists)
 
             imageDownloader.load(track.album.imageUrl)
                 .into(itemAlbum.ivAlbumCover)
-            itemAlbum.ivAlbumName.text = track.album.name
-            // todo: add album type?
+            itemAlbum.tvAlbumName.text = track.album.name
+            itemAlbum.tvAlbumType.text = track.album.type
             itemAlbum.tvTracksCount.text = track.album.tracksCount.toString()
+            itemAlbum.tvAlbumName.setOnClickListener {
+                navigateToAlbumScreen(track.album.id)
+            }
+            itemAlbum.tvAlbumName.setOnClickListener {
+                navigateToAlbumScreen(track.album.id)
+            }
 
             btnListenInSpotifyApp.setOnClickListener {
                 createIntentToOfficialApp(track.uri)
@@ -140,7 +182,11 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
         with(binding) {
             tvTempo.text = getString(R.string.track_tempo, features.tempo)
             tvKey.text = getString(R.string.track_key, features.key.toString())
-            chartDrawer.drawRadarChart(requireContext(), itemChart.radarChart, getDataFromFeatures(features))
+            chartDrawer.drawRadarChart(
+                requireContext(),
+                itemChart.radarChart,
+                getString(R.string.track_features_analysis),
+                getDataFromFeatures(features))
         }
     }
 
@@ -161,5 +207,13 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
         } else {
             "$min:$seconds"
         }
+    }
+
+    private fun navigateToArtistScreen(id: String) {
+        showMessage("Navigation to Artist $id Screen")
+    }
+
+    private fun navigateToAlbumScreen(id: String) {
+        showMessage("Navigation to Album $id Screen")
     }
 }
