@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import ru.itis.morefy.core.data.api.MAX_LIMIT_AMOUNT
 import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.domain.models.Genre
+import ru.itis.morefy.core.domain.models.TimeRange
 import ru.itis.morefy.core.domain.models.Track
 import ru.itis.morefy.core.domain.models.features.AverageTracksFeatures
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopArtistsUseCase
@@ -25,7 +26,7 @@ class StatsViewModel @Inject constructor(
     private val userStatsService: UserStatsService
 ) : ViewModel() {
 
-    private var timeRange: String = ""
+    private var timeRange: TimeRange = TimeRange.UNDEFINED
     private var amount: Int = MAX_LIMIT_AMOUNT
 
     private var _topTracks: MutableLiveData<Result<List<Track>>> = MutableLiveData()
@@ -43,10 +44,10 @@ class StatsViewModel @Inject constructor(
     private var _error: MutableLiveData<Exception> = MutableLiveData()
     val error: MutableLiveData<Exception> = _error
 
-    fun getUserTopTracks(timeRange: String, amount: Int) {
+    fun getUserTopTracks(timeRange: TimeRange, amount: Int) {
         viewModelScope.launch {
             try {
-                val list = getUserTopTracksUseCase(timeRange, amount)
+                val list = getUserTopTracksUseCase(timeRange.time, amount)
                 _topTracks.value = Result.success(list)
             } catch (ex: Exception) {
                 _topTracks.value = Result.failure(ex)
@@ -54,10 +55,10 @@ class StatsViewModel @Inject constructor(
         }
     }
 
-    fun getUserTopArtists(timeRange: String, amount: Int) {
+    fun getUserTopArtists(timeRange: TimeRange, amount: Int) {
         viewModelScope.launch {
             try {
-                val list = getUserTopArtistsUseCase(timeRange, amount)
+                val list = getUserTopArtistsUseCase(timeRange.time, amount)
                 _topArtists.value = Result.success(list)
             } catch (ex: Exception) {
                 _topArtists.value = Result.failure(ex)
@@ -65,7 +66,7 @@ class StatsViewModel @Inject constructor(
         }
     }
 
-    fun getUserTopGenres(timeRange: String) {
+    fun getUserTopGenres(timeRange: TimeRange) {
         viewModelScope.launch {
             try {
                 val map = userStatsService.getCurrentUserTopGenresByTopArtists(timeRange)
@@ -76,7 +77,7 @@ class StatsViewModel @Inject constructor(
         }
     }
 
-    fun getOverallListeningStats(timeRange: String) {
+    fun getOverallListeningStats(timeRange: TimeRange) {
         viewModelScope.launch {
             try {
                 val stats = userStatsService.getUserOverallListeningStats(timeRange)
@@ -94,11 +95,11 @@ class StatsViewModel @Inject constructor(
         this.getOverallListeningStats(timeRange)
     }
 
-    fun getTimeRange(): String {
+    fun getTimeRange(): TimeRange {
         return timeRange
     }
 
-    fun setTimeRange(newRange: String) {
+    fun setTimeRange(newRange: TimeRange) {
         Log.e("STATS VIEW MODEL", "Setting new time range to value = $newRange")
         this.timeRange = newRange
     }
