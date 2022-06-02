@@ -8,15 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.models.Track
+import ru.itis.morefy.core.domain.models.features.FeaturesUtils
 import ru.itis.morefy.core.domain.models.features.TrackFeatures
-import ru.itis.morefy.core.presentation.MainActivity
+import ru.itis.morefy.core.presentation.chart.ChartDrawer
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.core.presentation.viewmodels.TrackViewModel
 import ru.itis.morefy.databinding.FragmentTrackBinding
@@ -30,6 +29,8 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
     @Inject
     lateinit var viewModel: TrackViewModel
 
+    @Inject
+    lateinit var chartDrawer: ChartDrawer
     private lateinit var imageDownloader: RequestManager
 
     override fun onAttach(context: Context) {
@@ -138,10 +139,13 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
     private fun updateChart(features: TrackFeatures) {
         with(binding) {
             tvTempo.text = getString(R.string.track_tempo, features.tempo)
-            // todo: map key number to key string -> enum/utils class
             tvKey.text = getString(R.string.track_key, features.key.toString())
+            chartDrawer.drawRadarChart(requireContext(), itemChart.radarChart, getDataFromFeatures(features))
         }
-        //todo: create chart
+    }
+
+    private fun getDataFromFeatures(features: TrackFeatures): Map<String, Float> {
+        return FeaturesUtils.toMap(requireContext(), features)
     }
 
     private fun createIntentToOfficialApp(uri: String) {
@@ -150,7 +154,12 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
     }
 
     private fun getDurationFormatted(durationMs: Int): String {
-        //todo
-        return durationMs.toString()
+        val min = durationMs / 60000
+        val seconds = (durationMs % 60000) / 1000
+        return if (seconds < 10) {
+            "$min:0$seconds"
+        } else {
+            "$min:$seconds"
+        }
     }
 }
