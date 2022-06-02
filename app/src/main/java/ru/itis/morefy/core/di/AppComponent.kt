@@ -6,7 +6,7 @@ import dagger.Component
 import ru.itis.morefy.core.presentation.AuthActivity
 import ru.itis.morefy.core.presentation.MainActivity
 import ru.itis.morefy.core.presentation.fragments.AboutUsFragment
-import ru.itis.morefy.core.presentation.fragments.HomeFragment
+import ru.itis.morefy.recommendation.HomeFragment
 import ru.itis.morefy.core.presentation.fragments.ProfileFragment
 import ru.itis.morefy.core.presentation.fragments.SettingsFragment
 import ru.itis.morefy.core.presentation.fragments.details.TrackFragment
