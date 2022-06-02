@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.service.RefreshTokenService
 import ru.itis.morefy.core.presentation.AuthActivity
@@ -38,7 +39,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
 
             btnAboutus.setOnClickListener {
-
+                parentFragmentManager.beginTransaction()
+                    .replace<AboutUsFragment>(R.id.container)
+                    .addToBackStack(null)
+                    .commit()
             }
 
             btnSupport.setOnClickListener {
