@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.itis.morefy.R
 import ru.itis.morefy.core.data.api.MAX_LIMIT_AMOUNT
+import ru.itis.morefy.core.domain.models.TimeRange
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.core.presentation.extensions.showMessage
 import ru.itis.morefy.databinding.FragmentStatisticsBinding
@@ -68,7 +69,7 @@ class StatisticsFragment: Fragment(R.layout.fragment_statistics) {
     }
 
     private fun initViewModelParams() {
-        statsViewModel.setTimeRange(getString(R.string.time_range_short))
+        statsViewModel.setTimeRange(TimeRange.SHORT)
         statsViewModel.setAmountToRequest(MAX_LIMIT_AMOUNT)
     }
 
@@ -117,7 +118,7 @@ class StatisticsFragment: Fragment(R.layout.fragment_statistics) {
             }
 
             fabOneMonth.setOnClickListener{
-                statsViewModel.setTimeRange(getString(R.string.time_range_short))
+                statsViewModel.setTimeRange(TimeRange.SHORT)
                 startReloadingData()
             }
             fabOneMonth.setOnLongClickListener {
@@ -126,7 +127,7 @@ class StatisticsFragment: Fragment(R.layout.fragment_statistics) {
             }
 
             fabSixMonths.setOnClickListener{
-                statsViewModel.setTimeRange(getString(R.string.time_range_medium))
+                statsViewModel.setTimeRange(TimeRange.MEDIUM)
                 startReloadingData()
             }
             fabSixMonths.setOnLongClickListener {
@@ -135,7 +136,7 @@ class StatisticsFragment: Fragment(R.layout.fragment_statistics) {
             }
 
             fabAllTime.setOnClickListener{
-                statsViewModel.setTimeRange(getString(R.string.time_range_long))
+                statsViewModel.setTimeRange(TimeRange.LONG)
                 startReloadingData()
             }
             fabAllTime.setOnLongClickListener {

@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import ru.itis.morefy.R
 import ru.itis.morefy.core.domain.models.Genre
+import ru.itis.morefy.core.domain.models.features.AverageTracksFeatures
+import ru.itis.morefy.core.domain.models.features.FeaturesUtils
+import ru.itis.morefy.core.presentation.chart.ChartDrawer
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.databinding.FragmentOverallStatsBinding
 import ru.itis.morefy.statistics.di.assisted.TopGenreAdapterFactory
@@ -26,6 +29,9 @@ class OverallStatsFragment : Fragment(R.layout.fragment_overall_stats) {
     lateinit var factory: TopGenreAdapterFactory
     private lateinit var genreAdapter: TopGenreAdapter
 
+    @Inject
+    lateinit var chartDrawer: ChartDrawer
+
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
         super.onAttach(context)
@@ -38,6 +44,20 @@ class OverallStatsFragment : Fragment(R.layout.fragment_overall_stats) {
         initRecyclers()
         initObservers()
         startDownloadingData()
+    }
+
+    private fun initRecyclers() {
+        genreAdapter = factory.provideTopGenresAdapter {
+            // do nothing =)
+        }
+        with(binding) {
+            rvTopGenres.apply {
+                adapter = genreAdapter
+                addItemDecoration(
+                    DividerItemDecoration(requireContext(), RecyclerView.HORIZONTAL)
+                )
+            }
+        }
     }
 
     private fun initObservers() {
@@ -53,27 +73,33 @@ class OverallStatsFragment : Fragment(R.layout.fragment_overall_stats) {
                 }
             )
         }
+        viewModel.overallStats.observe(viewLifecycleOwner) { result ->
+            result.fold(
+                onSuccess = {
+                    updateChartView(it)
+                },
+                onFailure = {
+                    Log.e("STATS: TopGenresFragment", "Some problem retrieving average stats. ${it.message}")
+                }
+            )
+        }
+    }
+
+    private fun startDownloadingData() {
+        viewModel.getUserTopGenres(viewModel.getTimeRange())
+        viewModel.getOverallListeningStats(viewModel.getTimeRange())
+    }
+
+    private fun updateChartView(avgFeatures: AverageTracksFeatures) {
+        chartDrawer.drawRadarChart(
+            requireContext(),
+            binding.radarChartStats.radarChart,
+            getString(R.string.averall_listening_stats),
+            FeaturesUtils.toMap(requireContext(), avgFeatures)
+        )
     }
 
     private fun sortValues(list: List<Map.Entry<Genre, Int>>): List<Map.Entry<Genre, Int>> {
         return list.sortedByDescending { it.value }
-    }
-
-    private fun startDownloadingData() {
-        viewModel.getUserTopGenres(timeRange = viewModel.getTimeRange())
-    }
-
-    private fun initRecyclers() {
-        genreAdapter = factory.provideTopGenresAdapter {
-            // do nothing =)
-        }
-        with(binding) {
-            rvTopGenres.apply {
-                adapter = genreAdapter
-                addItemDecoration(
-                    DividerItemDecoration(requireContext(), RecyclerView.HORIZONTAL)
-                )
-            }
-        }
     }
 }

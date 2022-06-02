@@ -6,5 +6,5 @@ enum class MusicalKey(val key: String) {
     E("E"), F("F"),
     FG("F♯/G♭"), G("G"),
     GA("G♯/A♭"), A("A"),
-    AB("A♯/B♭"), B("B"), Undefined("-")
+    AB("A♯/B♭"), B("B"), UNDEFINED("-")
 }

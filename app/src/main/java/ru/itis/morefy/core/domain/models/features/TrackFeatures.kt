@@ -12,7 +12,7 @@ data class TrackFeatures (
     val speechiness: Float,
     val valence: Float,
 
-    val mode: Int,
+    val mode: MusicalMode,
     val key: MusicalKey,
 
     val tempo: Float,

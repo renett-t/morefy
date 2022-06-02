@@ -1,20 +1,26 @@
 package ru.itis.morefy.core.domain.models.features
 
-data class AverageTracksFeatures (
+data class AverageTracksFeatures(
     val source: Set<TrackFeatures>?,
 
-    val acousticness: Float,
-    val danceability: Float,
-    val energy: Float,
-    val instrumentalness: Float,
-    val liveness: Float,
-    val loudness: Float,
-    val speechiness: Float,
-    val valence: Float,
+    var acousticness: Float,
+    var danceability: Float,
+    var energy: Float,
+    var instrumentalness: Float,
+    var liveness: Float,
+    var loudness: Float,
+    var speechiness: Float,
+    var valence: Float,
 
-    val mode: Int,
-    val key: MusicalKey,
+    var mode: MusicalMode,
+    var key: MusicalKey,
 
-    val tempo: Float,
-    val timeSignature: Int,
-)
+    var tempo: Float
+) {
+    constructor() : this(
+        null, -1f, -1f,
+        -1f, -1f, -1f, -1f,
+        -1f, -1f, MusicalMode.UNDEFINED,
+        MusicalKey.UNDEFINED, -1f
+    )
+}
