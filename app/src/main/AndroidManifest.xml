@@ -16,7 +16,7 @@
         <activity
             android:name=".core.presentation.AuthActivity"
             android:launchMode="singleInstance"
-            android:label="No Authorization"
+            android:label="Authorizing? Click here~"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -33,7 +33,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
+            <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="message/rfc822"/>
