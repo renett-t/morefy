@@ -12,7 +12,7 @@ import ru.itis.morefy.core.domain.models.datamodels.AverageStats
 import ru.itis.morefy.core.domain.models.features.AverageTracksFeatures
 import ru.itis.morefy.core.domain.models.features.MusicalKey
 import ru.itis.morefy.core.domain.models.features.MusicalMode
-import ru.itis.morefy.core.domain.usecase.GetArtistUseCase
+import ru.itis.morefy.core.domain.usecase.artist.GetArtistUseCase
 import ru.itis.morefy.core.domain.usecase.GetTrackUseCase
 import ru.itis.morefy.statistics.domain.service.UserStatsService
 import ru.itis.morefy.statistics.domain.usecase.GetUserTopArtistsUseCase

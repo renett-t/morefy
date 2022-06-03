@@ -6,7 +6,8 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.itis.morefy.core.presentation.viewmodels.ProfileViewModel
 import ru.itis.morefy.core.presentation.viewmodels.TokensViewModel
-import ru.itis.morefy.core.presentation.viewmodels.TrackViewModel
+import ru.itis.morefy.core.presentation.viewmodels.details.ArtistViewModel
+import ru.itis.morefy.core.presentation.viewmodels.details.TrackViewModel
 import ru.itis.morefy.statistics.presentation.viewmodel.StatsViewModel
 
 @Module
@@ -27,4 +28,8 @@ interface ViewModelModule {
     @Binds
     @[IntoMap ViewModelKey(TrackViewModel::class)]
     fun provideTrackViewModel(vm: TrackViewModel): ViewModel
+
+    @Binds
+    @[IntoMap ViewModelKey(ArtistViewModel::class)]
+    fun provideArtistViewModel(vm: ArtistViewModel): ViewModel
 }

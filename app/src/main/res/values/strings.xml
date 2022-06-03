@@ -80,5 +80,10 @@
     <string name="valence">позитивность</string>
     <string name="track_features_analysis">Анализ свойств трека</string>
     <string name="averall_listening_stats">Общая статистика прослушивания</string>
+    <string name="header_subscriptions_title">Подписок:</string>
+    <string name="you_follow">Подписка</string>
+    <string name="header_genres_title">Жанры:</string>
+    <string name="header_popular_title">Популярное:</string>
+    <string name="header_similar_artists_title">Похожие исполнители:</string>
 
 </resources>

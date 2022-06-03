@@ -1,13 +1,12 @@
 package ru.itis.morefy.statistics.presentation.rv
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.RequestManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import ru.itis.morefy.core.domain.models.Artist
-import ru.itis.morefy.core.presentation.fragments.details.rv.DiffUtilArtistItemCallback
+import ru.itis.morefy.core.presentation.fragments.details.rv.track.DiffUtilArtistItemCallback
 
 class TopArtistAdapter @AssistedInject constructor(
     @Assisted("onItemClickedAction")

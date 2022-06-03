@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import ru.itis.morefy.R
 import ru.itis.morefy.core.presentation.extensions.appComponent
-import ru.itis.morefy.core.presentation.extensions.showMessage
+import ru.itis.morefy.core.presentation.extensions.findNavigationController
+import ru.itis.morefy.core.presentation.fragments.details.ARTIST_ID_KEY
 import ru.itis.morefy.databinding.FragmentTopArtistsBinding
 import ru.itis.morefy.statistics.di.assisted.TopArtistsAdapterFactory
 import ru.itis.morefy.statistics.presentation.rv.TopArtistAdapter
@@ -53,7 +54,7 @@ class TopArtistsFragment : Fragment(R.layout.fragment_top_artists) {
         artistAdapter = adapterFactory.provideTopArtistsAdapter(
             Glide.with(requireContext())
         ) {
-            navigateToTrackScreen(it)
+            navigateToArtistScreen(it)
         }
 
         binding.rvTopArtists.apply {
@@ -75,20 +76,19 @@ class TopArtistsFragment : Fragment(R.layout.fragment_top_artists) {
         }
     }
 
-    private fun navigateToTrackScreen(id: String) {
-//        val bundle = Bundle().apply {
-//            putString("ARTIST_ID", id) // todo: ARTIST_ID to constant of ArtistViewFragment
-//        }
-//
-//        val options = NavOptions.Builder()
-//            .setLaunchSingleTop(true) //todo: add animations
-//            .build()
-//
-//        findNavController(R.id.container).navigate(
-//            R.id.action_topTracksFragment_to_,
-//            bundle,
-//            options
-//        )
-        showMessage("There should be navigation to artist screen")
+    private fun navigateToArtistScreen(id: String) {
+        val bundle = Bundle().apply {
+            putString(ARTIST_ID_KEY, id)
+        }
+
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true) // todo: add animations
+            .build()
+
+        requireActivity().findNavigationController(R.id.container).navigate(
+            R.id.action_statisticsFragment_to_artistFragment,
+            bundle,
+            options
+        )
     }
 }

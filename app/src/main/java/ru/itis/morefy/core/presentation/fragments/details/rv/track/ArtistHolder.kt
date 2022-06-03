@@ -1,4 +1,4 @@
-package ru.itis.morefy.core.presentation.fragments.details.rv
+package ru.itis.morefy.core.presentation.fragments.details.rv.track
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
