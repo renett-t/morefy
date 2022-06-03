@@ -77,7 +77,6 @@ class TopTracksFragment : Fragment(R.layout.fragment_top_tracks) {
     }
 
     private fun navigateToTrackScreen(id: String) {
-        Log.e("TopTracksFragment", "Navigating to top tracks!!!!!!!")
         val bundle = Bundle().apply {
             putString(TRACK_ID_KEY, id)
         }

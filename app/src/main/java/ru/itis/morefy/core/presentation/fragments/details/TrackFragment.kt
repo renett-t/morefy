@@ -22,8 +22,8 @@ import ru.itis.morefy.core.domain.models.features.TrackFeatures
 import ru.itis.morefy.core.presentation.chart.ChartDrawer
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.core.presentation.extensions.showMessage
-import ru.itis.morefy.core.presentation.fragments.details.rv.ArtistsAdapter
-import ru.itis.morefy.core.presentation.viewmodels.TrackViewModel
+import ru.itis.morefy.core.presentation.fragments.details.rv.track.ArtistsAdapter
+import ru.itis.morefy.core.presentation.viewmodels.details.TrackViewModel
 import ru.itis.morefy.databinding.FragmentTrackBinding
 import java.util.stream.Collectors
 import javax.inject.Inject

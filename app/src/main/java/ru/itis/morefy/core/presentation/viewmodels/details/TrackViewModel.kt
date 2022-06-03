@@ -1,4 +1,4 @@
-package ru.itis.morefy.core.presentation.viewmodels
+package ru.itis.morefy.core.presentation.viewmodels.details
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.domain.models.Track
 import ru.itis.morefy.core.domain.models.features.TrackFeatures
-import ru.itis.morefy.core.domain.usecase.GetArtistUseCase
+import ru.itis.morefy.core.domain.usecase.artist.GetArtistUseCase
 import ru.itis.morefy.core.domain.usecase.GetTrackUseCase
 import javax.inject.Inject
 
