@@ -76,4 +76,12 @@ class TracksMapper @Inject constructor(
     private fun getArtistFromResponse(art: ArtistShorted): Artist {
         return Artist(art.id, art.name, art.uri)
     }
+
+    fun mapFrom(tracks: List<ru.itis.morefy.core.data.response.common.Track>): List<Track> {
+        val list = ArrayList<Track>()
+        for (track in tracks) {
+            list.add(getTrackFromResponse(track))
+        }
+        return list
+    }
 }
