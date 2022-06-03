@@ -83,13 +83,17 @@
         android:id="@+id/trackFragment"
         android:name="ru.itis.morefy.core.presentation.fragments.details.TrackFragment"
         android:label="fragment_track"
-        tools:layout="@layout/fragment_track" />
+        tools:layout="@layout/fragment_track" >
+        <action
+            android:id="@+id/action_trackFragment_to_artistFragment"
+            app:destination="@id/artistFragment" />
+    </fragment>
     <fragment
         android:id="@+id/artistFragment"
         android:name="ru.itis.morefy.core.presentation.fragments.details.ArtistFragment"
         android:label="ArtistFragment" >
         <action
-            android:id="@+id/action_artistFragment_self"
+            android:id="@+id/action_artistFragment_to_artistFragment"
             app:destination="@id/artistFragment" />
         <action
             android:id="@+id/action_artistFragment_to_trackFragment"

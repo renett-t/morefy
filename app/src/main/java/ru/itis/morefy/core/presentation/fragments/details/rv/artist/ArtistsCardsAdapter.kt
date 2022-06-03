@@ -11,9 +11,9 @@ import ru.itis.morefy.core.presentation.fragments.details.rv.track.DiffUtilArtis
 
 class ArtistsCardsAdapter @AssistedInject constructor(
     @Assisted
-    private val onItemClickedAction: (String) -> Unit,
-    @Assisted
     private val glide: RequestManager,
+    @Assisted
+    private val onItemClickedAction: (String) -> Unit,
 ) : ListAdapter<Artist, ArtistHolder>(DiffUtilArtistItemCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

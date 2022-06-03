@@ -36,7 +36,7 @@ class ArtistsMapper @Inject constructor() {
         return Artist(
             item.id, item.name,
             item.followers.total, genres,
-            item.images.last().url, item.popularity, item.uri
+            item.images.first().url, item.popularity, item.uri
         )
     }
 
@@ -47,7 +47,7 @@ class ArtistsMapper @Inject constructor() {
         }
         return Artist(
             response.id, response.name, response.followers.total,
-            genres, response.images.last().url, response.popularity,
+            genres, response.images.first().url, response.popularity,
             response.uri
         )
     }

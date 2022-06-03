@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import androidx.navigation.NavOptions
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,8 @@ import ru.itis.morefy.core.di.assisted.ArtistsCardsAdapterFactory
 import ru.itis.morefy.core.domain.models.Artist
 import ru.itis.morefy.core.presentation.extensions.appComponent
 import ru.itis.morefy.core.presentation.extensions.findNavigationController
+import ru.itis.morefy.core.presentation.extensions.showMessage
+import ru.itis.morefy.core.presentation.fragments.SupportFragment
 import ru.itis.morefy.core.presentation.fragments.details.rv.artist.ArtistsCardsAdapter
 import ru.itis.morefy.core.presentation.fragments.details.rv.artist.GenresAdapter
 import ru.itis.morefy.core.presentation.viewmodels.details.ArtistViewModel
@@ -130,6 +133,7 @@ class ArtistFragment : Fragment(R.layout.fragment_artist) {
 
     private fun updateView(artist: Artist) {
         with(binding) {
+            imageDownloader.load(artist.imageUrl).into(ivArtistCover)
             tvArtist.text = artist.name
             genresAdapter.submitList(artist.genres)
             tvPopularity.text = artist.popularity.toString()
@@ -152,19 +156,18 @@ class ArtistFragment : Fragment(R.layout.fragment_artist) {
     }
 
     private fun navigateToArtistScreen(id: String) {
+        showMessage("Navigation to new artist screen")
         val bundle = Bundle().apply {
             putString(ARTIST_ID_KEY, id)
         }
 
-        val options = NavOptions.Builder()
-            .setLaunchSingleTop(true) // todo: add animations
-            .build()
-
-        requireActivity().findNavigationController(R.id.container).navigate(
-            R.id.action_artistFragment_self,
-            bundle,
-            options
-        )
+        parentFragmentManager.beginTransaction()
+            .replace<ArtistFragment>(R.id.container)
+            .apply {
+                arguments = bundle
+            }
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun navigateToTrackScreen(id: String) {

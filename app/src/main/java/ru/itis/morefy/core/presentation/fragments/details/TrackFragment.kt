@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,6 +22,7 @@ import ru.itis.morefy.core.domain.models.features.FeaturesUtils
 import ru.itis.morefy.core.domain.models.features.TrackFeatures
 import ru.itis.morefy.core.presentation.chart.ChartDrawer
 import ru.itis.morefy.core.presentation.extensions.appComponent
+import ru.itis.morefy.core.presentation.extensions.findNavigationController
 import ru.itis.morefy.core.presentation.extensions.showMessage
 import ru.itis.morefy.core.presentation.fragments.details.rv.track.ArtistsAdapter
 import ru.itis.morefy.core.presentation.viewmodels.details.TrackViewModel
@@ -210,7 +212,19 @@ class TrackFragment : Fragment(R.layout.fragment_track) {
     }
 
     private fun navigateToArtistScreen(id: String) {
-        showMessage("Navigation to Artist $id Screen")
+        val bundle = Bundle().apply {
+            putString(ARTIST_ID_KEY, id)
+        }
+
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true) // todo: add animations
+            .build()
+
+        requireActivity().findNavigationController(R.id.container).navigate(
+            R.id.action_trackFragment_to_artistFragment,
+            bundle,
+            options
+        )
     }
 
     private fun navigateToAlbumScreen(id: String) {
