@@ -8,6 +8,8 @@ import ru.itis.morefy.core.data.repository.SpotifyUserDataRepositoryImpl
 import ru.itis.morefy.core.data.tokens.local.AuthorizationRepositoryImpl
 import ru.itis.morefy.core.data.tokens.net.SpotifyTokensRepositoryImpl
 import ru.itis.morefy.core.domain.repository.*
+import ru.itis.morefy.search.data.repository.SpotifySearchQueryRepositoryImpl
+import ru.itis.morefy.search.domain.repository.SearchQueryRepository
 
 @Module
 interface RepositoryModule {
@@ -20,6 +22,9 @@ interface RepositoryModule {
 
     @Binds
     fun provideUserDataRepository(repository: SpotifyUserDataRepositoryImpl): UserDataRepository
+
+    @Binds
+    fun provideSearchQueriesRepository(repository: SpotifySearchQueryRepositoryImpl): SearchQueryRepository
 
     @Binds
     fun provideArtistsRepository(impl: SpotifyArtistsRepositoryImpl): ArtistsRepository

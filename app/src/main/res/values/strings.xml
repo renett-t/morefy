@@ -34,9 +34,6 @@
     <string name="game">Game</string>
     <string name="search">Search</string>
     <string name="statistics">Statistics</string>
-    <string name="profile">Profile</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_tracks">Треки</string>
     <string name="tab_artists">Исполнители</string>
     <string name="tab_overall">Overall</string>
@@ -85,5 +82,10 @@
     <string name="header_genres_title">Жанры:</string>
     <string name="header_popular_title">Популярное:</string>
     <string name="header_similar_artists_title">Похожие исполнители:</string>
+
+    <string name="found_tracks">Найденные треки:</string>
+    <string name="found_artists">Найденные артисты:</string>
+    <string name="downloading_data">Загружаем данные...</string>
+    <string name="profile">Profile</string>
 
 </resources>

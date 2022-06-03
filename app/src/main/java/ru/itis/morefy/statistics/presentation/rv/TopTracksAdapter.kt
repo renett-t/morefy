@@ -7,6 +7,7 @@ import com.bumptech.glide.RequestManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import ru.itis.morefy.core.domain.models.Track
+import ru.itis.morefy.core.presentation.rv.DiffUtilTrackItemCallback
 
 class TopTracksAdapter @AssistedInject constructor(
     @Assisted("onItemClickedAction")
@@ -23,8 +24,3 @@ class TopTracksAdapter @AssistedInject constructor(
     }
 }
 
-class DiffUtilTrackItemCallback : DiffUtil.ItemCallback<Track>() {
-    override fun areItemsTheSame(oldItem: Track, newItem: Track) = oldItem.id == newItem.id
-
-    override fun areContentsTheSame(oldItem: Track, newItem: Track) = oldItem == newItem
-}

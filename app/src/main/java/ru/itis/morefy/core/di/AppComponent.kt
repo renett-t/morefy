@@ -11,6 +11,7 @@ import ru.itis.morefy.core.presentation.fragments.ProfileFragment
 import ru.itis.morefy.core.presentation.fragments.SettingsFragment
 import ru.itis.morefy.core.presentation.fragments.details.ArtistFragment
 import ru.itis.morefy.core.presentation.fragments.details.TrackFragment
+import ru.itis.morefy.search.presentation.SearchFragment
 import ru.itis.morefy.statistics.presentation.StatisticsFragment
 import ru.itis.morefy.statistics.presentation.tabs.OverallStatsFragment
 import ru.itis.morefy.statistics.presentation.tabs.TopArtistsFragment
@@ -34,6 +35,7 @@ interface AppComponent {
     fun inject(aboutUsFragment: AboutUsFragment)
     fun inject(trackFragment: TrackFragment)
     fun inject(artistFragment: ArtistFragment)
+    fun inject(searchFragment: SearchFragment)
 
     @Component.Builder
     interface Builder {

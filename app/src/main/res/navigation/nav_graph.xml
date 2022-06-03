@@ -38,12 +38,18 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="ru.itis.morefy.search.SearchFragment"
+        android:name="ru.itis.morefy.search.presentation.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_trackFragment"
+            app:destination="@id/trackFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_artistFragment"
+            app:destination="@id/artistFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticsFragment"
