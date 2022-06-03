@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dak_green"
+    tools:context="statistics.presentation.StatisticsFragment">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        app:tabMode="fixed"
+        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorHeight="3dp"
+        android:background="@color/dark_green"
+        app:tabSelectedTextColor="@color/light_green"
+        app:tabTextColor="@color/gentle_white"
+        app:tabTextAppearance="@style/TabsTextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout" >
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_change_time_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:backgroundTint="@color/light_green"
+        android:src="@drawable/calendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="18dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_all_time"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_green"
+        android:clickable="false"
+        android:focusable="true"
+        android:src="@drawable/all"
+        app:layout_constraintEnd_toEndOf="@+id/fab_six_months"
+        app:layout_constraintBottom_toTopOf="@id/fab_six_months"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_six_months"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_green"
+        android:clickable="false"
+        android:focusable="true"
+        android:src="@drawable/six_months"
+        app:layout_constraintEnd_toEndOf="@+id/fab_one_month"
+        app:layout_constraintBottom_toTopOf="@id/fab_one_month"
+        android:layout_marginBottom="8dp"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_one_month"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_green"
+        android:clickable="false"
+        android:focusable="true"
+        android:src="@drawable/one_month"
+        app:layout_constraintEnd_toEndOf="@id/fab_change_time_range"
+        app:layout_constraintBottom_toTopOf="@id/fab_change_time_range"
+        android:layout_marginBottom="8dp"         />
+</androidx.constraintlayout.widget.ConstraintLayout>

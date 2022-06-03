@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dak_green"
+    android:fontFamily="@font/inter_medium"
+    tools:context=".core.presentation.fragments.details.TrackFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="Artist">
+
+            <ImageView
+                android:id="@+id/iv_artist_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/track"
+                app:layout_anchor="@+id/app_bar_layout"
+                app:layout_anchorGravity="center"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/defaultMargin"
+                android:layout_marginStart="24dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:shadowColor="@color/black"
+                android:shadowDx="6"
+                android:shadowDy="26"
+                android:shadowRadius="28"
+                android:textColor="@color/gentle_white"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/guideline_artist_basic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Artist Name" />
+
+            <TextView
+                android:id="@+id/tv_popularity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/defaultMargin"
+                android:background="@drawable/rounded_green_border"
+                android:padding="4dp"
+                android:textColor="@color/light_green"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="42" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_artist_basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.10" />
+
+            <TextView
+                android:id="@+id/tv_subscriptions_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:layout_marginTop="4dp"
+                android:padding="4dp"
+                android:text="@string/header_subscriptions_title"
+                android:textColor="@color/light_green"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@id/btn_open_in_spotify_app"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline_artist_basic" />
+
+            <TextView
+                android:id="@+id/tv_subscriptions_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:textColor="@color/gentle_white"
+                android:textSize="26sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_subscriptions_title"
+                app:layout_constraintStart_toEndOf="@id/tv_subscriptions_title"
+                app:layout_constraintTop_toTopOf="@id/tv_subscriptions_title"
+                tools:text="62206" />
+
+            <TextView
+                android:id="@+id/tv_you_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_green_border"
+                android:padding="4dp"
+                android:text="@string/you_follow"
+                android:textColor="@color/gentle_white"
+                android:textSize="24sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/tv_subscriptions_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_subscriptions_title" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_open_in_spotify_app"
+                style="@style/MaterialButton.Icon36dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/dak_green"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/listen_in_spotify"
+                app:icon="@drawable/spotify_icon_black"
+                app:iconGravity="start"
+                app:layout_constraintBottom_toTopOf="@id/guideline_subscriptions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_subscriptions_title" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_subscriptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.30" />
+
+            <TextView
+                android:id="@+id/tv_genres_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:layout_marginTop="4dp"
+                android:padding="4dp"
+                android:text="@string/header_genres_title"
+                android:textColor="@color/light_green"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline_subscriptions" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_top_genres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/defaultMargin"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="@id/guideline_genres"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_genres_title"
+                tools:listitem="@layout/item_genre" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_genres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.50" />
+
+            <TextView
+                android:id="@+id/tv_popular_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:layout_marginTop="4dp"
+                android:padding="4dp"
+                android:text="@string/header_popular_title"
+                android:textColor="@color/light_green"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline_genres" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_popular_tracks"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:paddingHorizontal="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/guideline_popular"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_popular_title"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_top_track" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_popular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_similar_artists"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <TextView
+                android:id="@+id/tv_similar_artists_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:layout_marginTop="4dp"
+                android:padding="4dp"
+                android:text="@string/header_similar_artists_title"
+                android:textColor="@color/light_green"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline_similar_artists" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_similar_artists"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:paddingHorizontal="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_similar_artists_title"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_artist" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.98" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

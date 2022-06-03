@@ -1,3 +1,91 @@
 <resources>
     <string name="app_name">Morefy</string>
+
+    <string name="greeting">Привет!</string>
+    <string name="auth_message">Войдите в свой аккаунт Spotify, чтобы начать исследовать музыку</string>
+    <string name="spotify_auth_button">Войти в Spotify</string>
+    <string name="shared_prefs_auth">ru.itis.morefy.SHARED_PREFS_FILE</string>
+    <string name="error_getting_tocken_message">Данные авторизации не были получены. Попробуйте ещё раз</string>
+    <string-array name="scopes">
+        <item>user-read-playback-state</item>
+        <item>user-read-recently-played</item>
+        <item>user-read-private</item>
+        <item>user-read-email</item>
+        <item>user-follow-read</item>
+        <item>user-library-modify</item>
+        <item>playlist-read-private</item>
+        <item>playlist-read-collaborative</item>
+        <item>playlist-modify-public</item>
+        <item>playlist-modify-private</item>
+        <item>user-read-recently-played</item>
+        <item>user-top-read</item>
+        <item>app-remote-control</item>
+        <item>user-library-read</item>
+    </string-array>
+
+    <!--Экран настроек-->
+    <string name="support">Support</string>
+    <string name="about">About Us</string>
+    <string name="signout">Sign Out</string>
+    <!--NavBar-->
+    <string name="list_name">Morefy</string>
+
+    <string name="home">Home</string>
+    <string name="game">Game</string>
+    <string name="search">Search</string>
+    <string name="statistics">Statistics</string>
+    <string name="tab_tracks">Треки</string>
+    <string name="tab_artists">Исполнители</string>
+    <string name="tab_overall">Overall</string>
+    <string name="top_tracks">Top Tracks</string>
+    <string name="top_artists">Top Artists</string>
+    <string name="overall">Overall</string>
+    <string name="tosettingspage">toSettingsPage</string>
+    <string name="first_game">Quiz</string>
+
+    <string name="time_range_long">long_term</string>
+    <string name="time_range_medium">medium_term</string>
+    <string name="time_range_short">short_term</string>
+    <string name="time_range_short_explained">Показать статистику за последние 4 недели</string>
+    <string name="time_range_medium_explained">Показать статистику за последние 6 месяцев</string>
+    <string name="time_range_long_explained">Показать статистику за всё время</string>
+
+    <string name="get_access_message">Получаем доступ, ещё пару секунд..</string>
+
+    <string name="logout_message">Хотите выйти из аккаунта?</string>
+    <string name="logout">Выйти</string>
+    <string name="cancel">Отмена</string>
+    <string name="logout_title">Выход из аккаунта</string>
+    <string name="time_range_change_button">Изменить время, за которое собрать статистику</string>
+
+    <string name="album_cover_image">Album Cover Image</string>
+    <string name="artist_image_cover">Artist Image Cover</string>
+    <string name="header_from_album">Из альбома:</string>
+    <string name="header_artist_title">Исполнители:</string>
+    <string name="listen_in_spotify">Открыть в Spotify</string>
+    <string name="explicit_image">Explicit Image</string>
+    <string name="header_details">Детали:</string>
+    <string name="track_tempo">"Tempo: %1$.2f"</string>
+    <string name="track_key">Key: %1$s</string>
+    <string name="acousticness">акустичность</string>
+    <string name="danceability">танцевальность</string>
+    <string name="energy">энергичность</string>
+    <string name="instrumentalness">инструментальность</string>
+    <string name="liveness">лайв</string>
+    <string name="loudness">громкость</string>
+    <string name="speechiness">речь</string>
+    <string name="valence">позитивность</string>
+    <string name="track_features_analysis">Анализ свойств трека</string>
+    <string name="averall_listening_stats">Общая статистика прослушивания</string>
+    <string name="header_subscriptions_title">Подписок:</string>
+    <string name="you_follow">Подписка</string>
+    <string name="header_genres_title">Жанры:</string>
+    <string name="header_popular_title">Популярное:</string>
+    <string name="header_similar_artists_title">Похожие исполнители:</string>
+
+    <string name="found_tracks">Найденные треки:</string>
+    <string name="found_artists">Найденные артисты:</string>
+    <string name="downloading_data">Загружаем данные...</string>
+    <string name="profile">Profile</string>
+
 </resources>
