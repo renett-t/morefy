@@ -1,4 +1,4 @@
-package ru.itis.morefy.search
+package ru.itis.morefy.search.presentation
 
 import androidx.fragment.app.Fragment
 import ru.itis.morefy.R

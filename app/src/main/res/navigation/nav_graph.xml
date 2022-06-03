@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="ru.itis.morefy.search.SearchFragment"
+        android:name="ru.itis.morefy.search.presentation.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
