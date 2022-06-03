@@ -67,4 +67,12 @@ class ArtistsMapper @Inject constructor() {
         }
         return list
     }
+
+    fun mapFrom(items: List<ArtistResponse>): List<Artist> {
+        val list = ArrayList<Artist>()
+        for (item in items) {
+            list.add(mapFrom(item))
+        }
+        return list
+    }
 }
