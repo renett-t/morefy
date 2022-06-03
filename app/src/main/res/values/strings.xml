@@ -86,5 +86,6 @@
     <string name="found_tracks">Найденные треки:</string>
     <string name="found_artists">Найденные артисты:</string>
     <string name="downloading_data">Загружаем данные...</string>
+    <string name="profile">Profile</string>
 
 </resources>

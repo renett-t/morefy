@@ -9,8 +9,8 @@ import dagger.assisted.AssistedInject
 import ru.itis.morefy.core.domain.models.Track
 
 class TracksAdapter @AssistedInject constructor(
-    private val onItemClickedAction: (String) -> Unit,
-    private val glide: RequestManager,
+    @Assisted private val glide: RequestManager,
+    @Assisted private val onItemClickedAction: (String) -> Unit,
 ) : ListAdapter<Track, TrackHolder>(DiffUtilTrackItemCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
