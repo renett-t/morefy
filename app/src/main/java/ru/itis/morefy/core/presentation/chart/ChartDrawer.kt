@@ -23,7 +23,13 @@ class ChartDrawer @Inject constructor(
 ) {
     private var tfLight: Typeface? = null
 
-    fun drawRadarChart(context: Context, chart: RadarChart, title: String, data: Map<String, Float>, color: Int = Color.LTGRAY) {
+    fun drawRadarChart(
+        context: Context,
+        chart: RadarChart,
+        title: String,
+        data: Map<String, Float>,
+        color: Int = Color.LTGRAY
+    ) {
         val keys = data.keys.toList()
         val values = ArrayList<Float>()
         for (key in keys)
@@ -33,6 +39,17 @@ class ChartDrawer @Inject constructor(
 
         tfLight = Typeface.createFromAsset(context.assets, "OpenSans-Light.ttf")
 
+        basicInitialization(chart, color)
+        addMarkerToChart(context, chart)
+        setData(title, chart, values)
+        addAnimations(chart)
+        initX(chart.xAxis, keys, values)
+        initY(chart.yAxis, keys.size)
+        drawLegend(chart.legend)
+        chart.invalidate();
+    }
+
+    private fun basicInitialization(chart: RadarChart, color: Int) {
         chart.setBackgroundColor(Color.rgb(60, 65, 82));
         chart.description.isEnabled = false
         chart.webLineWidth = 1f
@@ -40,13 +57,6 @@ class ChartDrawer @Inject constructor(
         chart.webLineWidthInner = 1f
         chart.webColorInner = color
         chart.webAlpha = 100
-
-        addMarkerToChart(context, chart)
-        setData(title, chart, values)
-        addAnimations(chart)
-        initX(chart.xAxis, keys, values)
-        initY(chart.yAxis, keys.size)
-        drawLegend(chart.legend)
     }
 
     private fun initY(yAxis: YAxis?, labelCount: Int) {
@@ -60,13 +70,13 @@ class ChartDrawer @Inject constructor(
         }
     }
 
-    private fun initX(xAxis: XAxis?, keys: List<String>, values: ArrayList<Float>, ) {
+    private fun initX(xAxis: XAxis?, keys: List<String>, values: ArrayList<Float>) {
         xAxis?.apply {
             typeface = tfLight
             textSize = 13f
             yOffset = 0f
             xOffset = 0f
-            valueFormatter = object: ValueFormatter() {
+            valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return "${keys[(value.toInt() % keys.size)]} - ${values[(value.toInt() % keys.size)]}"
                 }
@@ -105,7 +115,7 @@ class ChartDrawer @Inject constructor(
             entries.add(RadarEntry(value))
         }
 
-        val set1 = RadarDataSet(entries,  title)
+        val set1 = RadarDataSet(entries, title)
         set1.color = Color.rgb(103, 110, 129)           // todo: change color depending on data
         set1.fillColor = Color.rgb(103, 110, 129)
         set1.setDrawFilled(true)
@@ -124,6 +134,30 @@ class ChartDrawer @Inject constructor(
         radarData.setValueTextColor(Color.WHITE);
 
         chart.data = radarData;
-        chart.invalidate();
+    }
+
+    fun invalidateOldChart(context: Context, chart: RadarChart) {
+        chart.invalidate()
+    }
+
+    fun setNewData(
+        context: Context,
+        chart: RadarChart,
+        title: String,
+        data: Map<String, Float>
+    ) {
+        chart.notifyDataSetChanged()
+        chart.clearValues()
+        val keys = data.keys.toList()
+        val values = ArrayList<Float>()
+        for (key in keys)
+            data[key]?.let {
+                values.add(it)
+            }
+
+        setData(title, chart, values)
+        initX(chart.xAxis, keys, values)
+        initY(chart.yAxis, keys.size)
+        chart.invalidate()
     }
 }
