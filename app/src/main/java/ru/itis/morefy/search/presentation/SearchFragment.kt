@@ -138,8 +138,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             navigateToArtistScreen(it)
         }
 
-        binding.rvFoundTracks.apply {
-            adapter = tracksAdapter
+        binding.rvFoundArtists.apply {
+            adapter = artistsAdapter
             addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.HORIZONTAL))
         }
     }
