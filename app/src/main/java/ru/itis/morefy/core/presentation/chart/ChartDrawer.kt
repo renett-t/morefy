@@ -63,7 +63,7 @@ class ChartDrawer @Inject constructor(
         yAxis?.apply {
             typeface = tfLight
             setLabelCount(labelCount, true)
-            textSize = 10f
+            textSize = 8f
             axisMinimum = 0f
             axisMaximum = 80f
             setDrawLabels(true)
@@ -73,7 +73,7 @@ class ChartDrawer @Inject constructor(
     private fun initX(xAxis: XAxis?, keys: List<String>, values: ArrayList<Float>) {
         xAxis?.apply {
             typeface = tfLight
-            textSize = 13f
+            textSize = 4f
             yOffset = 0f
             xOffset = 0f
             valueFormatter = object : ValueFormatter() {
@@ -92,6 +92,7 @@ class ChartDrawer @Inject constructor(
             orientation = Legend.LegendOrientation.HORIZONTAL
             setDrawInside(false)
             typeface = tfLight
+            textSize = 10f
             xEntrySpace = 7f
             yEntrySpace = 5f
             textColor = Color.WHITE
@@ -106,6 +107,7 @@ class ChartDrawer @Inject constructor(
 
     private fun addAnimations(chart: RadarChart) {
         chart.animateXY(1400, 1400, Easing.EaseInOutQuad)
+        chart.isRotationEnabled = true
     }
 
     private fun setData(title: String, chart: RadarChart, values: List<Float>) {
