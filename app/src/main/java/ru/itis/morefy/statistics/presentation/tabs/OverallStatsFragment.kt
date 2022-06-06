@@ -32,6 +32,8 @@ class OverallStatsFragment : Fragment(R.layout.fragment_overall_stats) {
     @Inject
     lateinit var chartDrawer: ChartDrawer
 
+    private var isChartDrawnAlready = false
+
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
         super.onAttach(context)
@@ -91,12 +93,19 @@ class OverallStatsFragment : Fragment(R.layout.fragment_overall_stats) {
     }
 
     private fun updateChartView(avgFeatures: AverageTracksFeatures) {
-        chartDrawer.drawRadarChart(
-            requireContext(),
-            binding.radarChartStats.radarChart,
-            getString(R.string.averall_listening_stats),
-            FeaturesUtils.toMap(requireContext(), avgFeatures)
-        )
+        if (isChartDrawnAlready)
+            chartDrawer.setNewData(requireContext(), binding.radarChartStats.radarChart,
+                getString(R.string.averall_listening_stats),
+                FeaturesUtils.toMap(requireContext(), avgFeatures))
+        else {
+            chartDrawer.drawRadarChart(
+                requireContext(),
+                binding.radarChartStats.radarChart,
+                getString(R.string.averall_listening_stats),
+                FeaturesUtils.toMap(requireContext(), avgFeatures)
+            )
+        }
+        isChartDrawnAlready = true
     }
 
     private fun sortValues(list: List<Map.Entry<Genre, Int>>): List<Map.Entry<Genre, Int>> {
